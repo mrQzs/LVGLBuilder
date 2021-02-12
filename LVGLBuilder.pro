@@ -1,18 +1,18 @@
 # LVGL Builder
 #
 # MIT licence
-# Copyright (c) 2016 Gábor Kiss-Vámosi, 2019 Fabian Hauser
+# Copyright (c) 2016 G??bor Kiss-V??mosi, 2019 Fabian Hauser
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
-# documentation files (the “Software”), to deal in the Software without restriction, including without limitation 
-# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# documentation files (the a??Softwarea??), to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
 # and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO 
-# THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+#
+# THE SOFTWARE IS PROVIDED a??AS ISa??, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+# THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 # TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 # ------------------------------------------------------------
@@ -75,42 +75,27 @@ SOURCES += \
     properties/LVGLPropertyPoints.cpp \
     properties/LVGLPropertyRange.cpp \
     properties/LVGLPropertyScale.cpp \
-    properties/LVGLPropertySeries.cpp \
     properties/LVGLPropertyTextList.cpp \
     properties/LVGLPropertyVal2.cpp \
-    widgets/LVGLArc.cpp \
     widgets/LVGLBar.cpp \
     widgets/LVGLButton.cpp \
-    widgets/LVGLButtonMatrix.cpp \
     widgets/LVGLCalendar.cpp \
     widgets/LVGLCanvas.cpp \
-    widgets/LVGLChart.cpp \
     widgets/LVGLCheckBox.cpp \
     widgets/LVGLColorPicker.cpp \
     widgets/LVGLContainer.cpp \
     widgets/LVGLDropDownList.cpp \
     widgets/LVGLGauge.cpp \
     widgets/LVGLImage.cpp \
-    LVGLItem.cpp \
     widgets/LVGLImageButton.cpp \
-    widgets/LVGLImageSlider.cpp \
     widgets/LVGLKeyboard.cpp \
     widgets/LVGLLED.cpp \
     widgets/LVGLLabel.cpp \
+    widgets/LVGLWidget.cpp \
+    LVGLItem.cpp \
     LVGLProperty.cpp \
     LVGLPropertyModel.cpp \
     LVGLSimulator.cpp \
-    widgets/LVGLLine.cpp \
-    widgets/LVGLLineMeter.cpp \
-    widgets/LVGLList.cpp \
-    widgets/LVGLMessageBox.cpp \
-    widgets/LVGLPage.cpp \
-    widgets/LVGLPreloader.cpp \
-    widgets/LVGLSlider.cpp \
-    widgets/LVGLSwitch.cpp \
-    widgets/LVGLTabview.cpp \
-    widgets/LVGLTextArea.cpp \
-    widgets/LVGLWidget.cpp \
     LVGLWidgetModel.cpp \
     LVGLWorker.cpp \
     main.cpp \
@@ -140,45 +125,30 @@ HEADERS += \
     properties/LVGLPropertyPoints.h \
     properties/LVGLPropertyRange.h \
     properties/LVGLPropertyScale.h \
-    properties/LVGLPropertySeries.h \
     properties/LVGLPropertyTextList.h \
     properties/LVGLPropertyVal2.h \
-    widgets/LVGLArc.h \
     widgets/LVGLBar.h \
     widgets/LVGLButton.h \
-    widgets/LVGLButtonMatrix.h \
+    LVGLItem.h \
+    LVGLProperty.h \
+    LVGLPropertyModel.h \
+    LVGLSimulator.h \
+    LVGLWidgetModel.h \
+    LVGLWorker.h \
+    MainWindow.h \
     widgets/LVGLCalendar.h \
     widgets/LVGLCanvas.h \
-    widgets/LVGLChart.h \
     widgets/LVGLCheckBox.h \
     widgets/LVGLColorPicker.h \
     widgets/LVGLContainer.h \
     widgets/LVGLDropDownList.h \
     widgets/LVGLGauge.h \
     widgets/LVGLImage.h \
-    LVGLItem.h \
     widgets/LVGLImageButton.h \
-    widgets/LVGLImageSlider.h \
     widgets/LVGLKeyboard.h \
     widgets/LVGLLED.h \
     widgets/LVGLLabel.h \
-    LVGLProperty.h \
-    LVGLPropertyModel.h \
-    LVGLSimulator.h \
-    widgets/LVGLLine.h \
-    widgets/LVGLLineMeter.h \
-    widgets/LVGLList.h \
-    widgets/LVGLMessageBox.h \
-    widgets/LVGLPage.h \
-    widgets/LVGLPreloader.h \
-    widgets/LVGLSlider.h \
-    widgets/LVGLSwitch.h \
-    widgets/LVGLTabview.h \
-    widgets/LVGLTextArea.h \
     widgets/LVGLWidget.h \
-    LVGLWidgetModel.h \
-    LVGLWorker.h \
-    MainWindow.h \
     widgets/LVGLWidgets.h
 
 FORMS += \

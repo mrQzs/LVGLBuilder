@@ -48,7 +48,7 @@
      <x>0</x>
      <y>0</y>
      <width>1780</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuLittlevGL_Builder">
@@ -310,6 +310,9 @@
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
       <widget class="QComboBox" name="combo_style"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="combo_state"/>
      </item>
      <item>
       <widget class="QTreeView" name="style_tree"/>
