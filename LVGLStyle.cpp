@@ -57,255 +57,255 @@ LVGLStyle::LVGLStyle()
       m_style(nullptr),
       m_part(LV_OBJ_PART_MAIN),
       m_state(LV_STATE_DEFAULT) {
-  LVGLStyleItem* mixed = new LVGLStyleItem("mixed", LVGL::Mix, this);
-  mixed->addChild(
-      new LVGLStyleItem("radius", Coord, LV_STYLE_RADIUS, LVGL::Mix, mixed));
-  mixed->addChild(new LVGLStyleItem("clip_corner", BoolType,
-                                    LV_STYLE_CLIP_CORNER, LVGL::Mix, mixed));
-  mixed->addChild(
-      new LVGLStyleItem("size", Coord, LV_STYLE_SIZE, LVGL::Mix, mixed));
-  mixed->addChild(new LVGLStyleItem(
-      "transform_width", Coord, LV_STYLE_TRANSFORM_WIDTH, LVGL::Mix, mixed));
-  mixed->addChild(new LVGLStyleItem(
-      "transform_height", Coord, LV_STYLE_TRANSFORM_HEIGHT, LVGL::Mix, mixed));
-  mixed->addChild(new LVGLStyleItem(
-      "transform_angle", Coord, LV_STYLE_TRANSFORM_ANGLE, LVGL::Mix, mixed));
-  mixed->addChild(new LVGLStyleItem("transform_zoom", Coord,
-                                    LV_STYLE_TRANSFORM_ZOOM, LVGL::Mix, mixed));
-  mixed->addChild(new LVGLStyleItem("opa_scale", Coord, LV_STYLE_OPA_SCALE,
-                                    LVGL::Mix, mixed));
+  m_mixed = new LVGLStyleItem("mixed", LVGL::Mix, this);
+  m_mixed->addChild(
+      new LVGLStyleItem("radius", Coord, LV_STYLE_RADIUS, LVGL::Mix, m_mixed));
+  m_mixed->addChild(new LVGLStyleItem(
+      "clip_corner", BoolType, LV_STYLE_CLIP_CORNER, LVGL::Mix, m_mixed));
+  m_mixed->addChild(
+      new LVGLStyleItem("size", Coord, LV_STYLE_SIZE, LVGL::Mix, m_mixed));
+  m_mixed->addChild(new LVGLStyleItem(
+      "transform_width", Coord, LV_STYLE_TRANSFORM_WIDTH, LVGL::Mix, m_mixed));
+  m_mixed->addChild(new LVGLStyleItem("transform_height", Coord,
+                                      LV_STYLE_TRANSFORM_HEIGHT, LVGL::Mix,
+                                      m_mixed));
+  m_mixed->addChild(new LVGLStyleItem(
+      "transform_angle", Coord, LV_STYLE_TRANSFORM_ANGLE, LVGL::Mix, m_mixed));
+  m_mixed->addChild(new LVGLStyleItem(
+      "transform_zoom", Coord, LV_STYLE_TRANSFORM_ZOOM, LVGL::Mix, m_mixed));
+  m_mixed->addChild(new LVGLStyleItem("opa_scale", Coord, LV_STYLE_OPA_SCALE,
+                                      LVGL::Mix, m_mixed));
 
-  LVGLStyleItem* padding = new LVGLStyleItem("padding", LVGL::Padding, this);
-  padding->addChild(new LVGLStyleItem("pad_top", Coord, LV_STYLE_PAD_TOP,
-                                      LVGL::Padding, padding));
-  padding->addChild(new LVGLStyleItem("pad_bottom", Coord, LV_STYLE_PAD_BOTTOM,
-                                      LVGL::Padding, padding));
-  padding->addChild(new LVGLStyleItem("pad_left", Coord, LV_STYLE_PAD_LEFT,
-                                      LVGL::Padding, padding));
-  padding->addChild(new LVGLStyleItem("pad_right", Coord, LV_STYLE_PAD_RIGHT,
-                                      LVGL::Padding, padding));
-  padding->addChild(new LVGLStyleItem("pad_inner", Coord, LV_STYLE_PAD_INNER,
-                                      LVGL::Padding, padding));
+  m_padding = new LVGLStyleItem("padding", LVGL::Padding, this);
+  m_padding->addChild(new LVGLStyleItem("pad_top", Coord, LV_STYLE_PAD_TOP,
+                                        LVGL::Padding, m_padding));
+  m_padding->addChild(new LVGLStyleItem(
+      "pad_bottom", Coord, LV_STYLE_PAD_BOTTOM, LVGL::Padding, m_padding));
+  m_padding->addChild(new LVGLStyleItem("pad_left", Coord, LV_STYLE_PAD_LEFT,
+                                        LVGL::Padding, m_padding));
+  m_padding->addChild(new LVGLStyleItem("pad_right", Coord, LV_STYLE_PAD_RIGHT,
+                                        LVGL::Padding, m_padding));
+  m_padding->addChild(new LVGLStyleItem("pad_inner", Coord, LV_STYLE_PAD_INNER,
+                                        LVGL::Padding, m_padding));
 
-  LVGLStyleItem* margin = new LVGLStyleItem("margin", LVGL::Margin, this);
-  margin->addChild(new LVGLStyleItem("margin_top", Coord, LV_STYLE_MARGIN_TOP,
-                                     LVGL::Margin, margin));
-  margin->addChild(new LVGLStyleItem(
-      "margin_bottom", Coord, LV_STYLE_MARGIN_BOTTOM, LVGL::Margin, margin));
-  margin->addChild(new LVGLStyleItem("margin_left", Coord, LV_STYLE_MARGIN_LEFT,
-                                     LVGL::Margin, margin));
-  margin->addChild(new LVGLStyleItem(
-      "margin_right", Coord, LV_STYLE_MARGIN_RIGHT, LVGL::Margin, margin));
+  m_margin = new LVGLStyleItem("margin", LVGL::Margin, this);
+  m_margin->addChild(new LVGLStyleItem("margin_top", Coord, LV_STYLE_MARGIN_TOP,
+                                       LVGL::Margin, m_margin));
+  m_margin->addChild(new LVGLStyleItem(
+      "margin_bottom", Coord, LV_STYLE_MARGIN_BOTTOM, LVGL::Margin, m_margin));
+  m_margin->addChild(new LVGLStyleItem(
+      "margin_left", Coord, LV_STYLE_MARGIN_LEFT, LVGL::Margin, m_margin));
+  m_margin->addChild(new LVGLStyleItem(
+      "margin_right", Coord, LV_STYLE_MARGIN_RIGHT, LVGL::Margin, m_margin));
 
-  LVGLStyleItem* background =
-      new LVGLStyleItem("background", LVGL::Background, this);
-  background->addChild(new LVGLStyleItem("bg_color", Color, LV_STYLE_BG_COLOR,
-                                         LVGL::Background, background));
-  background->addChild(new LVGLStyleItem("bg_opa", Opacity, LV_STYLE_BG_OPA,
-                                         LVGL::Background, background));
-  background->addChild(new LVGLStyleItem("bg_grad_color", Color,
-                                         LV_STYLE_BG_GRAD_COLOR, LVGL::Background,
-                                         background));
-  background->addChild(new LVGLStyleItem("bg_main_stop", Coord,
-                                         LV_STYLE_BG_MAIN_STOP, LVGL::Background,
-                                         background));
-  background->addChild(new LVGLStyleItem("bg_grad_stop", Coord,
-                                         LV_STYLE_BG_GRAD_STOP, LVGL::Background,
-                                         background));
-  background->addChild(new LVGLStyleItem("bg_grad_dir", Graddir,
-                                         LV_STYLE_BG_GRAD_DIR, LVGL::Background,
-                                         background));
-  background->addChild(new LVGLStyleItem("bg_blend_mode", Blendmode,
-                                         LV_STYLE_BG_BLEND_MODE, LVGL::Background,
-                                         background));
+  m_background = new LVGLStyleItem("background", LVGL::Background, this);
+  m_background->addChild(new LVGLStyleItem("bg_color", Color, LV_STYLE_BG_COLOR,
+                                           LVGL::Background, m_background));
+  m_background->addChild(new LVGLStyleItem("bg_opa", Opacity, LV_STYLE_BG_OPA,
+                                           LVGL::Background, m_background));
+  m_background->addChild(new LVGLStyleItem("bg_grad_color", Color,
+                                           LV_STYLE_BG_GRAD_COLOR,
+                                           LVGL::Background, m_background));
+  m_background->addChild(new LVGLStyleItem("bg_main_stop", Coord,
+                                           LV_STYLE_BG_MAIN_STOP,
+                                           LVGL::Background, m_background));
+  m_background->addChild(new LVGLStyleItem("bg_grad_stop", Coord,
+                                           LV_STYLE_BG_GRAD_STOP,
+                                           LVGL::Background, m_background));
+  m_background->addChild(new LVGLStyleItem("bg_grad_dir", Graddir,
+                                           LV_STYLE_BG_GRAD_DIR,
+                                           LVGL::Background, m_background));
+  m_background->addChild(new LVGLStyleItem("bg_blend_mode", Blendmode,
+                                           LV_STYLE_BG_BLEND_MODE,
+                                           LVGL::Background, m_background));
 
-  LVGLStyleItem* border = new LVGLStyleItem("border", LVGL::Border, this);
-  border->addChild(new LVGLStyleItem(
-      "border_color", Color, LV_STYLE_BORDER_COLOR, LVGL::Border, border));
-  border->addChild(new LVGLStyleItem("border_opa", Opacity, LV_STYLE_BORDER_OPA,
-                                     LVGL::Border, border));
-  border->addChild(new LVGLStyleItem(
-      "border_width", Coord, LV_STYLE_BORDER_WIDTH, LVGL::Border, border));
-  border->addChild(new LVGLStyleItem(
-      "border_side", BorderPart, LV_STYLE_BORDER_POST, LVGL::Border, border));
-  border->addChild(new LVGLStyleItem(
-      "border_post", BoolType, LV_STYLE_BORDER_POST, LVGL::Border, border));
-  border->addChild(new LVGLStyleItem("border_blend_mode", Blendmode,
-                                     LV_STYLE_BORDER_BLEND_MODE, LVGL::Border,
-                                     border));
+  m_border = new LVGLStyleItem("border", LVGL::Border, this);
+  m_border->addChild(new LVGLStyleItem(
+      "border_color", Color, LV_STYLE_BORDER_COLOR, LVGL::Border, m_border));
+  m_border->addChild(new LVGLStyleItem(
+      "border_opa", Opacity, LV_STYLE_BORDER_OPA, LVGL::Border, m_border));
+  m_border->addChild(new LVGLStyleItem(
+      "border_width", Coord, LV_STYLE_BORDER_WIDTH, LVGL::Border, m_border));
+  m_border->addChild(new LVGLStyleItem(
+      "border_side", BorderPart, LV_STYLE_BORDER_POST, LVGL::Border, m_border));
+  m_border->addChild(new LVGLStyleItem(
+      "border_post", BoolType, LV_STYLE_BORDER_POST, LVGL::Border, m_border));
+  m_border->addChild(new LVGLStyleItem("border_blend_mode", Blendmode,
+                                       LV_STYLE_BORDER_BLEND_MODE, LVGL::Border,
+                                       m_border));
 
-  LVGLStyleItem* outline = new LVGLStyleItem("outline", LVGL::Outline, this);
-  outline->addChild(new LVGLStyleItem(
-      "outline_color", Color, LV_STYLE_OUTLINE_COLOR, LVGL::Outline, outline));
-  outline->addChild(new LVGLStyleItem(
-      "outline_opa", Opacity, LV_STYLE_OUTLINE_OPA, LVGL::Outline, outline));
-  outline->addChild(new LVGLStyleItem(
-      "outline_width", Coord, LV_STYLE_OUTLINE_WIDTH, LVGL::Outline, outline));
-  outline->addChild(new LVGLStyleItem(
-      "outline_pad", Coord, LV_STYLE_OUTLINE_PAD, LVGL::Outline, outline));
-  outline->addChild(new LVGLStyleItem("outline_blend_mode", Blendmode,
-                                      LV_STYLE_OUTLINE_BLEND_MODE,
-                                      LVGL::Outline, outline));
+  m_outline = new LVGLStyleItem("outline", LVGL::Outline, this);
+  m_outline->addChild(new LVGLStyleItem("outline_color", Color,
+                                        LV_STYLE_OUTLINE_COLOR, LVGL::Outline,
+                                        m_outline));
+  m_outline->addChild(new LVGLStyleItem(
+      "outline_opa", Opacity, LV_STYLE_OUTLINE_OPA, LVGL::Outline, m_outline));
+  m_outline->addChild(new LVGLStyleItem("outline_width", Coord,
+                                        LV_STYLE_OUTLINE_WIDTH, LVGL::Outline,
+                                        m_outline));
+  m_outline->addChild(new LVGLStyleItem(
+      "outline_pad", Coord, LV_STYLE_OUTLINE_PAD, LVGL::Outline, m_outline));
+  m_outline->addChild(new LVGLStyleItem("outline_blend_mode", Blendmode,
+                                        LV_STYLE_OUTLINE_BLEND_MODE,
+                                        LVGL::Outline, m_outline));
 
-  LVGLStyleItem* shadow = new LVGLStyleItem("shadow", LVGL::Shadow, this);
-  shadow->addChild(new LVGLStyleItem(
-      "shadow_color", Color, LV_STYLE_SHADOW_COLOR, LVGL::Shadow, shadow));
-  shadow->addChild(new LVGLStyleItem("shadow_opa", Opacity, LV_STYLE_SHADOW_OPA,
-                                     LVGL::Shadow, shadow));
-  shadow->addChild(new LVGLStyleItem(
-      "shadow_width", Coord, LV_STYLE_SHADOW_WIDTH, LVGL::Shadow, shadow));
-  shadow->addChild(new LVGLStyleItem(
-      "shadow_ofs_x", Coord, LV_STYLE_SHADOW_OFS_X, LVGL::Shadow, shadow));
-  shadow->addChild(new LVGLStyleItem(
-      "shadow_ofs_y", Coord, LV_STYLE_SHADOW_OFS_Y, LVGL::Shadow, shadow));
-  shadow->addChild(new LVGLStyleItem(
-      "shadow_spread", Coord, LV_STYLE_SHADOW_SPREAD, LVGL::Shadow, shadow));
-  shadow->addChild(new LVGLStyleItem("shadow_blend_mode", Blendmode,
-                                     LV_STYLE_SHADOW_BLEND_MODE, LVGL::Shadow,
-                                     shadow));
+  m_shadow = new LVGLStyleItem("shadow", LVGL::Shadow, this);
+  m_shadow->addChild(new LVGLStyleItem(
+      "shadow_color", Color, LV_STYLE_SHADOW_COLOR, LVGL::Shadow, m_shadow));
+  m_shadow->addChild(new LVGLStyleItem(
+      "shadow_opa", Opacity, LV_STYLE_SHADOW_OPA, LVGL::Shadow, m_shadow));
+  m_shadow->addChild(new LVGLStyleItem(
+      "shadow_width", Coord, LV_STYLE_SHADOW_WIDTH, LVGL::Shadow, m_shadow));
+  m_shadow->addChild(new LVGLStyleItem(
+      "shadow_ofs_x", Coord, LV_STYLE_SHADOW_OFS_X, LVGL::Shadow, m_shadow));
+  m_shadow->addChild(new LVGLStyleItem(
+      "shadow_ofs_y", Coord, LV_STYLE_SHADOW_OFS_Y, LVGL::Shadow, m_shadow));
+  m_shadow->addChild(new LVGLStyleItem(
+      "shadow_spread", Coord, LV_STYLE_SHADOW_SPREAD, LVGL::Shadow, m_shadow));
+  m_shadow->addChild(new LVGLStyleItem("shadow_blend_mode", Blendmode,
+                                       LV_STYLE_SHADOW_BLEND_MODE, LVGL::Shadow,
+                                       m_shadow));
 
-  LVGLStyleItem* pattern = new LVGLStyleItem("pattern", LVGL::Pattern, this);
-  pattern->addChild(new LVGLStyleItem("pattern_image", PointImg,
-                                      LV_STYLE_PATTERN_IMAGE, LVGL::Pattern,
-                                      pattern));
-  pattern->addChild(new LVGLStyleItem(
-      "pattern_opa", Opacity, LV_STYLE_PATTERN_OPA, LVGL::Pattern, pattern));
-  pattern->addChild(new LVGLStyleItem("pattern_recolor", Color,
-                                      LV_STYLE_PATTERN_RECOLOR, LVGL::Pattern,
-                                      pattern));
-  pattern->addChild(new LVGLStyleItem("pattern_recolor_opa", Opacity,
-                                      LV_STYLE_PATTERN_RECOLOR_OPA,
-                                      LVGL::Pattern, pattern));
-  pattern->addChild(new LVGLStyleItem("pattern_repeat", BoolType,
-                                      LV_STYLE_PATTERN_REPEAT, LVGL::Pattern,
-                                      pattern));
-  pattern->addChild(new LVGLStyleItem("pattern_blend_mode", Blendmode,
-                                      LV_STYLE_PATTERN_BLEND_MODE,
-                                      LVGL::Pattern, pattern));
+  m_pattern = new LVGLStyleItem("pattern", LVGL::Pattern, this);
+  m_pattern->addChild(new LVGLStyleItem("pattern_image", PointImg,
+                                        LV_STYLE_PATTERN_IMAGE, LVGL::Pattern,
+                                        m_pattern));
+  m_pattern->addChild(new LVGLStyleItem(
+      "pattern_opa", Opacity, LV_STYLE_PATTERN_OPA, LVGL::Pattern, m_pattern));
+  m_pattern->addChild(new LVGLStyleItem("pattern_recolor", Color,
+                                        LV_STYLE_PATTERN_RECOLOR, LVGL::Pattern,
+                                        m_pattern));
+  m_pattern->addChild(new LVGLStyleItem("pattern_recolor_opa", Opacity,
+                                        LV_STYLE_PATTERN_RECOLOR_OPA,
+                                        LVGL::Pattern, m_pattern));
+  m_pattern->addChild(new LVGLStyleItem("pattern_repeat", BoolType,
+                                        LV_STYLE_PATTERN_REPEAT, LVGL::Pattern,
+                                        m_pattern));
+  m_pattern->addChild(new LVGLStyleItem("pattern_blend_mode", Blendmode,
+                                        LV_STYLE_PATTERN_BLEND_MODE,
+                                        LVGL::Pattern, m_pattern));
 
-  LVGLStyleItem* value = new LVGLStyleItem("value", LVGL::Value, this);
-  value->addChild(new LVGLStyleItem("value_str", PointChar, LV_STYLE_VALUE_STR,
-                                    LVGL::Value, value));
-  value->addChild(new LVGLStyleItem("value_color", Color, LV_STYLE_VALUE_COLOR,
-                                    LVGL::Value, value));
-  value->addChild(new LVGLStyleItem("value_opa", Opacity, LV_STYLE_VALUE_OPA,
-                                    LVGL::Value, value));
-  value->addChild(new LVGLStyleItem("value_font", Font, LV_STYLE_VALUE_FONT,
-                                    LVGL::Value, value));
-  value->addChild(new LVGLStyleItem("value_letter_space", Coord,
-                                    LV_STYLE_VALUE_LETTER_SPACE, LVGL::Value,
-                                    value));
-  value->addChild(new LVGLStyleItem("value_line_space", Coord,
-                                    LV_STYLE_VALUE_LINE_SPACE, LVGL::Value,
-                                    value));
-  value->addChild(new LVGLStyleItem("value_align", Align, LV_STYLE_VALUE_ALIGN,
-                                    LVGL::Value, value));
-  value->addChild(new LVGLStyleItem("value_ofs_x", Coord, LV_STYLE_VALUE_OFS_X,
-                                    LVGL::Value, value));
-  value->addChild(new LVGLStyleItem("value_ofs_y", Coord, LV_STYLE_VALUE_OFS_Y,
-                                    LVGL::Value, value));
-  value->addChild(new LVGLStyleItem("value_blend_mode", Blendmode,
-                                    LV_STYLE_VALUE_BLEND_MODE, LVGL::Value,
-                                    value));
+  m_value = new LVGLStyleItem("value", LVGL::Value, this);
+  m_value->addChild(new LVGLStyleItem(
+      "value_str", PointChar, LV_STYLE_VALUE_STR, LVGL::Value, m_value));
+  m_value->addChild(new LVGLStyleItem(
+      "value_color", Color, LV_STYLE_VALUE_COLOR, LVGL::Value, m_value));
+  m_value->addChild(new LVGLStyleItem("value_opa", Opacity, LV_STYLE_VALUE_OPA,
+                                      LVGL::Value, m_value));
+  m_value->addChild(new LVGLStyleItem("value_font", Font, LV_STYLE_VALUE_FONT,
+                                      LVGL::Value, m_value));
+  m_value->addChild(new LVGLStyleItem("value_letter_space", Coord,
+                                      LV_STYLE_VALUE_LETTER_SPACE, LVGL::Value,
+                                      m_value));
+  m_value->addChild(new LVGLStyleItem("value_line_space", Coord,
+                                      LV_STYLE_VALUE_LINE_SPACE, LVGL::Value,
+                                      m_value));
+  m_value->addChild(new LVGLStyleItem(
+      "value_align", Align, LV_STYLE_VALUE_ALIGN, LVGL::Value, m_value));
+  m_value->addChild(new LVGLStyleItem(
+      "value_ofs_x", Coord, LV_STYLE_VALUE_OFS_X, LVGL::Value, m_value));
+  m_value->addChild(new LVGLStyleItem(
+      "value_ofs_y", Coord, LV_STYLE_VALUE_OFS_Y, LVGL::Value, m_value));
+  m_value->addChild(new LVGLStyleItem("value_blend_mode", Blendmode,
+                                      LV_STYLE_VALUE_BLEND_MODE, LVGL::Value,
+                                      m_value));
 
-  LVGLStyleItem* text = new LVGLStyleItem("text", LVGL::Text, this);
-  text->addChild(new LVGLStyleItem("text_color", Color, LV_STYLE_TEXT_COLOR,
-                                   LVGL::Text, text));
-  text->addChild(new LVGLStyleItem("text_opa", Opacity, LV_STYLE_TEXT_OPA,
-                                   LVGL::Text, text));
-  text->addChild(new LVGLStyleItem("text_font", Font, LV_STYLE_TEXT_FONT,
-                                   LVGL::Text, text));
-  text->addChild(new LVGLStyleItem("text_letter_space", Coord,
-                                   LV_STYLE_TEXT_LETTER_SPACE, LVGL::Text,
-                                   text));
-  text->addChild(new LVGLStyleItem("text_line_space", Coord,
-                                   LV_STYLE_TEXT_LINE_SPACE, LVGL::Text, text));
-  text->addChild(new LVGLStyleItem("text_decor", TextDecor, LV_STYLE_TEXT_DECOR,
-                                   LVGL::Text, text));
-  text->addChild(new LVGLStyleItem("text_sel_color", Color,
-                                   LV_STYLE_TEXT_SEL_COLOR, LVGL::Text, text));
-  text->addChild(new LVGLStyleItem("text_sel_bg_color", Color,
-                                   LV_STYLE_TEXT_SEL_BG_COLOR, LVGL::Text,
-                                   text));
-  text->addChild(new LVGLStyleItem("text_blend_mode", Blendmode,
-                                   LV_STYLE_TEXT_BLEND_MODE, LVGL::Text, text));
+  m_text = new LVGLStyleItem("text", LVGL::Text, this);
+  m_text->addChild(new LVGLStyleItem("text_color", Color, LV_STYLE_TEXT_COLOR,
+                                     LVGL::Text, m_text));
+  m_text->addChild(new LVGLStyleItem("text_opa", Opacity, LV_STYLE_TEXT_OPA,
+                                     LVGL::Text, m_text));
+  m_text->addChild(new LVGLStyleItem("text_font", Font, LV_STYLE_TEXT_FONT,
+                                     LVGL::Text, m_text));
+  m_text->addChild(new LVGLStyleItem("text_letter_space", Coord,
+                                     LV_STYLE_TEXT_LETTER_SPACE, LVGL::Text,
+                                     m_text));
+  m_text->addChild(new LVGLStyleItem(
+      "text_line_space", Coord, LV_STYLE_TEXT_LINE_SPACE, LVGL::Text, m_text));
+  m_text->addChild(new LVGLStyleItem("text_decor", TextDecor,
+                                     LV_STYLE_TEXT_DECOR, LVGL::Text, m_text));
+  m_text->addChild(new LVGLStyleItem(
+      "text_sel_color", Color, LV_STYLE_TEXT_SEL_COLOR, LVGL::Text, m_text));
+  m_text->addChild(new LVGLStyleItem("text_sel_bg_color", Color,
+                                     LV_STYLE_TEXT_SEL_BG_COLOR, LVGL::Text,
+                                     m_text));
+  m_text->addChild(new LVGLStyleItem("text_blend_mode", Blendmode,
+                                     LV_STYLE_TEXT_BLEND_MODE, LVGL::Text,
+                                     m_text));
 
-  LVGLStyleItem* line = new LVGLStyleItem("line", LVGL::Line, this);
-  line->addChild(new LVGLStyleItem("line_color", Color, LV_STYLE_LINE_COLOR,
-                                   LVGL::Line, line));
-  line->addChild(new LVGLStyleItem("line_width", Coord, LV_STYLE_LINE_WIDTH,
-                                   LVGL::Line, line));
-  line->addChild(new LVGLStyleItem("line_opa", Opacity, LV_STYLE_LINE_OPA,
-                                   LVGL::Line, line));
-  line->addChild(new LVGLStyleItem("line_dash_width", Coord,
-                                   LV_STYLE_LINE_DASH_WIDTH, LVGL::Line, line));
-  line->addChild(new LVGLStyleItem("line_dash_gap", Coord,
-                                   LV_STYLE_LINE_DASH_GAP, LVGL::Line, line));
-  line->addChild(new LVGLStyleItem("line_rounded", BoolType,
-                                   LV_STYLE_LINE_ROUNDED, LVGL::Line, line));
-  line->addChild(new LVGLStyleItem("line_blend_mode", Blendmode,
-                                   LV_STYLE_LINE_BLEND_MODE, LVGL::Line, line));
+  m_line = new LVGLStyleItem("line", LVGL::Line, this);
+  m_line->addChild(new LVGLStyleItem("line_color", Color, LV_STYLE_LINE_COLOR,
+                                     LVGL::Line, m_line));
+  m_line->addChild(new LVGLStyleItem("line_width", Coord, LV_STYLE_LINE_WIDTH,
+                                     LVGL::Line, m_line));
+  m_line->addChild(new LVGLStyleItem("line_opa", Opacity, LV_STYLE_LINE_OPA,
+                                     LVGL::Line, m_line));
+  m_line->addChild(new LVGLStyleItem(
+      "line_dash_width", Coord, LV_STYLE_LINE_DASH_WIDTH, LVGL::Line, m_line));
+  m_line->addChild(new LVGLStyleItem(
+      "line_dash_gap", Coord, LV_STYLE_LINE_DASH_GAP, LVGL::Line, m_line));
+  m_line->addChild(new LVGLStyleItem(
+      "line_rounded", BoolType, LV_STYLE_LINE_ROUNDED, LVGL::Line, m_line));
+  m_line->addChild(new LVGLStyleItem("line_blend_mode", Blendmode,
+                                     LV_STYLE_LINE_BLEND_MODE, LVGL::Line,
+                                     m_line));
 
-  LVGLStyleItem* image = new LVGLStyleItem("image", LVGL::Image, this);
-  image->addChild(new LVGLStyleItem(
-      "image_recolor", Color, LV_STYLE_IMAGE_RECOLOR, LVGL::Image, image));
-  image->addChild(new LVGLStyleItem("image_recolor_opa", Opacity,
-                                    LV_STYLE_IMAGE_RECOLOR_OPA, LVGL::Image,
-                                    image));
-  image->addChild(new LVGLStyleItem("image_opa", Opacity, LV_STYLE_IMAGE_OPA,
-                                    LVGL::Image, image));
-  image->addChild(new LVGLStyleItem("image_blend_mode", Blendmode,
-                                    LV_STYLE_IMAGE_BLEND_MODE, LVGL::Image,
-                                    image));
+  m_image = new LVGLStyleItem("image", LVGL::Image, this);
+  m_image->addChild(new LVGLStyleItem(
+      "image_recolor", Color, LV_STYLE_IMAGE_RECOLOR, LVGL::Image, m_image));
+  m_image->addChild(new LVGLStyleItem("image_recolor_opa", Opacity,
+                                      LV_STYLE_IMAGE_RECOLOR_OPA, LVGL::Image,
+                                      m_image));
+  m_image->addChild(new LVGLStyleItem("image_opa", Opacity, LV_STYLE_IMAGE_OPA,
+                                      LVGL::Image, m_image));
+  m_image->addChild(new LVGLStyleItem("image_blend_mode", Blendmode,
+                                      LV_STYLE_IMAGE_BLEND_MODE, LVGL::Image,
+                                      m_image));
 
-  LVGLStyleItem* transition =
-      new LVGLStyleItem("transition", LVGL::Transition, this);
-  transition->addChild(new LVGLStyleItem("transition_time", Coord,
-                                         LV_STYLE_TRANSITION_TIME,
-                                         LVGL::Transition, transition));
-  transition->addChild(new LVGLStyleItem("transition_delay", Coord,
-                                         LV_STYLE_TRANSITION_DELAY,
-                                         LVGL::Transition, transition));
-  transition->addChild(new LVGLStyleItem("transition_prop_1", Coord,
-                                         LV_STYLE_TRANSITION_PROP_1,
-                                         LVGL::Transition, transition));
-  transition->addChild(new LVGLStyleItem("transition_prop_2", Coord,
-                                         LV_STYLE_TRANSITION_PROP_2,
-                                         LVGL::Transition, transition));
-  transition->addChild(new LVGLStyleItem("transition_prop_3", Coord,
-                                         LV_STYLE_TRANSITION_PROP_3,
-                                         LVGL::Transition, transition));
-  transition->addChild(new LVGLStyleItem("transition_prop_4", Coord,
-                                         LV_STYLE_TRANSITION_PROP_4,
-                                         LVGL::Transition, transition));
-  transition->addChild(new LVGLStyleItem("transition_prop_5", Coord,
-                                         LV_STYLE_TRANSITION_PROP_5,
-                                         LVGL::Transition, transition));
-  transition->addChild(new LVGLStyleItem("transition_prop_6", Coord,
-                                         LV_STYLE_TRANSITION_PROP_6,
-                                         LVGL::Transition, transition));
+  m_transition = new LVGLStyleItem("transition", LVGL::Transition, this);
+  m_transition->addChild(new LVGLStyleItem("transition_time", Coord,
+                                           LV_STYLE_TRANSITION_TIME,
+                                           LVGL::Transition, m_transition));
+  m_transition->addChild(new LVGLStyleItem("transition_delay", Coord,
+                                           LV_STYLE_TRANSITION_DELAY,
+                                           LVGL::Transition, m_transition));
+  m_transition->addChild(new LVGLStyleItem("transition_prop_1", Coord,
+                                           LV_STYLE_TRANSITION_PROP_1,
+                                           LVGL::Transition, m_transition));
+  m_transition->addChild(new LVGLStyleItem("transition_prop_2", Coord,
+                                           LV_STYLE_TRANSITION_PROP_2,
+                                           LVGL::Transition, m_transition));
+  m_transition->addChild(new LVGLStyleItem("transition_prop_3", Coord,
+                                           LV_STYLE_TRANSITION_PROP_3,
+                                           LVGL::Transition, m_transition));
+  m_transition->addChild(new LVGLStyleItem("transition_prop_4", Coord,
+                                           LV_STYLE_TRANSITION_PROP_4,
+                                           LVGL::Transition, m_transition));
+  m_transition->addChild(new LVGLStyleItem("transition_prop_5", Coord,
+                                           LV_STYLE_TRANSITION_PROP_5,
+                                           LVGL::Transition, m_transition));
+  m_transition->addChild(new LVGLStyleItem("transition_prop_6", Coord,
+                                           LV_STYLE_TRANSITION_PROP_6,
+                                           LVGL::Transition, m_transition));
 
-  LVGLStyleItem* scale = new LVGLStyleItem("scale", LVGL::Transition, this);
-  scale->addChild(new LVGLStyleItem("scale_grad_color", Color,
-                                    LV_STYLE_SCALE_GRAD_COLOR, LVGL::Scale,
-                                    scale));
-  scale->addChild(new LVGLStyleItem(
-      "scale_end_color", Color, LV_STYLE_SCALE_END_COLOR, LVGL::Scale, scale));
-  scale->addChild(new LVGLStyleItem("scale_width", Coord, LV_STYLE_SCALE_WIDTH,
-                                    LVGL::Scale, scale));
-  scale->addChild(new LVGLStyleItem("scale_border_width", Coord,
-                                    LV_STYLE_SCALE_BORDER_WIDTH, LVGL::Scale,
-                                    scale));
-  scale->addChild(new LVGLStyleItem("scale_end_border_width", Coord,
-                                    LV_STYLE_SCALE_END_BORDER_WIDTH,
-                                    LVGL::Scale, scale));
-  scale->addChild(new LVGLStyleItem("scale_end_line_width", Coord,
-                                    LV_STYLE_SCALE_END_LINE_WIDTH, LVGL::Scale,
-                                    scale));
-
-  m_childs << mixed << padding << margin << background << border << outline
-           << shadow << pattern << value << text << line << image << transition
-           << scale;
+  m_scale = new LVGLStyleItem("scale", LVGL::Scale, this);
+  m_scale->addChild(new LVGLStyleItem("scale_grad_color", Color,
+                                      LV_STYLE_SCALE_GRAD_COLOR, LVGL::Scale,
+                                      m_scale));
+  m_scale->addChild(new LVGLStyleItem("scale_end_color", Color,
+                                      LV_STYLE_SCALE_END_COLOR, LVGL::Scale,
+                                      m_scale));
+  m_scale->addChild(new LVGLStyleItem(
+      "scale_width", Coord, LV_STYLE_SCALE_WIDTH, LVGL::Scale, m_scale));
+  m_scale->addChild(new LVGLStyleItem("scale_border_width", Coord,
+                                      LV_STYLE_SCALE_BORDER_WIDTH, LVGL::Scale,
+                                      m_scale));
+  m_scale->addChild(new LVGLStyleItem("scale_end_border_width", Coord,
+                                      LV_STYLE_SCALE_END_BORDER_WIDTH,
+                                      LVGL::Scale, m_scale));
+  m_scale->addChild(new LVGLStyleItem("scale_end_line_width", Coord,
+                                      LV_STYLE_SCALE_END_LINE_WIDTH,
+                                      LVGL::Scale, m_scale));
 }
 
 QVariant LVGLStyle::get(const LVGLStyleItem* item) const {
@@ -532,3 +532,21 @@ bool LVGLStyle::hasStyleChanged(const lv_style_t* style, const lv_style_t* base,
 }
 
 void LVGLStyle::updateDate() { lv_obj_add_style(m_curobj, m_part, m_style); }
+
+void LVGLStyle::updateItems() {
+  m_childs.clear();
+  if (m_editableStyles & LVGL::Mix) m_childs << m_mixed;
+  if (m_editableStyles & LVGL::Padding) m_childs << m_padding;
+  if (m_editableStyles & LVGL::Margin) m_childs << m_margin;
+  if (m_editableStyles & LVGL::Background) m_childs << m_background;
+  if (m_editableStyles & LVGL::Border) m_childs << m_border;
+  if (m_editableStyles & LVGL::Outline) m_childs << m_outline;
+  if (m_editableStyles & LVGL::Shadow) m_childs << m_shadow;
+  if (m_editableStyles & LVGL::Pattern) m_childs << m_pattern;
+  if (m_editableStyles & LVGL::Value) m_childs << m_value;
+  if (m_editableStyles & LVGL::Text) m_childs << m_text;
+  if (m_editableStyles & LVGL::Line) m_childs << m_line;
+  if (m_editableStyles & LVGL::Image) m_childs << m_image;
+  if (m_editableStyles & LVGL::Transition) m_childs << m_transition;
+  if (m_editableStyles & LVGL::Scale) m_childs << m_scale;
+}

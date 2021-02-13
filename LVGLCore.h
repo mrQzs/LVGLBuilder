@@ -136,18 +136,6 @@ class LVGLCore : public QObject {
 
 extern LVGLCore lvgl;
 extern lv_style_t lv_style_scr;
-extern lv_style_t lv_style_transp;
-extern lv_style_t lv_style_transp_fit;
-extern lv_style_t lv_style_transp_tight;
-extern lv_style_t lv_style_plain;
-extern lv_style_t lv_style_plain_color;
-extern lv_style_t lv_style_pretty;
-extern lv_style_t lv_style_pretty_color;
-extern lv_style_t lv_style_btn_rel;
-extern lv_style_t lv_style_btn_pr;
-extern lv_style_t lv_style_btn_tgl_rel;
-extern lv_style_t lv_style_btn_tgl_pr;
-extern lv_style_t lv_style_btn_ina;
 
 // cast helpers for internal models
 union LVGLImageDataCast {

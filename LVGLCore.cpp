@@ -20,34 +20,10 @@ const char *LVGLCore::DEFAULT_MONTHS[12] = {
     "July",    "August",   "September", "October", "November", "December"};
 
 lv_style_t lv_style_scr;
-lv_style_t lv_style_transp;
-lv_style_t lv_style_transp_fit;
-lv_style_t lv_style_transp_tight;
-lv_style_t lv_style_plain;
-lv_style_t lv_style_plain_color;
-lv_style_t lv_style_pretty;
-lv_style_t lv_style_pretty_color;
-lv_style_t lv_style_btn_rel;
-lv_style_t lv_style_btn_pr;
-lv_style_t lv_style_btn_tgl_rel;
-lv_style_t lv_style_btn_tgl_pr;
-lv_style_t lv_style_btn_ina;
 
 LVGLCore::LVGLCore(QObject *parent) : QObject(parent), m_defaultFont(nullptr) {
   FT_Init_FreeType(&m_ft);
   lv_style_init(&lv_style_scr);
-  lv_style_init(&lv_style_transp);
-  lv_style_init(&lv_style_transp_fit);
-  lv_style_init(&lv_style_transp_tight);
-  lv_style_init(&lv_style_plain);
-  lv_style_init(&lv_style_plain_color);
-  lv_style_init(&lv_style_pretty);
-  lv_style_init(&lv_style_pretty_color);
-  lv_style_init(&lv_style_btn_rel);
-  lv_style_init(&lv_style_btn_pr);
-  lv_style_init(&lv_style_btn_tgl_rel);
-  lv_style_init(&lv_style_btn_tgl_pr);
-  lv_style_init(&lv_style_btn_ina);
 }
 
 LVGLCore::~LVGLCore() {
@@ -713,32 +689,7 @@ void LVGLCore::removeCustomFonts() {
 }
 
 QString LVGLCore::baseStyleName(const lv_style_t *style) const {
-  if (style == &lv_style_scr)
-    return "lv_style_scr";
-  else if (style == &lv_style_transp)
-    return "lv_style_transp";
-  else if (style == &lv_style_transp_fit)
-    return "lv_style_transp_fit";
-  else if (style == &lv_style_transp_tight)
-    return "lv_style_transp_tight";
-  else if (style == &lv_style_plain)
-    return "lv_style_plain";
-  else if (style == &lv_style_plain_color)
-    return "lv_style_plain_color";
-  else if (style == &lv_style_pretty)
-    return "lv_style_pretty";
-  else if (style == &lv_style_pretty_color)
-    return "lv_style_pretty_color";
-  else if (style == &lv_style_btn_rel)
-    return "lv_style_btn_rel";
-  else if (style == &lv_style_btn_pr)
-    return "lv_style_btn_pr";
-  else if (style == &lv_style_btn_tgl_rel)
-    return "lv_style_btn_tgl_rel";
-  else if (style == &lv_style_btn_tgl_pr)
-    return "lv_style_btn_tgl_pr";
-  else if (style == &lv_style_btn_ina)
-    return "lv_style_btn_ina";
+  if (style == &lv_style_scr) return "lv_style_scr";
   return "";
 }
 

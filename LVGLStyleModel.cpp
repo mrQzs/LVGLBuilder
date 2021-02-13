@@ -110,6 +110,8 @@ Qt::ItemFlags LVGLStyleModel::flags(const QModelIndex &index) const {
 
 void LVGLStyleModel::setStyle(lv_style_t *style,
                               LVGL::StyleParts editableStyles) {
+  m_styleBase->seteditableStyle(m_editableStyles);
+  m_styleBase->updateItems();
   m_styleBase->setStyle(style);
   m_editableStyles = editableStyles;
   updateValue(m_styleBase);

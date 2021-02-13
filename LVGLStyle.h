@@ -142,12 +142,29 @@ class LVGLStyle : public LVGLStyleItem {
   void changepart(lv_obj_part_t part) { m_part = part; }
   void changestate(lv_state_t state) { m_state = state; }
   void updateDate();
+  void updateItems();
+  void seteditableStyle(LVGL::StyleParts s) { m_editableStyles = s; }
 
  private:
   lv_style_t *m_style;
   lv_obj_t *m_curobj;
   lv_obj_part_t m_part;
   lv_state_t m_state;
+  LVGL::StyleParts m_editableStyles;
+  LVGLStyleItem *m_mixed;
+  LVGLStyleItem *m_padding;
+  LVGLStyleItem *m_margin;
+  LVGLStyleItem *m_background;
+  LVGLStyleItem *m_border;
+  LVGLStyleItem *m_outline;
+  LVGLStyleItem *m_shadow;
+  LVGLStyleItem *m_pattern;
+  LVGLStyleItem *m_value;
+  LVGLStyleItem *m_text;
+  LVGLStyleItem *m_line;
+  LVGLStyleItem *m_image;
+  LVGLStyleItem *m_transition;
+  LVGLStyleItem *m_scale;
 };
 
 #endif  // LVGLSTYLE_H
