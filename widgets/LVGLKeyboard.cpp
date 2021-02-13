@@ -55,7 +55,7 @@ LVGLKeyboard::LVGLKeyboard() {
   m_properties << new LVGLPropertyAssignTextArea;
   m_properties << new LVGLPropertyLBCursorManager;
 
-  m_editableStyles << LVGL::Backound;     // LV_KEYBOARD_PART_BG
+  m_editableStyles << LVGL::Background;     // LV_KEYBOARD_PART_BG
   m_editableStyles << LVGL::KeyboardBTN;  // LV_KEYBOARD_PART_BTN
 }
 

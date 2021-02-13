@@ -1,11 +1,11 @@
-#ifndef LVGLLIST_H
-#define LVGLLIST_H
+#ifndef LVGLSPINNER_H
+#define LVGLSPINNER_H
 
 #include "LVGLWidget.h"
 
-class LVGLList : public LVGLWidget {
+class LVGLSpinner : public LVGLWidget {
  public:
-  LVGLList();
+  LVGLSpinner();
 
   virtual QString name() const;
   virtual QString className() const;
@@ -22,4 +22,4 @@ class LVGLList : public LVGLWidget {
   virtual void initStateStyles();
 };
 
-#endif  // LVGLLIST_H
+#endif  // LVGLPRELOADER_H

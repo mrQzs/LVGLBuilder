@@ -4,81 +4,65 @@
 
 #include "LVGLObject.h"
 
-LVGLButtonMatrix::LVGLButtonMatrix()
-{
-
-	m_editableStyles << LVGL::Body; // LV_BTNM_STYLE_BG
-	m_editableStyles << LVGL::Body; // LV_BTNM_STYLE_BTN_REL
-	m_editableStyles << LVGL::Body; // LV_BTNM_STYLE_BTN_PR
-	m_editableStyles << LVGL::Body; // LV_BTNM_STYLE_BTN_TGL_REL
-	m_editableStyles << LVGL::Body; // LV_BTNM_STYLE_BTN_TGL_PR
-	m_editableStyles << LVGL::Body; // LV_BTNM_STYLE_BTN_INA
+LVGLButtonMatrix::LVGLButtonMatrix() {
+  initStateStyles();
+  m_parts << LV_BTNMATRIX_PART_BG << LV_BTNMATRIX_PART_BTN;
+  m_editableStyles << LVGL::Background;  // LV_BTNMATRIX_PART_BG
+  m_editableStyles << LVGL::Background;  // LV_BTNMATRIX_PART_BTN
 }
 
-QString LVGLButtonMatrix::name() const
-{
-	return "Button Matrix";
+QString LVGLButtonMatrix::name() const { return "Button Matrix"; }
+
+QString LVGLButtonMatrix::className() const { return "lv_btnm"; }
+
+LVGLWidget::Type LVGLButtonMatrix::type() const { return ButtonMatrix; }
+
+QIcon LVGLButtonMatrix::icon() const { return QIcon(); }
+
+lv_obj_t *LVGLButtonMatrix::newObject(lv_obj_t *parent) const {
+  lv_obj_t *obj = lv_btnmatrix_create(parent, nullptr);
+  return obj;
 }
 
-QString LVGLButtonMatrix::className() const
-{
-	return "lv_btnm";
+QSize LVGLButtonMatrix::minimumSize() const { return QSize(150, 100); }
+
+QStringList LVGLButtonMatrix::styles() const {
+  return QStringList() << "BTNMATRIX_PART_BG"
+                       << "BTNMATRIX_PART_BTN";
 }
 
-LVGLWidget::Type LVGLButtonMatrix::type() const
-{
-	return ButtonMatrix;
+lv_style_t *LVGLButtonMatrix::style(lv_obj_t *obj, lv_obj_part_t part) const {
+  return lv_obj_get_local_style(obj, part);
 }
 
-QIcon LVGLButtonMatrix::icon() const
-{
-	return QIcon();
+void LVGLButtonMatrix::setStyle(lv_obj_t *obj, int type,
+                                lv_style_t *style) const {
+  lv_obj_add_style(obj, LV_BTN_PART_MAIN, style);
 }
 
-lv_obj_t *LVGLButtonMatrix::newObject(lv_obj_t *parent) const
-{
-	lv_obj_t *obj = lv_btnm_create(parent, nullptr);
-	return obj;
+void LVGLButtonMatrix::addStyle(lv_obj_t *obj, lv_style_t *style,
+                                lv_obj_part_t part) const {
+  lv_obj_add_style(obj, part, style);
 }
 
-QSize LVGLButtonMatrix::minimumSize() const
-{
-	return QSize(150, 100);
-}
-
-QStringList LVGLButtonMatrix::styles() const
-{
-	return QStringList() << "LV_BTNM_STYLE_BG"
-								<< "LV_BTNM_STYLE_BTN_REL"
-								<< "LV_BTNM_STYLE_BTN_PR"
-								<< "LV_BTNM_STYLE_BTN_TGL_REL"
-								<< "LV_BTNM_STYLE_BTN_TGL_PR"
-								<< "LV_BTNM_STYLE_BTN_INA";
-}
-
-lv_style_t *LVGLButtonMatrix::style(lv_obj_t *obj, int type) const
-{
-	return const_cast<lv_style_t*>(lv_btnm_get_style(obj, type & 0xff));
-}
-
-void LVGLButtonMatrix::setStyle(lv_obj_t *obj, int type, lv_style_t *style) const
-{
-	lv_btnm_set_style(obj, static_cast<lv_btn_style_t>(type), style);
-}
-
-lv_style_t *LVGLButtonMatrix::defaultStyle(int type) const
-{
-	if (type == LV_BTNM_STYLE_BG)
-		return &lv_style_pretty;
-	else if (type == LV_BTNM_STYLE_BTN_REL)
-		return &lv_style_btn_rel;
-	else if (type == LV_BTNM_STYLE_BTN_PR)
-		return &lv_style_btn_pr;
-	else if (type == LV_BTNM_STYLE_BTN_TGL_REL)
-		return &lv_style_btn_tgl_rel;
-	else if (type == LV_BTNM_STYLE_BTN_TGL_PR)
-		return &lv_style_btn_tgl_pr;
-	else if (type == LV_BTNM_STYLE_BTN_INA)
-		return &lv_style_btn_ina;
-	return nullptr;
+void LVGLButtonMatrix::initStateStyles() {
+  for (int i = 0; i < 2; ++i) {
+    lv_style_t *de = new lv_style_t;
+    lv_style_t *ch = new lv_style_t;
+    lv_style_t *fo = new lv_style_t;
+    lv_style_t *ed = new lv_style_t;
+    lv_style_t *ho = new lv_style_t;
+    lv_style_t *pr = new lv_style_t;
+    lv_style_t *di = new lv_style_t;
+    lv_style_init(de);
+    lv_style_init(ch);
+    lv_style_init(fo);
+    lv_style_init(ed);
+    lv_style_init(ho);
+    lv_style_init(pr);
+    lv_style_init(di);
+    QList<lv_style_t *> stateStyles;
+    stateStyles << de << ch << fo << ed << ho << pr << di;
+    m_partsStyles[i] = stateStyles;
+  }
 }

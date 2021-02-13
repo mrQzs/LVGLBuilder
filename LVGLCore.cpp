@@ -128,13 +128,13 @@ void LVGLCore::init(int width, int height) {
   }
   Q_ASSERT(m_defaultFont != nullptr);
 
-  //  addWidget(new LVGLArc);
+  addWidget(new LVGLArc);
   addWidget(new LVGLBar);
   addWidget(new LVGLButton);
-  //  addWidget(new LVGLButtonMatrix);
+  addWidget(new LVGLButtonMatrix);
   addWidget(new LVGLCalendar);
   addWidget(new LVGLCanvas);
-  //  addWidget(new LVGLChart);
+  addWidget(new LVGLChart);
   addWidget(new LVGLCheckBox);
   addWidget(new LVGLColorPicker);
   addWidget(new LVGLContainer);
@@ -142,20 +142,25 @@ void LVGLCore::init(int width, int height) {
   addWidget(new LVGLGauge);
   addWidget(new LVGLImage);
   addWidget(new LVGLImageButton);
-  //  addWidget(new LVGLImageSlider);
   addWidget(new LVGLKeyboard);
   addWidget(new LVGLLabel);
   addWidget(new LVGLLED);
-  //  addWidget(new LVGLLine);
-  //  addWidget(new LVGLLineMeter);
-  //  addWidget(new LVGLMessageBox);
-  //  addWidget(new LVGLList);
-  //  addWidget(new LVGLPage);
-  //  addWidget(new LVGLPreloader);
-  //  addWidget(new LVGLSlider);
-  //  addWidget(new LVGLSwitch);
-  //  addWidget(new LVGLTabview);
-  //  addWidget(new LVGLTextArea);
+  addWidget(new LVGLLine);
+  addWidget(new LVGLList);
+  addWidget(new LVGLLineMeter);
+  addWidget(new LVGLMessageBox);
+  //  addWidget(new LVGLObjectMask);  dont support now
+  addWidget(new LVGLPage);
+  addWidget(new LVGLRoller);
+  addWidget(new LVGLSlider);
+  addWidget(new LVGLSpinbox);
+  addWidget(new LVGLSpinner);
+  addWidget(new LVGLSwitch);
+  addWidget(new LVGLTable);
+  addWidget(new LVGLTabview);
+  addWidget(new LVGLTileView);
+  addWidget(new LVGLTextArea);
+  addWidget(new LVGLWindow);
 
   setScreenColor(Qt::white);
   changeResolution({width, height});

@@ -31,7 +31,7 @@ LVGLLED::LVGLLED() {
   m_parts << LV_LED_PART_MAIN;
   m_properties << new LVGLPropertyLEDBrightness;
 
-  m_editableStyles << LVGL::Backound;  // LV_LED_PART_MAIN
+  m_editableStyles << LVGL::Background;  // LV_LED_PART_MAIN
 }
 
 QString LVGLLED::name() const { return "LED"; }

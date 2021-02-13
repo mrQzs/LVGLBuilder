@@ -75,12 +75,16 @@ SOURCES += \
     properties/LVGLPropertyPoints.cpp \
     properties/LVGLPropertyRange.cpp \
     properties/LVGLPropertyScale.cpp \
+    properties/LVGLPropertySeries.cpp \
     properties/LVGLPropertyTextList.cpp \
     properties/LVGLPropertyVal2.cpp \
+    widgets/LVGLArc.cpp \
     widgets/LVGLBar.cpp \
     widgets/LVGLButton.cpp \
+    widgets/LVGLButtonMatrix.cpp \
     widgets/LVGLCalendar.cpp \
     widgets/LVGLCanvas.cpp \
+    widgets/LVGLChart.cpp \
     widgets/LVGLCheckBox.cpp \
     widgets/LVGLColorPicker.cpp \
     widgets/LVGLContainer.cpp \
@@ -91,6 +95,21 @@ SOURCES += \
     widgets/LVGLKeyboard.cpp \
     widgets/LVGLLED.cpp \
     widgets/LVGLLabel.cpp \
+    widgets/LVGLLine.cpp \
+    widgets/LVGLLineMeter.cpp \
+    widgets/LVGLList.cpp \
+    widgets/LVGLMessageBox.cpp \
+    widgets/LVGLObjectMask.cpp \
+    widgets/LVGLPage.cpp \
+    widgets/LVGLRoller.cpp \
+    widgets/LVGLSlider.cpp \
+    widgets/LVGLSpinbox.cpp \
+    widgets/LVGLSpinner.cpp \
+    widgets/LVGLSwitch.cpp \
+    widgets/LVGLTable.cpp \
+    widgets/LVGLTabview.cpp \
+    widgets/LVGLTextArea.cpp \
+    widgets/LVGLTileView.cpp \
     widgets/LVGLWidget.cpp \
     LVGLItem.cpp \
     LVGLProperty.cpp \
@@ -99,7 +118,8 @@ SOURCES += \
     LVGLWidgetModel.cpp \
     LVGLWorker.cpp \
     main.cpp \
-    MainWindow.cpp
+    MainWindow.cpp \
+    widgets/LVGLWindow.cpp
 
 HEADERS += \
     LVGLCore.h \
@@ -125,8 +145,10 @@ HEADERS += \
     properties/LVGLPropertyPoints.h \
     properties/LVGLPropertyRange.h \
     properties/LVGLPropertyScale.h \
+    properties/LVGLPropertySeries.h \
     properties/LVGLPropertyTextList.h \
     properties/LVGLPropertyVal2.h \
+    widgets/LVGLArc.h \
     widgets/LVGLBar.h \
     widgets/LVGLButton.h \
     LVGLItem.h \
@@ -136,8 +158,10 @@ HEADERS += \
     LVGLWidgetModel.h \
     LVGLWorker.h \
     MainWindow.h \
+    widgets/LVGLButtonMatrix.h \
     widgets/LVGLCalendar.h \
     widgets/LVGLCanvas.h \
+    widgets/LVGLChart.h \
     widgets/LVGLCheckBox.h \
     widgets/LVGLColorPicker.h \
     widgets/LVGLContainer.h \
@@ -148,8 +172,24 @@ HEADERS += \
     widgets/LVGLKeyboard.h \
     widgets/LVGLLED.h \
     widgets/LVGLLabel.h \
+    widgets/LVGLLine.h \
+    widgets/LVGLLineMeter.h \
+    widgets/LVGLList.h \
+    widgets/LVGLMessageBox.h \
+    widgets/LVGLObjectMask.h \
+    widgets/LVGLPage.h \
+    widgets/LVGLRoller.h \
+    widgets/LVGLSlider.h \
+    widgets/LVGLSpinbox.h \
+    widgets/LVGLSpinner.h \
+    widgets/LVGLSwitch.h \
+    widgets/LVGLTable.h \
+    widgets/LVGLTabview.h \
+    widgets/LVGLTextArea.h \
+    widgets/LVGLTileView.h \
     widgets/LVGLWidget.h \
-    widgets/LVGLWidgets.h
+    widgets/LVGLWidgets.h \
+    widgets/LVGLWindow.h
 
 FORMS += \
     LVGLFontDialog.ui \

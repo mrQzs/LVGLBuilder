@@ -98,25 +98,25 @@ LVGLStyle::LVGLStyle()
       "margin_right", Coord, LV_STYLE_MARGIN_RIGHT, LVGL::Margin, margin));
 
   LVGLStyleItem* background =
-      new LVGLStyleItem("background", LVGL::Backound, this);
+      new LVGLStyleItem("background", LVGL::Background, this);
   background->addChild(new LVGLStyleItem("bg_color", Color, LV_STYLE_BG_COLOR,
-                                         LVGL::Backound, background));
+                                         LVGL::Background, background));
   background->addChild(new LVGLStyleItem("bg_opa", Opacity, LV_STYLE_BG_OPA,
-                                         LVGL::Backound, background));
+                                         LVGL::Background, background));
   background->addChild(new LVGLStyleItem("bg_grad_color", Color,
-                                         LV_STYLE_BG_GRAD_COLOR, LVGL::Backound,
+                                         LV_STYLE_BG_GRAD_COLOR, LVGL::Background,
                                          background));
   background->addChild(new LVGLStyleItem("bg_main_stop", Coord,
-                                         LV_STYLE_BG_MAIN_STOP, LVGL::Backound,
+                                         LV_STYLE_BG_MAIN_STOP, LVGL::Background,
                                          background));
   background->addChild(new LVGLStyleItem("bg_grad_stop", Coord,
-                                         LV_STYLE_BG_GRAD_STOP, LVGL::Backound,
+                                         LV_STYLE_BG_GRAD_STOP, LVGL::Background,
                                          background));
   background->addChild(new LVGLStyleItem("bg_grad_dir", Graddir,
-                                         LV_STYLE_BG_GRAD_DIR, LVGL::Backound,
+                                         LV_STYLE_BG_GRAD_DIR, LVGL::Background,
                                          background));
   background->addChild(new LVGLStyleItem("bg_blend_mode", Blendmode,
-                                         LV_STYLE_BG_BLEND_MODE, LVGL::Backound,
+                                         LV_STYLE_BG_BLEND_MODE, LVGL::Background,
                                          background));
 
   LVGLStyleItem* border = new LVGLStyleItem("border", LVGL::Border, this);
@@ -462,7 +462,7 @@ void LVGLStyle::setStyle(lv_style_t* style) { m_style = style; }
 
 bool LVGLStyle::hasStyleChanged(const lv_style_t* style, const lv_style_t* base,
                                 LVGL::StyleParts parts) {
-  if (parts & LVGL::Backound) {
+  if (parts & LVGL::Background) {
     if (axs_style_equal_bg_color(style, base))
       return true;
     else if (axs_style_equal_bg_grad_color(style, base))

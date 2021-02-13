@@ -1,11 +1,11 @@
-#ifndef LVGLLIST_H
-#define LVGLLIST_H
+#ifndef LVGLWINDOW_H
+#define LVGLWINDOW_H
 
 #include "LVGLWidget.h"
 
-class LVGLList : public LVGLWidget {
+class LVGLWindow : public LVGLWidget {
  public:
-  LVGLList();
+  LVGLWindow();
 
   virtual QString name() const;
   virtual QString className() const;
@@ -22,4 +22,4 @@ class LVGLList : public LVGLWidget {
   virtual void initStateStyles();
 };
 
-#endif  // LVGLLIST_H
+#endif  // LVGLWINDOW_H

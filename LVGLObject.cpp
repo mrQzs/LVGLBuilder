@@ -198,7 +198,7 @@ QJsonArray LVGLObject::jsonStyles() const {
     QString baseStyle = lvgl.baseStyleName(defaultStyle);
     if (!baseStyle.isEmpty()) style.insert("base", baseStyle);
 
-    if (editableParts & LVGL::Backound) {
+    if (editableParts & LVGL::Background) {
       QJsonObject body;
       if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle, &objStyle)))
         body.insert("main_color",
@@ -348,7 +348,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
       !LVGLStyle::hasStyleChanged(&objStyle, defaultStyle, editableParts))
     return ret;
 
-  if (editableParts & LVGL::Backound) {
+  if (editableParts & LVGL::Background) {
     if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle, &objStyle))) {
       QString color =
           QVariant(lvgl.toColor(axs_lv_style_get_bg_color(&objStyle)))
