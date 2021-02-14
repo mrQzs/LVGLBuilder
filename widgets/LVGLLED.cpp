@@ -27,6 +27,7 @@ class LVGLPropertyLEDBrightness : public LVGLPropertyInt {
 };
 
 LVGLLED::LVGLLED() {
+  m_defaultobj = lv_led_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_LED_PART_MAIN;
   m_properties << new LVGLPropertyLEDBrightness;

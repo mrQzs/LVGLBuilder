@@ -49,13 +49,14 @@ class LVGLPropertyLBCursorManager : public LVGLPropertyBool {
 };
 
 LVGLKeyboard::LVGLKeyboard() {
+  m_defaultobj = lv_keyboard_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_KEYBOARD_PART_BG << LV_KEYBOARD_PART_BTN;
   m_properties << new LVGLPropertyKBMode;
   m_properties << new LVGLPropertyAssignTextArea;
   m_properties << new LVGLPropertyLBCursorManager;
 
-  m_editableStyles << LVGL::Background;     // LV_KEYBOARD_PART_BG
+  m_editableStyles << LVGL::Background;   // LV_KEYBOARD_PART_BG
   m_editableStyles << LVGL::KeyboardBTN;  // LV_KEYBOARD_PART_BTN
 }
 

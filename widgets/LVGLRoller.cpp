@@ -5,6 +5,7 @@
 #include "LVGLObject.h"
 
 LVGLRoller::LVGLRoller() {
+  m_defaultobj = lv_roller_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_ROLLER_PART_BG << LV_ROLLER_PART_SELECTED;
   m_editableStyles << LVGL::Body;  // LV_ROLLER_PART_BG

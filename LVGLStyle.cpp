@@ -24,7 +24,7 @@ LVGLStyleItem::LVGLStyleItem(QString name, Type type, lv_style_property_t prop,
       m_prop(prop),
       m_stylePart(stylePart) {}
 
-LVGLStyleItem::~LVGLStyleItem() { qDeleteAll(m_childs); }
+LVGLStyleItem::~LVGLStyleItem() {}
 
 QString LVGLStyleItem::name() const { return m_name; }
 
@@ -56,7 +56,21 @@ LVGLStyle::LVGLStyle()
     : LVGLStyleItem("", LVGL::None),
       m_style(nullptr),
       m_part(LV_OBJ_PART_MAIN),
-      m_state(LV_STATE_DEFAULT) {
+      m_state(LV_STATE_DEFAULT),
+      m_mixed(nullptr),
+      m_padding(nullptr),
+      m_margin(nullptr),
+      m_background(nullptr),
+      m_border(nullptr),
+      m_outline(nullptr),
+      m_shadow(nullptr),
+      m_pattern(nullptr),
+      m_value(nullptr),
+      m_text(nullptr),
+      m_line(nullptr),
+      m_image(nullptr),
+      m_transition(nullptr),
+      m_scale(nullptr) {
   m_mixed = new LVGLStyleItem("mixed", LVGL::Mix, this);
   m_mixed->addChild(
       new LVGLStyleItem("radius", Coord, LV_STYLE_RADIUS, LVGL::Mix, m_mixed));
@@ -308,10 +322,25 @@ LVGLStyle::LVGLStyle()
                                       LVGL::Scale, m_scale));
 }
 
+LVGLStyle::~LVGLStyle() {
+  delete m_mixed;
+  delete m_padding;
+  delete m_margin;
+  delete m_background;
+  delete m_border;
+  delete m_outline;
+  delete m_shadow;
+  delete m_pattern;
+  delete m_value;
+  delete m_text;
+  delete m_line;
+  delete m_image;
+  delete m_transition;
+  delete m_scale;
+}
+
 QVariant LVGLStyle::get(const LVGLStyleItem* item) const {
-  if ((m_style == nullptr) || (m_curobj == nullptr) ||
-      (item->type() == Property))
-    return QVariant();
+  if ((m_curobj == nullptr) || (item->type() == Property)) return QVariant();
   auto type = item->prop();
   if (item->type() == Coord) {
     lv_coord_t c = _lv_obj_get_style_int(
@@ -407,7 +436,7 @@ void set_helper(P value, size_t offset, lv_style_t* style) {
 }
 
 void LVGLStyle::set(const LVGLStyleItem* item, QVariant value) {
-  if ((m_style == nullptr) || (item->type() == Property)) return;
+  if ((item->type() == Property)) return;
   auto type = item->prop();
 
   if (item->type() == Coord) {
@@ -452,8 +481,6 @@ void LVGLStyle::set(const LVGLStyleItem* item, QVariant value) {
     _lv_obj_set_style_local_ptr(m_curobj, m_part,
                                 type | (m_state << LV_STYLE_STATE_POS), p);
   }
-
-  lv_obj_add_style(m_curobj, m_part, m_style);
 }
 
 lv_style_t* LVGLStyle::style() const { return m_style; }
@@ -462,72 +489,72 @@ void LVGLStyle::setStyle(lv_style_t* style) { m_style = style; }
 
 bool LVGLStyle::hasStyleChanged(const lv_style_t* style, const lv_style_t* base,
                                 LVGL::StyleParts parts) {
-  if (parts & LVGL::Background) {
-    if (axs_style_equal_bg_color(style, base))
-      return true;
-    else if (axs_style_equal_bg_grad_color(style, base))
-      return true;
-    else if (axs_style_equal_radius(style, base))
-      return true;
-    else if (axs_style_equal_bg_opa(style, base))
-      return true;
-    if (parts & LVGL::Border) {
-      if (axs_style_equal_border_color(style, base))
-        return true;
-      else if (axs_style_equal_border_width(style, base))
-        return true;
-      else if (axs_style_equal_border_side(style, base))
-        return true;
-      else if (axs_style_equal_bg_opa(style, base))
-        return true;
-    }
-    if (parts & LVGL::Shadow) {
-      if (axs_style_equal_shadow_color(style, base))
-        return true;
-      else if (axs_style_equal_shadow_width(style, base))
-        return true;
-    }
-    if (parts & LVGL::Padding) {
-      if (axs_style_equal_pad_top(style, base))
-        return true;
-      else if (axs_style_equal_pad_bottom(style, base))
-        return true;
-      else if (axs_style_equal_pad_left(style, base))
-        return true;
-      else if (axs_style_equal_pad_right(style, base))
-        return true;
-      else if (axs_style_equal_pad_inner(style, base))
-        return true;
-    }
-  }
-  if (parts & LVGL::Text) {
-    if (axs_style_equal_text_color(style, base))
-      return true;
-    else if (axs_style_equal_text_sel_color(style, base))
-      return true;
-    else if (axs_style_equal_text_font(style, base))
-      return true;
-    else if (axs_style_equal_text_letter_space(style, base))
-      return true;
-    else if (axs_style_equal_text_line_space(style, base))
-      return true;
-    else if (axs_style_equal_text_opa(style, base))
-      return true;
-  }
-  if (parts & LVGL::Image) {
-    if (axs_style_equal_image_recolor(style, base))
-      return true;
-    else if (axs_style_equal_image_opa(style, base))
-      return true;
-  }
-  if (parts & LVGL::Line) {
-    if (axs_style_equal_line_color(style, base))
-      return true;
-    else if (axs_style_equal_line_width(style, base))
-      return true;
-    else if (axs_style_equal_line_opa(style, base))
-      return true;
-  }
+  //  if (parts & LVGL::Background) {
+  //    if (!axs_style_equal_bg_color(style, base))
+  //      return true;
+  //    else if (axs_style_equal_bg_grad_color(style, base))
+  //      return true;
+  //    else if (axs_style_equal_radius(style, base))
+  //      return true;
+  //    else if (axs_style_equal_bg_opa(style, base))
+  //      return true;
+  //    if (parts & LVGL::Border) {
+  //      if (axs_style_equal_border_color(style, base))
+  //        return true;
+  //      else if (axs_style_equal_border_width(style, base))
+  //        return true;
+  //      else if (axs_style_equal_border_side(style, base))
+  //        return true;
+  //      else if (axs_style_equal_bg_opa(style, base))
+  //        return true;
+  //    }
+  //    if (parts & LVGL::Shadow) {
+  //      if (axs_style_equal_shadow_color(style, base))
+  //        return true;
+  //      else if (axs_style_equal_shadow_width(style, base))
+  //        return true;
+  //    }
+  //    if (parts & LVGL::Padding) {
+  //      if (axs_style_equal_pad_top(style, base))
+  //        return true;
+  //      else if (axs_style_equal_pad_bottom(style, base))
+  //        return true;
+  //      else if (axs_style_equal_pad_left(style, base))
+  //        return true;
+  //      else if (axs_style_equal_pad_right(style, base))
+  //        return true;
+  //      else if (axs_style_equal_pad_inner(style, base))
+  //        return true;
+  //    }
+  //  }
+  //  if (parts & LVGL::Text) {
+  //    if (axs_style_equal_text_color(style, base))
+  //      return true;
+  //    else if (axs_style_equal_text_sel_color(style, base))
+  //      return true;
+  //    else if (axs_style_equal_text_font(style, base))
+  //      return true;
+  //    else if (axs_style_equal_text_letter_space(style, base))
+  //      return true;
+  //    else if (axs_style_equal_text_line_space(style, base))
+  //      return true;
+  //    else if (axs_style_equal_text_opa(style, base))
+  //      return true;
+  //  }
+  //  if (parts & LVGL::Image) {
+  //    if (axs_style_equal_image_recolor(style, base))
+  //      return true;
+  //    else if (axs_style_equal_image_opa(style, base))
+  //      return true;
+  //  }
+  //  if (parts & LVGL::Line) {
+  //    if (axs_style_equal_line_color(style, base))
+  //      return true;
+  //    else if (axs_style_equal_line_width(style, base))
+  //      return true;
+  //    else if (axs_style_equal_line_opa(style, base))
+  //      return true;
+  //  }
   return false;
 }
 

@@ -65,6 +65,7 @@ class LVGLPropertyButtonLayout : public LVGLPropertyEnum {
 };
 
 LVGLButton::LVGLButton() {
+  m_defaultobj = lv_btn_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_BTN_PART_MAIN;
   m_properties << new LVGLPropertyButtonState;

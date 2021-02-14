@@ -47,6 +47,7 @@ class LVGLPropertySliderRange : public LVGLPropertyRange {
 };
 
 LVGLSlider::LVGLSlider() {
+  m_defaultobj = lv_slider_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_SLIDER_PART_BG << LV_SLIDER_PART_INDIC << LV_SLIDER_PART_KNOB;
 

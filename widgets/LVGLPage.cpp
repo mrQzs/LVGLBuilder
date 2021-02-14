@@ -98,6 +98,7 @@ class LVGLPropertyPageScrollPropagation : public LVGLPropertyBool {
 };
 
 LVGLPage::LVGLPage() {
+  m_defaultobj = lv_page_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_PAGE_PART_BG << LV_PAGE_PART_SCROLLABLE
           << LV_PAGE_PART_SCROLLBAR << LV_PAGE_PART_EDGE_FLASH;

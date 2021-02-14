@@ -5,6 +5,7 @@
 #include "LVGLObject.h"
 
 LVGLTileView::LVGLTileView() {
+  m_defaultobj = lv_tileview_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_TILEVIEW_PART_BG << LV_TILEVIEW_PART_SCROLLBAR
           << LV_TILEVIEW_PART_EDGE_FLASH;

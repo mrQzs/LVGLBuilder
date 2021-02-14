@@ -5,6 +5,7 @@
 #include "LVGLObject.h"
 
 LVGLButtonMatrix::LVGLButtonMatrix() {
+  m_defaultobj = lv_btnmatrix_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_BTNMATRIX_PART_BG << LV_BTNMATRIX_PART_BTN;
   m_editableStyles << LVGL::Background;  // LV_BTNMATRIX_PART_BG

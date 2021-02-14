@@ -133,6 +133,7 @@ class LVGLPropertyMonthNames : public LVGLPropertyTextList {
 };
 
 LVGLCalendar::LVGLCalendar() {
+  m_defaultobj = lv_calendar_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_CALENDAR_PART_BG << LV_CALENDAR_PART_HEADER
           << LV_CALENDAR_PART_DAY_NAMES << LV_CALENDAR_PART_DATE;

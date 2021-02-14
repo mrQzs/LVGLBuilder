@@ -61,6 +61,7 @@ class LVGLPropertyListEdgeFlash : public LVGLPropertyBool {
 };
 
 LVGLList::LVGLList() {
+  m_defaultobj = lv_list_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_LIST_PART_BG << LV_LIST_PART_SCROLLBAR
           << LV_LIST_PART_SCROLLABLE << LV_LIST_PART_EDGE_FLASH;

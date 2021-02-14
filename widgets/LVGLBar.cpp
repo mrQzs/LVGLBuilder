@@ -44,6 +44,7 @@ class LVGLPropertyBarRange : public LVGLPropertyRange {
 };
 
 LVGLBar::LVGLBar() {
+  m_defaultobj = lv_bar_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_BAR_PART_BG;
   m_parts << LV_BAR_PART_INDIC;

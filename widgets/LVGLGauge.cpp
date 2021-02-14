@@ -50,6 +50,7 @@ class LVGLPropertyGaugeVal : public LVGLPropertyInt {
 };
 
 LVGLGauge::LVGLGauge() {
+  m_defaultobj = lv_gauge_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_GAUGE_PART_MAIN << LV_GAUGE_PART_MAJOR << LV_GAUGE_PART_NEEDLE;
   m_properties << new LVGLPropertyScale;

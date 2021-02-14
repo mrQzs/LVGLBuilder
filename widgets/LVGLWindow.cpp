@@ -5,6 +5,7 @@
 #include "LVGLObject.h"
 
 LVGLWindow::LVGLWindow() {
+  m_defaultobj = lv_win_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_WIN_PART_BG << LV_WIN_PART_HEADER
           << LV_WIN_PART_CONTENT_SCROLLABLE << LV_WIN_PART_SCROLLBAR;

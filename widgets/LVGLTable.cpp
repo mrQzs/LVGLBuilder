@@ -5,6 +5,7 @@
 #include "LVGLObject.h"
 
 LVGLTable::LVGLTable() {
+  m_defaultobj = lv_table_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_TABLE_PART_BG << LV_TABLE_PART_CELL1 << LV_TABLE_PART_CELL2
           << LV_TABLE_PART_CELL3 << LV_TABLE_PART_CELL4;

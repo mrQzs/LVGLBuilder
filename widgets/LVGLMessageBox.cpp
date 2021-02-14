@@ -38,6 +38,7 @@
 //};
 
 LVGLMessageBox::LVGLMessageBox() {
+  m_defaultobj = lv_msgbox_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_MSGBOX_PART_BG << LV_MSGBOX_PART_BTN_BG << LV_MSGBOX_PART_BTN;
 
@@ -52,7 +53,7 @@ LVGLMessageBox::LVGLMessageBox() {
                                        lv_msgbox_get_recolor);
 
   m_editableStyles << LVGL::MsgboxMAIN  // LV_MSGBOX_PART_BG
-                   << LVGL::Background    // LV_MSGBOX_PART_BTN_BG
+                   << LVGL::Background  // LV_MSGBOX_PART_BTN_BG
                    << LVGL::Button;     // LV_MSGBOX_PART_BTN
 }
 

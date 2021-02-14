@@ -247,6 +247,7 @@ class LVGLPropertyTAEdgeFlash : public LVGLPropertyBool {
 };
 
 LVGLTextArea::LVGLTextArea() {
+  m_defaultobj = lv_textarea_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_TEXTAREA_PART_BG << LV_TEXTAREA_PART_SCROLLBAR
           << LV_TEXTAREA_PART_EDGE_FLASH << LV_TEXTAREA_PART_CURSOR

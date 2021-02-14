@@ -4,7 +4,12 @@
 
 #include "LVGLObject.h"
 
-LVGLObjectMask::LVGLObjectMask() { m_editableStyles << LVGL::Background; }
+LVGLObjectMask::LVGLObjectMask() {
+  m_defaultobj = lv_objmask_create(m_parent, NULL);
+  initStateStyles();
+  m_parts << LV_OBJMASK_PART_MAIN;
+  m_editableStyles << LVGL::Body;
+}
 
 QString LVGLObjectMask::name() const { return "ObjectMask"; }
 

@@ -96,6 +96,8 @@ class LVGLCore : public QObject {
 
   static const char *DEFAULT_DAYS[7];
   static const char *DEFAULT_MONTHS[12];
+  static const lv_state_t LVGL_STATE[7];
+  static const char *LVGL_STATE_STR[7];
 
  private slots:
   void tick();
@@ -158,4 +160,194 @@ union LVGLObjectCast {
   qintptr i;
 };
 
+// mix
+bool radius(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool clip_corner(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool mix_size(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool transform_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool trnasform_height(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                      lv_state_t state);
+bool trnasform_angle(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool transform_zoom(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                    lv_state_t state);
+bool opa_scale(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+               lv_state_t state);
+// padding
+bool pad_top(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool pad_bottom(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool pad_left(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool pad_right(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+               lv_state_t state);
+bool pad_inner(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+               lv_state_t state);
+// margin
+bool margin_top(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool margin_bottom(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool margin_left(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool margin_right(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+// background
+bool bg_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool bg_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool bg_grad_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool bg_main_stop(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool bg_grad_stop(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool bg_grad_dir(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool bg_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+// border
+bool border_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool border_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool border_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool border_Side(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool border_post(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool border_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+// outline
+bool outline_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool outline_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool outline_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool outline_pad(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool outline_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                        lv_state_t state);
+// shadow
+bool shadow_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool shadow_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool shadow_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool shadow_ofs_x(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool shadow_ofs_y(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool shadow_spread(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool shadow_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+// patter
+bool pattern_image(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool pattern_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool pattern_recolor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool pattern_recolor_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                         lv_state_t state);
+bool pattern_repeadt(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool pattern_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                        lv_state_t state);
+// value
+bool value_str(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+               lv_state_t state);
+bool value_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool value_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+               lv_state_t state);
+bool value_font(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool value_letter_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                        lv_state_t state);
+bool value_line_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                      lv_state_t state);
+bool value_align(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool value_ofs_x(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool value_ofs_y(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool value_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                      lv_state_t state);
+// text
+bool text_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool text_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool text_font(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+               lv_state_t state);
+bool text_letter_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool text_line_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool text_decor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool text_sel_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                    lv_state_t state);
+bool text_sel_bg_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool text_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+// line
+bool line_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool line_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
+bool line_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                lv_state_t state);
+bool line_dash_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool line_dash_gap(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool line_rounded(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                  lv_state_t state);
+bool line_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+// image
+bool image_recolor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                   lv_state_t state);
+bool image_recolor_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool image_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+               lv_state_t state);
+bool image_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                      lv_state_t state);
+// transition
+bool transition_time(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool transition_delay(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                      lv_state_t state);
+bool transition_prop_1(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool transition_prop_2(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool transition_prop_3(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool transition_prop_4(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool transition_prop_5(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+bool transition_prop_6(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                       lv_state_t state);
+// scale
+bool scale_grad_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                      lv_state_t state);
+bool scale_end_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                     lv_state_t state);
+bool scale_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                 lv_state_t state);
+bool scale_border_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                        lv_state_t state);
+bool scale_end_border_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                            lv_state_t state);
+bool scale_end_line_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                          lv_state_t state);
 #endif  // LVGLCORE_HPP

@@ -30,6 +30,7 @@ class LVGLPropertyCBInactive : public LVGLPropertyBool {
 };
 
 LVGLCheckBox::LVGLCheckBox() {
+  m_defaultobj = lv_checkbox_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_CHECKBOX_PART_BG << LV_CHECKBOX_PART_BULLET;
 

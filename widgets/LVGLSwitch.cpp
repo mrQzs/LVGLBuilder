@@ -19,6 +19,7 @@ class LVGLPropertyState : public LVGLPropertyBool {
 };
 
 LVGLSwitch::LVGLSwitch() {
+  m_defaultobj = lv_switch_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_SWITCH_PART_BG << LV_SWITCH_PART_INDIC << LV_SWITCH_PART_KNOB;
 

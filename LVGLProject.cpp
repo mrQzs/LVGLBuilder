@@ -173,13 +173,15 @@ bool LVGLProject::exportCode(const QString &path) const {
   if (lvgl.screenColorChanged()) {
     stream << "static lv_style_t style_screen;\n";
   }
-  for (LVGLObject *o : objects) {
-    for (int i = 0; i < o->widgetClass()->styles().size(); ++i) {
-      if (o->hasCustomStyle(i))
-        stream << "static lv_style_t " << o->styleCodeName(i) << ";\n";
-    }
-  }
-  stream << "\n";
+
+  // need change
+  //  for (LVGLObject *o : objects) {
+  //    for (int i = 0; i < o->widgetClass()->styles().size(); ++i) {
+  //      if (o->hasCustomStyle(i))
+  //        stream << "static lv_style_t " << o->styleCodeName(i) << ";\n";
+  //    }
+  //  }
+  //  stream << "\n";
 
   auto images = lvgl.images();
   for (LVGLImageData *img : images) {
@@ -187,6 +189,7 @@ bool LVGLProject::exportCode(const QString &path) const {
     stream << "LV_IMG_DECLARE(" << img->codeName() << ");\n";
   }
   stream << "\n";
+
   auto fonts = lvgl.customFonts();
   for (const LVGLFontData *f : fonts) {
     f->saveAsCode(dir.path() + "/" + f->codeName() + ".c");
@@ -207,21 +210,26 @@ bool LVGLProject::exportCode(const QString &path) const {
     stream << "\tlv_obj_set_style(parent, &style_screen);\n";
   }
   stream << "\n";
+
+  int lvglStateType = 7;
   for (LVGLObject *o : objects) {
     QString ifdef = o->widgetClass()->className().toUpper().insert(3, "USE_");
     stream << "#if " << ifdef << "\n";
-
-    for (int i = 0; i < o->widgetClass()->styles().size(); ++i) {
-      if (o->hasCustomStyle(i)) {
-        QString style = o->styleCodeName(i);
-        QString base = lvgl.baseStyleName(o->widgetClass()->style(o->obj()));
-        if (base.isEmpty()) base = "lv_style_transp";
-        stream << "\tlv_style_copy(&" << style << ", &" << base << ");\n";
-        QStringList styleSet = o->codeStyle(style, i);
-        for (const QString &s : styleSet) stream << "\t" << s << "\n";
-        stream << "\n";
+    for (int index = 0; index < o->widgetClass()->styles().size(); ++index) {
+      stream << "static lv_style_t " << o->styleCodeName(index) << ";\n";
+      stream << "lv_style_init(&" << o->styleCodeName(index) << ");\n";
+      for (int i = 0; i < lvglStateType; ++i) {
+        QStringList styleset =
+            o->codeStyle(o->styleCodeName(index), o->obj(),
+                         o->widgetClass()->getdefaultobj(), index, i);
+        for (const QString &s : styleset) stream << "\t" << s << "\n";
       }
     }
+
+    // test
+    stream << "}\n";
+    file.close();
+    return true;
 
     QString parent = "parent";
     if (o->parent()) parent = o->parent()->codeName();

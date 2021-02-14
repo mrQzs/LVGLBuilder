@@ -29,6 +29,7 @@ class LVGLPropertyLMeterRange : public LVGLPropertyRange {
 };
 
 LVGLLineMeter::LVGLLineMeter() {
+  m_defaultobj = lv_linemeter_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_LINEMETER_PART_MAIN;
   m_properties << new LVGLPropertyLMeterRange;

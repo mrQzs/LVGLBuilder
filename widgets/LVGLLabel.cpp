@@ -100,6 +100,7 @@ class LVGLPropertyLabelRecolor : public LVGLPropertyBool {
 //};
 
 LVGLLabel::LVGLLabel() {
+  m_defaultobj = lv_label_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_LABEL_PART_MAIN;
   m_properties << new LVGLPropertyLabelAlign;

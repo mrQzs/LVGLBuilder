@@ -191,6 +191,7 @@ class LVGLPropertyTabScrollbars : public LVGLPropertyEnum {
 };
 
 LVGLTabview::LVGLTabview() {
+  m_defaultobj = lv_tabview_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_TABVIEW_PART_BG << LV_TABVIEW_PART_BG_SCROLLABLE
           << LV_TABVIEW_PART_TAB_BG << LV_TABVIEW_PART_TAB_BTN

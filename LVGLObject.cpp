@@ -198,138 +198,149 @@ QJsonArray LVGLObject::jsonStyles() const {
     QString baseStyle = lvgl.baseStyleName(defaultStyle);
     if (!baseStyle.isEmpty()) style.insert("base", baseStyle);
 
-    if (editableParts & LVGL::Background) {
-      QJsonObject body;
-      if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle, &objStyle)))
-        body.insert("main_color",
-                    QVariant(lvgl.toColor(axs_lv_style_get_bg_color(&objStyle)))
-                        .toString());
-      if (!defaultStyle ||
-          (axs_style_equal_bg_grad_color(defaultStyle, &objStyle)))
-        body.insert(
-            "grad_color",
-            QVariant(lvgl.toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
-                .toString());
-      if (!defaultStyle || (axs_style_equal_radius(defaultStyle, &objStyle)))
-        body.insert("radius",
-                    static_cast<int>(axs_lv_style_get_radius(&objStyle)));
-      if (!defaultStyle || (axs_style_equal_bg_opa(defaultStyle, &objStyle)))
-        body.insert("opa", axs_lv_style_get_bg_opa(&objStyle));
+    //    if (editableParts & LVGL::Background) {
+    //      QJsonObject body;
+    //      if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle,
+    //      &objStyle)))
+    //        body.insert("main_color",
+    //                    QVariant(lvgl.toColor(axs_lv_style_get_bg_color(&objStyle)))
+    //                        .toString());
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_bg_grad_color(defaultStyle, &objStyle)))
+    //        body.insert(
+    //            "grad_color",
+    //            QVariant(lvgl.toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
+    //                .toString());
+    //      if (!defaultStyle || (axs_style_equal_radius(defaultStyle,
+    //      &objStyle)))
+    //        body.insert("radius",
+    //                    static_cast<int>(axs_lv_style_get_radius(&objStyle)));
+    //      if (!defaultStyle || (axs_style_equal_bg_opa(defaultStyle,
+    //      &objStyle)))
+    //        body.insert("opa", axs_lv_style_get_bg_opa(&objStyle));
 
-      if (editableParts & LVGL::Border) {
-        QJsonObject border;
-        if (!defaultStyle ||
-            (axs_style_equal_border_color(defaultStyle, &objStyle)))
-          border.insert(
-              "color",
-              QVariant(lvgl.toColor(axs_lv_style_get_border_color(&objStyle)))
-                  .toString());
-        if (!defaultStyle ||
-            (axs_style_equal_border_width(defaultStyle, &objStyle)))
-          border.insert("width", axs_lv_style_get_border_width(&objStyle));
-        if (!defaultStyle ||
-            (axs_style_equal_border_side(defaultStyle, &objStyle)))
-          border.insert("part", axs_lv_style_get_border_side(&objStyle));
-        if (!defaultStyle ||
-            (axs_style_equal_border_opa(defaultStyle, &objStyle)))
-          border.insert("opa", axs_lv_style_get_bg_opa(&objStyle));
-        if (!border.isEmpty()) body.insert("border", border);
-      }
+    //      if (editableParts & LVGL::Border) {
+    //        QJsonObject border;
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_border_color(defaultStyle, &objStyle)))
+    //          border.insert(
+    //              "color",
+    //              QVariant(lvgl.toColor(axs_lv_style_get_border_color(&objStyle)))
+    //                  .toString());
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_border_width(defaultStyle, &objStyle)))
+    //          border.insert("width",
+    //          axs_lv_style_get_border_width(&objStyle));
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_border_side(defaultStyle, &objStyle)))
+    //          border.insert("part", axs_lv_style_get_border_side(&objStyle));
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_border_opa(defaultStyle, &objStyle)))
+    //          border.insert("opa", axs_lv_style_get_bg_opa(&objStyle));
+    //        if (!border.isEmpty()) body.insert("border", border);
+    //      }
 
-      if (editableParts & LVGL::Shadow) {
-        QJsonObject shadow;
-        if (!defaultStyle ||
-            (axs_style_equal_shadow_color(defaultStyle, &objStyle)))
-          shadow.insert(
-              "color",
-              QVariant(lvgl.toColor(axs_lv_style_get_shadow_color(&objStyle)))
-                  .toString());
-        if (!defaultStyle ||
-            (axs_style_equal_shadow_width(defaultStyle, &objStyle)))
-          shadow.insert("width", axs_lv_style_get_shadow_width(&objStyle));
-        if (!shadow.isEmpty()) body.insert("shadow", shadow);
-      }
+    //      if (editableParts & LVGL::Shadow) {
+    //        QJsonObject shadow;
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_shadow_color(defaultStyle, &objStyle)))
+    //          shadow.insert(
+    //              "color",
+    //              QVariant(lvgl.toColor(axs_lv_style_get_shadow_color(&objStyle)))
+    //                  .toString());
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_shadow_width(defaultStyle, &objStyle)))
+    //          shadow.insert("width",
+    //          axs_lv_style_get_shadow_width(&objStyle));
+    //        if (!shadow.isEmpty()) body.insert("shadow", shadow);
+    //      }
 
-      if (editableParts & LVGL::Padding) {
-        QJsonObject padding;
-        if (!defaultStyle || (axs_style_equal_pad_top(defaultStyle, &objStyle)))
-          padding.insert("top", axs_lv_style_get_pad_top(&objStyle));
-        if (!defaultStyle ||
-            (axs_style_equal_pad_bottom(defaultStyle, &objStyle)))
-          padding.insert("bottom", axs_lv_style_get_pad_bottom(&objStyle));
-        if (!defaultStyle ||
-            (axs_style_equal_pad_left(defaultStyle, &objStyle)))
-          padding.insert("left", axs_lv_style_get_pad_left(&objStyle));
-        if (!defaultStyle ||
-            (axs_style_equal_pad_right(defaultStyle, &objStyle)))
-          padding.insert("right", axs_lv_style_get_pad_right(&objStyle));
-        if (!defaultStyle ||
-            (axs_style_equal_pad_inner(defaultStyle, &objStyle)))
-          padding.insert("inner", axs_lv_style_get_pad_inner(&objStyle));
-        if (!padding.isEmpty()) body.insert("padding", padding);
-      }
-      if (!body.isEmpty()) style.insert("background", body);
-    }
+    //      if (editableParts & LVGL::Padding) {
+    //        QJsonObject padding;
+    //        if (!defaultStyle || (axs_style_equal_pad_top(defaultStyle,
+    //        &objStyle)))
+    //          padding.insert("top", axs_lv_style_get_pad_top(&objStyle));
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_pad_bottom(defaultStyle, &objStyle)))
+    //          padding.insert("bottom",
+    //          axs_lv_style_get_pad_bottom(&objStyle));
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_pad_left(defaultStyle, &objStyle)))
+    //          padding.insert("left", axs_lv_style_get_pad_left(&objStyle));
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_pad_right(defaultStyle, &objStyle)))
+    //          padding.insert("right", axs_lv_style_get_pad_right(&objStyle));
+    //        if (!defaultStyle ||
+    //            (axs_style_equal_pad_inner(defaultStyle, &objStyle)))
+    //          padding.insert("inner", axs_lv_style_get_pad_inner(&objStyle));
+    //        if (!padding.isEmpty()) body.insert("padding", padding);
+    //      }
+    //      if (!body.isEmpty()) style.insert("background", body);
+    //    }
 
-    if (editableParts & LVGL::Text) {
-      QJsonObject text;
-      if (!defaultStyle ||
-          (axs_style_equal_text_color(defaultStyle, &objStyle)))
-        text.insert(
-            "color",
-            QVariant(lvgl.toColor(axs_lv_style_get_text_color(&objStyle)))
-                .toString());
-      if (!defaultStyle ||
-          (axs_style_equal_text_sel_color(defaultStyle, &objStyle)))
-        text.insert(
-            "sel_color",
-            QVariant(lvgl.toColor(axs_lv_style_get_text_sel_color(&objStyle)))
-                .toString());
-      if (!defaultStyle ||
-          (axs_style_equal_text_font(defaultStyle, &objStyle))) {
-        text.insert("font",
-                    lvgl.fontName(axs_lv_style_get_text_font(&objStyle)));
-      }
-      if (!defaultStyle ||
-          (axs_style_equal_text_letter_space(defaultStyle, &objStyle)))
-        text.insert("letter_space",
-                    axs_lv_style_get_text_letter_space(&objStyle));
-      if (!defaultStyle ||
-          (axs_style_equal_text_line_space(defaultStyle, &objStyle)))
-        text.insert("line_space", axs_lv_style_get_text_line_space(&objStyle));
-      if (!defaultStyle || (axs_style_equal_text_opa(defaultStyle, &objStyle)))
-        text.insert("opa", axs_lv_style_get_text_opa(&objStyle));
-      if (!text.isEmpty()) style.insert("text", text);
-    }
+    //    if (editableParts & LVGL::Text) {
+    //      QJsonObject text;
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_text_color(defaultStyle, &objStyle)))
+    //        text.insert(
+    //            "color",
+    //            QVariant(lvgl.toColor(axs_lv_style_get_text_color(&objStyle)))
+    //                .toString());
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_text_sel_color(defaultStyle, &objStyle)))
+    //        text.insert(
+    //            "sel_color",
+    //            QVariant(lvgl.toColor(axs_lv_style_get_text_sel_color(&objStyle)))
+    //                .toString());
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_text_font(defaultStyle, &objStyle))) {
+    //        text.insert("font",
+    //                    lvgl.fontName(axs_lv_style_get_text_font(&objStyle)));
+    //      }
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_text_letter_space(defaultStyle, &objStyle)))
+    //        text.insert("letter_space",
+    //                    axs_lv_style_get_text_letter_space(&objStyle));
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_text_line_space(defaultStyle, &objStyle)))
+    //        text.insert("line_space",
+    //        axs_lv_style_get_text_line_space(&objStyle));
+    //      if (!defaultStyle || (axs_style_equal_text_opa(defaultStyle,
+    //      &objStyle)))
+    //        text.insert("opa", axs_lv_style_get_text_opa(&objStyle));
+    //      if (!text.isEmpty()) style.insert("text", text);
+    //    }
 
-    if (editableParts & LVGL::Image) {
-      QJsonObject image;
-      if (!defaultStyle ||
-          (axs_style_equal_image_recolor(defaultStyle, &objStyle)))
-        image.insert(
-            "recolor",
-            QVariant(lvgl.toColor(axs_lv_style_get_image_recolor(&objStyle)))
-                .toString());
-      if (!defaultStyle || (axs_style_equal_image_opa(defaultStyle, &objStyle)))
-        image.insert("opa", axs_lv_style_get_image_opa(&objStyle));
-      if (!image.isEmpty()) style.insert("image", image);
-    }
+    //    if (editableParts & LVGL::Image) {
+    //      QJsonObject image;
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_image_recolor(defaultStyle, &objStyle)))
+    //        image.insert(
+    //            "recolor",
+    //            QVariant(lvgl.toColor(axs_lv_style_get_image_recolor(&objStyle)))
+    //                .toString());
+    //      if (!defaultStyle || (axs_style_equal_image_opa(defaultStyle,
+    //      &objStyle)))
+    //        image.insert("opa", axs_lv_style_get_image_opa(&objStyle));
+    //      if (!image.isEmpty()) style.insert("image", image);
+    //    }
 
-    if (editableParts & LVGL::Line) {
-      QJsonObject line;
-      if (!defaultStyle ||
-          (axs_style_equal_line_color(defaultStyle, &objStyle)))
-        line.insert(
-            "color",
-            QVariant(lvgl.toColor(axs_lv_style_get_line_color(&objStyle)))
-                .toString());
-      if (!defaultStyle ||
-          (axs_style_equal_line_width(defaultStyle, &objStyle)))
-        line.insert("width", axs_lv_style_get_line_width(&objStyle));
-      if (!defaultStyle || (axs_style_equal_line_opa(defaultStyle, &objStyle)))
-        line.insert("opa", axs_lv_style_get_line_opa(&objStyle));
-      if (!line.isEmpty()) style.insert("line", line);
-    }
+    //    if (editableParts & LVGL::Line) {
+    //      QJsonObject line;
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_line_color(defaultStyle, &objStyle)))
+    //        line.insert(
+    //            "color",
+    //            QVariant(lvgl.toColor(axs_lv_style_get_line_color(&objStyle)))
+    //                .toString());
+    //      if (!defaultStyle ||
+    //          (axs_style_equal_line_width(defaultStyle, &objStyle)))
+    //        line.insert("width", axs_lv_style_get_line_width(&objStyle));
+    //      if (!defaultStyle || (axs_style_equal_line_opa(defaultStyle,
+    //      &objStyle)))
+    //        line.insert("opa", axs_lv_style_get_line_opa(&objStyle));
+    //      if (!line.isEmpty()) style.insert("line", line);
+    //    }
 
     if (style.size() > 0) styles.append(style);
   }
@@ -348,161 +359,449 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
       !LVGLStyle::hasStyleChanged(&objStyle, defaultStyle, editableParts))
     return ret;
 
+  //  if (editableParts & LVGL::Background) {
+  //    if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle,
+  //    &objStyle))) {
+  //      QString color =
+  //          QVariant(lvgl.toColor(axs_lv_style_get_bg_color(&objStyle)))
+  //              .toString()
+  //              .replace("#", "0x");
+  //      ret << styleVar + ".body.main_color = lv_color_hex(" + color + ");";
+  //    }
+  //    if (!defaultStyle ||
+  //        (axs_style_equal_bg_grad_color(defaultStyle, &objStyle))) {
+  //      QString color =
+  //          QVariant(lvgl.toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
+  //              .toString()
+  //              .replace("#", "0x");
+  //      ret << styleVar + ".body.grad_color = lv_color_hex(" + color + ");";
+  //    }
+  //    if (!defaultStyle || (axs_style_equal_radius(defaultStyle, &objStyle)))
+  //      ret << styleVar + ".body.radius = " +
+  //                 QString::number(axs_lv_style_get_radius(&objStyle)) + ";";
+  //    if (!defaultStyle || (axs_style_equal_bg_opa(defaultStyle, &objStyle)))
+  //      ret << styleVar + ".body.opa = " +
+  //                 QString::number(axs_lv_style_get_bg_opa(&objStyle)) + ";";
+
+  //    if (editableParts & LVGL::Border) {
+  //      if (!defaultStyle ||
+  //          (axs_style_equal_border_color(defaultStyle, &objStyle))) {
+  //        QString color =
+  //            QVariant(lvgl.toColor(axs_lv_style_get_border_color(&objStyle)))
+  //                .toString()
+  //                .replace("#", "0x");
+  //        ret << styleVar + ".body.border.color = lv_color_hex(" + color +
+  //        ");";
+  //      }
+  //      if (!defaultStyle ||
+  //          (axs_style_equal_border_width(defaultStyle, &objStyle)))
+  //        ret << styleVar + ".body.border.width = " +
+  //                   QString::number(axs_lv_style_get_border_width(&objStyle))
+  //                   +
+  //                   ";";
+  //      if (!defaultStyle ||
+  //          (axs_style_equal_border_side(defaultStyle, &objStyle)))
+  //        ret << styleVar + ".body.border.part = " +
+  //                   QString::number(axs_lv_style_get_border_side(&objStyle))
+  //                   +
+  //                   ";";
+  //      if (!defaultStyle ||
+  //          (axs_style_equal_border_opa(defaultStyle, &objStyle)))
+  //        ret << styleVar + ".body.border.opa = " +
+  //                   QString::number(axs_lv_style_get_bg_opa(&objStyle)) +
+  //                   ";";
+  //    }
+
+  //    if (editableParts & LVGL::Shadow) {
+  //      QJsonObject shadow;
+  //      if (!defaultStyle ||
+  //          (axs_style_equal_shadow_color(defaultStyle, &objStyle))) {
+  //        QString color =
+  //            QVariant(lvgl.toColor(axs_lv_style_get_shadow_color(&objStyle)))
+  //                .toString()
+  //                .replace("#", "0x");
+  //        ret << styleVar + ".body.shadow.color = lv_color_hex(" + color +
+  //        ");";
+  //      }
+  //      if (!defaultStyle ||
+  //          (axs_style_equal_shadow_width(defaultStyle, &objStyle)))
+  //        ret << styleVar + ".body.shadow.width = " +
+  //                   QString::number(axs_lv_style_get_shadow_width(&objStyle))
+  //                   +
+  //                   ";";
+  //    }
+
+  //    if (editableParts & LVGL::Padding) {
+  //      QJsonObject padding;
+  //      if (!defaultStyle || (axs_style_equal_pad_top(defaultStyle,
+  //      &objStyle)))
+  //        ret << styleVar + ".body.padding.top = " +
+  //                   QString::number(axs_lv_style_get_pad_top(&objStyle)) +
+  //                   ";";
+  //      if (!defaultStyle ||
+  //          (axs_style_equal_pad_bottom(defaultStyle, &objStyle)))
+  //        ret << styleVar + ".body.padding.bottom = " +
+  //                   QString::number(axs_lv_style_get_pad_bottom(&objStyle)) +
+  //                   ";";
+  //      if (!defaultStyle || (axs_style_equal_pad_left(defaultStyle,
+  //      &objStyle)))
+  //        ret << styleVar + ".body.padding.left = " +
+  //                   QString::number(axs_lv_style_get_pad_left(&objStyle)) +
+  //                   ";";
+  //      if (!defaultStyle || (axs_style_equal_pad_right(defaultStyle,
+  //      &objStyle)))
+  //        ret << styleVar + ".body.padding.right = " +
+  //                   QString::number(axs_lv_style_get_pad_right(&objStyle)) +
+  //                   ";";
+  //      if (!defaultStyle || (axs_style_equal_pad_inner(defaultStyle,
+  //      &objStyle)))
+  //        ret << styleVar + ".body.padding.inner = " +
+  //                   QString::number(axs_lv_style_get_pad_inner(&objStyle)) +
+  //                   ";";
+  //    }
+  //  }
+
+  //  if (editableParts & LVGL::Text) {
+  //    if (!defaultStyle ||
+  //        (axs_style_equal_text_color(defaultStyle, &objStyle))) {
+  //      QString color =
+  //          QVariant(lvgl.toColor(axs_lv_style_get_text_color(&objStyle)))
+  //              .toString()
+  //              .replace("#", "0x");
+  //      ret << styleVar + ".text.color = lv_color_hex(" + color + ");";
+  //    }
+  //    if (!defaultStyle ||
+  //        (axs_style_equal_text_sel_color(defaultStyle, &objStyle))) {
+  //      QString color =
+  //          QVariant(lvgl.toColor(axs_lv_style_get_text_sel_color(&objStyle)))
+  //              .toString()
+  //              .replace("#", "0x");
+  //      ret << styleVar + ".text.sel_color = lv_color_hex(" + color + ");";
+  //    }
+  //    if (!defaultStyle || (axs_style_equal_text_font(defaultStyle,
+  //    &objStyle))) {
+  //      ret << styleVar + ".text.font = &" +
+  //                 lvgl.fontCodeName(axs_lv_style_get_text_font(&objStyle)) +
+  //                 ";";
+  //    }
+  //    if (!defaultStyle ||
+  //        (axs_style_equal_text_letter_space(defaultStyle, &objStyle)))
+  //      ret << styleVar + ".text.letter_space = " +
+  //                 QString::number(
+  //                     axs_lv_style_get_text_letter_space(&objStyle)) +
+  //                 ";";
+  //    if (!defaultStyle ||
+  //        (axs_style_equal_text_line_space(defaultStyle, &objStyle)))
+  //      ret << styleVar + ".text.line_space = " +
+  //                 QString::number(axs_lv_style_get_text_line_space(&objStyle))
+  //                 +
+  //                 ";";
+  //    if (!defaultStyle || (axs_style_equal_text_opa(defaultStyle,
+  //    &objStyle)))
+  //      ret << styleVar + ".text.opa = " +
+  //                 QString::number(axs_lv_style_get_text_opa(&objStyle)) +
+  //                 ";";
+  //  }
+
+  //  if (editableParts & LVGL::Image) {
+  //    if (!defaultStyle ||
+  //        (axs_style_equal_image_recolor(defaultStyle, &objStyle))) {
+  //      QString color =
+  //          QVariant(lvgl.toColor(axs_lv_style_get_image_recolor(&objStyle)))
+  //              .toString()
+  //              .replace("#", "0x");
+  //      ret << styleVar + ".image.recolor = lv_color_hex(" + color + ");";
+  //    }
+  //    if (!defaultStyle || (axs_style_equal_image_opa(defaultStyle,
+  //    &objStyle)))
+  //      ret << styleVar + ".image.opa = " +
+  //                 QString::number(axs_lv_style_get_image_opa(&objStyle)) +
+  //                 ";";
+  //  }
+
+  //  if (editableParts & LVGL::Line) {
+  //    if (!defaultStyle ||
+  //        (axs_style_equal_line_color(defaultStyle, &objStyle))) {
+  //      QString color =
+  //          QVariant(lvgl.toColor(axs_lv_style_get_line_color(&objStyle)))
+  //              .toString()
+  //              .replace("#", "0x");
+  //      ret << styleVar + ".line.color = lv_color_hex(" + color + ");";
+  //    }
+  //    if (!defaultStyle || (axs_style_equal_line_width(defaultStyle,
+  //    &objStyle)))
+  //      ret << styleVar + ".line.width = " +
+  //                 QString::number(axs_lv_style_get_line_width(&objStyle)) +
+  //                 ";";
+  //    if (!defaultStyle || (axs_style_equal_line_opa(defaultStyle,
+  //    &objStyle)))
+  //      ret << styleVar + ".line.opa = " +
+  //                 QString::number(axs_lv_style_get_line_opa(&objStyle)) +
+  //                 ";";
+  //  }
+
+  return ret;
+}
+
+QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
+                                  lv_obj_t *obj2, int partindex,
+                                  int stateindex) {
+  QStringList ret;
+  const LVGL::StyleParts editableParts =
+      m_widgetClass->editableStyles(partindex);
+  auto part = m_widgetClass->parts().at(partindex);
+  auto state = LVGLCore::LVGL_STATE[stateindex];
+
+  if (editableParts & LVGL::Mix) {
+    // mix
+    if (!radius(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+      int radius;
+      _lv_obj_get_style_int(obj1, part,
+                            LV_STYLE_RADIUS | (state << LV_STYLE_STATE_POS));
+      radius = lv_obj_get_style_radius(obj1, part);
+      ret << ("lv_style_set_radius(&" + styleVar + "," +
+              LVGLCore::LVGL_STATE_STR[stateindex] + "," +
+              QString::number(radius) + ");");
+    }
+    if (!clip_corner(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!mix_size(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transform_width(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!trnasform_height(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!trnasform_angle(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transform_zoom(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!opa_scale(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Padding) {
+    // padding
+    if (!pad_top(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pad_bottom(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pad_left(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pad_right(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pad_inner(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Margin) {
+    // margin
+    if (!margin_top(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!margin_bottom(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!margin_left(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!margin_right(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
   if (editableParts & LVGL::Background) {
-    if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle, &objStyle))) {
-      QString color =
-          QVariant(lvgl.toColor(axs_lv_style_get_bg_color(&objStyle)))
-              .toString()
-              .replace("#", "0x");
-      ret << styleVar + ".body.main_color = lv_color_hex(" + color + ");";
+    // background
+    if (!bg_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-    if (!defaultStyle ||
-        (axs_style_equal_bg_grad_color(defaultStyle, &objStyle))) {
-      QString color =
-          QVariant(lvgl.toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
-              .toString()
-              .replace("#", "0x");
-      ret << styleVar + ".body.grad_color = lv_color_hex(" + color + ");";
+    if (!bg_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-    if (!defaultStyle || (axs_style_equal_radius(defaultStyle, &objStyle)))
-      ret << styleVar + ".body.radius = " +
-                 QString::number(axs_lv_style_get_radius(&objStyle)) + ";";
-    if (!defaultStyle || (axs_style_equal_bg_opa(defaultStyle, &objStyle)))
-      ret << styleVar + ".body.opa = " +
-                 QString::number(axs_lv_style_get_bg_opa(&objStyle)) + ";";
-
-    if (editableParts & LVGL::Border) {
-      if (!defaultStyle ||
-          (axs_style_equal_border_color(defaultStyle, &objStyle))) {
-        QString color =
-            QVariant(lvgl.toColor(axs_lv_style_get_border_color(&objStyle)))
-                .toString()
-                .replace("#", "0x");
-        ret << styleVar + ".body.border.color = lv_color_hex(" + color + ");";
-      }
-      if (!defaultStyle ||
-          (axs_style_equal_border_width(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.border.width = " +
-                   QString::number(axs_lv_style_get_border_width(&objStyle)) +
-                   ";";
-      if (!defaultStyle ||
-          (axs_style_equal_border_side(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.border.part = " +
-                   QString::number(axs_lv_style_get_border_side(&objStyle)) +
-                   ";";
-      if (!defaultStyle ||
-          (axs_style_equal_border_opa(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.border.opa = " +
-                   QString::number(axs_lv_style_get_bg_opa(&objStyle)) + ";";
+    if (!bg_grad_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-
-    if (editableParts & LVGL::Shadow) {
-      QJsonObject shadow;
-      if (!defaultStyle ||
-          (axs_style_equal_shadow_color(defaultStyle, &objStyle))) {
-        QString color =
-            QVariant(lvgl.toColor(axs_lv_style_get_shadow_color(&objStyle)))
-                .toString()
-                .replace("#", "0x");
-        ret << styleVar + ".body.shadow.color = lv_color_hex(" + color + ");";
-      }
-      if (!defaultStyle ||
-          (axs_style_equal_shadow_width(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.shadow.width = " +
-                   QString::number(axs_lv_style_get_shadow_width(&objStyle)) +
-                   ";";
+    if (!bg_main_stop(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-
-    if (editableParts & LVGL::Padding) {
-      QJsonObject padding;
-      if (!defaultStyle || (axs_style_equal_pad_top(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.padding.top = " +
-                   QString::number(axs_lv_style_get_pad_top(&objStyle)) + ";";
-      if (!defaultStyle ||
-          (axs_style_equal_pad_bottom(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.padding.bottom = " +
-                   QString::number(axs_lv_style_get_pad_bottom(&objStyle)) +
-                   ";";
-      if (!defaultStyle || (axs_style_equal_pad_left(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.padding.left = " +
-                   QString::number(axs_lv_style_get_pad_left(&objStyle)) + ";";
-      if (!defaultStyle || (axs_style_equal_pad_right(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.padding.right = " +
-                   QString::number(axs_lv_style_get_pad_right(&objStyle)) + ";";
-      if (!defaultStyle || (axs_style_equal_pad_inner(defaultStyle, &objStyle)))
-        ret << styleVar + ".body.padding.inner = " +
-                   QString::number(axs_lv_style_get_pad_inner(&objStyle)) + ";";
+    if (!bg_grad_stop(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!bg_grad_dir(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!bg_blend_mode(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
   }
-
+  if (editableParts & LVGL::Border) {
+    // border
+    if (!border_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!border_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!border_width(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!border_Side(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!border_post(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!border_blend_mode(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Outline) {
+    // outline
+    if (!outline_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!outline_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!outline_width(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!outline_pad(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!outline_blend_mode(obj1, obj2, part,
+                            LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Shadow) {
+    // shadow
+    if (!shadow_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!shadow_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!shadow_width(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!shadow_ofs_x(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!shadow_ofs_y(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!shadow_spread(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!shadow_blend_mode(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Pattern) {
+    // patter
+    if (!pattern_image(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pattern_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pattern_recolor(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pattern_recolor_opa(obj1, obj2, part,
+                             LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pattern_repeadt(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!pattern_blend_mode(obj1, obj2, part,
+                            LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Value) {
+    // value
+    if (!value_str(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_font(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_letter_space(obj1, obj2, part,
+                            LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_line_space(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_align(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_ofs_x(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_ofs_y(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!value_blend_mode(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
   if (editableParts & LVGL::Text) {
-    if (!defaultStyle ||
-        (axs_style_equal_text_color(defaultStyle, &objStyle))) {
-      QString color =
-          QVariant(lvgl.toColor(axs_lv_style_get_text_color(&objStyle)))
-              .toString()
-              .replace("#", "0x");
-      ret << styleVar + ".text.color = lv_color_hex(" + color + ");";
+    // text
+    if (!text_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-    if (!defaultStyle ||
-        (axs_style_equal_text_sel_color(defaultStyle, &objStyle))) {
-      QString color =
-          QVariant(lvgl.toColor(axs_lv_style_get_text_sel_color(&objStyle)))
-              .toString()
-              .replace("#", "0x");
-      ret << styleVar + ".text.sel_color = lv_color_hex(" + color + ");";
+    if (!text_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-    if (!defaultStyle || (axs_style_equal_text_font(defaultStyle, &objStyle))) {
-      ret << styleVar + ".text.font = &" +
-                 lvgl.fontCodeName(axs_lv_style_get_text_font(&objStyle)) + ";";
+    if (!text_font(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-    if (!defaultStyle ||
-        (axs_style_equal_text_letter_space(defaultStyle, &objStyle)))
-      ret << styleVar + ".text.letter_space = " +
-                 QString::number(
-                     axs_lv_style_get_text_letter_space(&objStyle)) +
-                 ";";
-    if (!defaultStyle ||
-        (axs_style_equal_text_line_space(defaultStyle, &objStyle)))
-      ret << styleVar + ".text.line_space = " +
-                 QString::number(axs_lv_style_get_text_line_space(&objStyle)) +
-                 ";";
-    if (!defaultStyle || (axs_style_equal_text_opa(defaultStyle, &objStyle)))
-      ret << styleVar + ".text.opa = " +
-                 QString::number(axs_lv_style_get_text_opa(&objStyle)) + ";";
+    if (!text_letter_space(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!text_line_space(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!text_decor(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!text_sel_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!text_sel_bg_color(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!text_blend_mode(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
   }
-
-  if (editableParts & LVGL::Image) {
-    if (!defaultStyle ||
-        (axs_style_equal_image_recolor(defaultStyle, &objStyle))) {
-      QString color =
-          QVariant(lvgl.toColor(axs_lv_style_get_image_recolor(&objStyle)))
-              .toString()
-              .replace("#", "0x");
-      ret << styleVar + ".image.recolor = lv_color_hex(" + color + ");";
-    }
-    if (!defaultStyle || (axs_style_equal_image_opa(defaultStyle, &objStyle)))
-      ret << styleVar + ".image.opa = " +
-                 QString::number(axs_lv_style_get_image_opa(&objStyle)) + ";";
-  }
-
   if (editableParts & LVGL::Line) {
-    if (!defaultStyle ||
-        (axs_style_equal_line_color(defaultStyle, &objStyle))) {
-      QString color =
-          QVariant(lvgl.toColor(axs_lv_style_get_line_color(&objStyle)))
-              .toString()
-              .replace("#", "0x");
-      ret << styleVar + ".line.color = lv_color_hex(" + color + ");";
+    // line
+    if (!line_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
     }
-    if (!defaultStyle || (axs_style_equal_line_width(defaultStyle, &objStyle)))
-      ret << styleVar + ".line.width = " +
-                 QString::number(axs_lv_style_get_line_width(&objStyle)) + ";";
-    if (!defaultStyle || (axs_style_equal_line_opa(defaultStyle, &objStyle)))
-      ret << styleVar + ".line.opa = " +
-                 QString::number(axs_lv_style_get_line_opa(&objStyle)) + ";";
+    if (!line_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!line_width(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!line_dash_width(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!line_dash_gap(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!line_rounded(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!line_blend_mode(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
   }
-
+  if (editableParts & LVGL::Image) {
+    // image
+    if (!image_recolor(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!image_recolor_opa(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!image_opa(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!image_blend_mode(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Transition) {
+    // transition
+    if (!transition_time(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transition_delay(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transition_prop_1(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transition_prop_2(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transition_prop_3(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transition_prop_4(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transition_prop_5(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!transition_prop_6(obj1, obj2, part,
+                           LVGLCore::LVGL_STATE[stateindex])) {
+    }
+  }
+  if (editableParts & LVGL::Scale) {
+    // scale
+    if (!scale_grad_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!scale_end_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!scale_width(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!scale_border_width(obj1, obj2, part,
+                            LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (!scale_end_border_width(obj1, obj2, part,
+                                LVGLCore::LVGL_STATE[stateindex])) {
+    }
+    if (obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex]) {
+    }
+  }
   return ret;
 }
 
@@ -512,126 +811,139 @@ void LVGLObject::parseStyles(const QJsonArray &styles) {
     int type = m_widgetClass->styles().indexOf(style["type"].toString());
     Q_ASSERT(type >= 0);
 
-    lv_style_t *objStyle = this->style(type);
-    if (style.contains("background")) {
-      QJsonObject body = style["background"].toObject();
-      if (body.contains("main_color")) {
-        const QColor c =
-            QVariant(body["main_color"].toString()).value<QColor>();
-        axs_lv_style_set_bg_color(objStyle, lvgl.fromColor(c));
-      }
-      if (body.contains("grad_color")) {
-        const QColor c =
-            QVariant(body["grad_color"].toString()).value<QColor>();
-        axs_lv_style_set_bg_grad_color(objStyle, lvgl.fromColor(c));
-      }
-      if (body.contains("radius"))
-        axs_lv_style_set_radius(
-            objStyle, static_cast<lv_coord_t>(body["radius"].toInt()));
-      if (body.contains("opa"))
-        axs_lv_style_set_bg_opa(objStyle,
-                                static_cast<lv_opa_t>(body["opa"].toInt()));
+    //    lv_style_t *objStyle = this->style(type);
+    //    if (style.contains("background")) {
+    //      QJsonObject body = style["background"].toObject();
+    //      if (body.contains("main_color")) {
+    //        const QColor c =
+    //            QVariant(body["main_color"].toString()).value<QColor>();
+    //        axs_lv_style_set_bg_color(objStyle, lvgl.fromColor(c));
+    //      }
+    //      if (body.contains("grad_color")) {
+    //        const QColor c =
+    //            QVariant(body["grad_color"].toString()).value<QColor>();
+    //        axs_lv_style_set_bg_grad_color(objStyle, lvgl.fromColor(c));
+    //      }
+    //      if (body.contains("radius"))
+    //        axs_lv_style_set_radius(
+    //            objStyle, static_cast<lv_coord_t>(body["radius"].toInt()));
+    //      if (body.contains("opa"))
+    //        axs_lv_style_set_bg_opa(objStyle,
+    //                                static_cast<lv_opa_t>(body["opa"].toInt()));
 
-      if (body.contains("border")) {
-        QJsonObject border = body["border"].toObject();
-        if (border.contains("color")) {
-          const QColor c = QVariant(border["color"].toString()).value<QColor>();
-          axs_lv_style_set_border_color(objStyle, lvgl.fromColor(c));
-        }
-        if (border.contains("width"))
-          axs_lv_style_set_border_width(
-              objStyle, static_cast<lv_coord_t>(border["width"].toInt()));
+    //      if (body.contains("border")) {
+    //        QJsonObject border = body["border"].toObject();
+    //        if (border.contains("color")) {
+    //          const QColor c =
+    //          QVariant(border["color"].toString()).value<QColor>();
+    //          axs_lv_style_set_border_color(objStyle, lvgl.fromColor(c));
+    //        }
+    //        if (border.contains("width"))
+    //          axs_lv_style_set_border_width(
+    //              objStyle, static_cast<lv_coord_t>(border["width"].toInt()));
 
-        if (border.contains("part"))
-          axs_lv_style_set_border_side(
-              objStyle, static_cast<lv_border_side_t>(border["part"].toInt()));
-        if (border.contains("opa"))
-          axs_lv_style_set_border_opa(
-              objStyle, static_cast<lv_opa_t>(border["opa"].toInt()));
-      }
+    //        if (border.contains("part"))
+    //          axs_lv_style_set_border_side(
+    //              objStyle,
+    //              static_cast<lv_border_side_t>(border["part"].toInt()));
+    //        if (border.contains("opa"))
+    //          axs_lv_style_set_border_opa(
+    //              objStyle, static_cast<lv_opa_t>(border["opa"].toInt()));
+    //      }
 
-      if (body.contains("shadow")) {
-        QJsonObject shadow = body["shadow"].toObject();
-        if (shadow.contains("color")) {
-          const QColor c = QVariant(shadow["color"].toString()).value<QColor>();
-          axs_lv_style_set_shadow_color(objStyle, lvgl.fromColor(c));
-        }
-        if (shadow.contains("width"))
-          axs_lv_style_set_shadow_width(
-              objStyle, static_cast<lv_coord_t>(shadow["width"].toInt()));
-      }
+    //      if (body.contains("shadow")) {
+    //        QJsonObject shadow = body["shadow"].toObject();
+    //        if (shadow.contains("color")) {
+    //          const QColor c =
+    //          QVariant(shadow["color"].toString()).value<QColor>();
+    //          axs_lv_style_set_shadow_color(objStyle, lvgl.fromColor(c));
+    //        }
+    //        if (shadow.contains("width"))
+    //          axs_lv_style_set_shadow_width(
+    //              objStyle, static_cast<lv_coord_t>(shadow["width"].toInt()));
+    //      }
 
-      if (body.contains("padding")) {
-        QJsonObject padding = body["padding"].toObject();
-        if (padding.contains("top"))
-          axs_lv_style_set_pad_top(
-              objStyle, static_cast<lv_coord_t>(padding["top"].toInt()));
-        if (padding.contains("bottom"))
-          axs_lv_style_set_pad_bottom(
-              objStyle, static_cast<lv_coord_t>(padding["bottom"].toInt()));
-        if (padding.contains("left"))
-          axs_lv_style_set_pad_left(
-              objStyle, static_cast<lv_coord_t>(padding["left"].toInt()));
-        if (padding.contains("right"))
-          axs_lv_style_set_pad_right(
-              objStyle, static_cast<lv_coord_t>(padding["right"].toInt()));
-        if (padding.contains("inner"))
-          axs_lv_style_set_pad_inner(
-              objStyle, static_cast<lv_coord_t>(padding["inner"].toInt()));
-      }
-    }
-    if (style.contains("text")) {
-      QJsonObject text = style["text"].toObject();
-      if (text.contains("color")) {
-        const QColor c = QVariant(text["color"].toString()).value<QColor>();
-        axs_lv_style_set_text_color(objStyle, lvgl.fromColor(c));
-      }
-      if (text.contains("sel_color")) {
-        const QColor c = QVariant(text["sel_color"].toString()).value<QColor>();
-        axs_lv_style_set_text_sel_color(objStyle, lvgl.fromColor(c));
-      }
-      if (text.contains("font")) {
-        const QString fontName = text["font"].toString();
-        const lv_font_t *f = lvgl.font(fontName);
-        axs_lv_style_set_text_font(objStyle, f);
-      }
-      if (text.contains("line_space"))
-        axs_lv_style_set_text_line_space(
-            objStyle, static_cast<lv_coord_t>(text["line_space"].toInt()));
-      if (text.contains("letter_space"))
-        axs_lv_style_set_text_letter_space(
-            objStyle, static_cast<lv_coord_t>(text["letter_space"].toInt()));
-      if (text.contains("opa"))
-        axs_lv_style_set_text_opa(objStyle,
-                                  static_cast<lv_opa_t>(text["opa"].toInt()));
-    }
+    //      if (body.contains("padding")) {
+    //        QJsonObject padding = body["padding"].toObject();
+    //        if (padding.contains("top"))
+    //          axs_lv_style_set_pad_top(
+    //              objStyle, static_cast<lv_coord_t>(padding["top"].toInt()));
+    //        if (padding.contains("bottom"))
+    //          axs_lv_style_set_pad_bottom(
+    //              objStyle,
+    //              static_cast<lv_coord_t>(padding["bottom"].toInt()));
+    //        if (padding.contains("left"))
+    //          axs_lv_style_set_pad_left(
+    //              objStyle, static_cast<lv_coord_t>(padding["left"].toInt()));
+    //        if (padding.contains("right"))
+    //          axs_lv_style_set_pad_right(
+    //              objStyle,
+    //              static_cast<lv_coord_t>(padding["right"].toInt()));
+    //        if (padding.contains("inner"))
+    //          axs_lv_style_set_pad_inner(
+    //              objStyle,
+    //              static_cast<lv_coord_t>(padding["inner"].toInt()));
+    //      }
+    //    }
+    //    if (style.contains("text")) {
+    //      QJsonObject text = style["text"].toObject();
+    //      if (text.contains("color")) {
+    //        const QColor c =
+    //        QVariant(text["color"].toString()).value<QColor>();
+    //        axs_lv_style_set_text_color(objStyle, lvgl.fromColor(c));
+    //      }
+    //      if (text.contains("sel_color")) {
+    //        const QColor c =
+    //        QVariant(text["sel_color"].toString()).value<QColor>();
+    //        axs_lv_style_set_text_sel_color(objStyle, lvgl.fromColor(c));
+    //      }
+    //      if (text.contains("font")) {
+    //        const QString fontName = text["font"].toString();
+    //        const lv_font_t *f = lvgl.font(fontName);
+    //        axs_lv_style_set_text_font(objStyle, f);
+    //      }
+    //      if (text.contains("line_space"))
+    //        axs_lv_style_set_text_line_space(
+    //            objStyle,
+    //            static_cast<lv_coord_t>(text["line_space"].toInt()));
+    //      if (text.contains("letter_space"))
+    //        axs_lv_style_set_text_letter_space(
+    //            objStyle,
+    //            static_cast<lv_coord_t>(text["letter_space"].toInt()));
+    //      if (text.contains("opa"))
+    //        axs_lv_style_set_text_opa(objStyle,
+    //                                  static_cast<lv_opa_t>(text["opa"].toInt()));
+    //    }
 
-    if (style.contains("image")) {
-      QJsonObject image = style["image"].toObject();
-      if (image.contains("recolor")) {
-        const QColor c = QVariant(image["recolor"].toString()).value<QColor>();
-        axs_lv_style_set_image_recolor(objStyle, lvgl.fromColor(c));
-      }
-      if (image.contains("opa"))
-        axs_lv_style_set_image_opa(objStyle,
-                                   static_cast<lv_opa_t>(image["opa"].toInt()));
-    }
+    //    if (style.contains("image")) {
+    //      QJsonObject image = style["image"].toObject();
+    //      if (image.contains("recolor")) {
+    //        const QColor c =
+    //        QVariant(image["recolor"].toString()).value<QColor>();
+    //        axs_lv_style_set_image_recolor(objStyle, lvgl.fromColor(c));
+    //      }
+    //      if (image.contains("opa"))
+    //        axs_lv_style_set_image_opa(objStyle,
+    //                                   static_cast<lv_opa_t>(image["opa"].toInt()));
+    //    }
 
-    if (style.contains("line")) {
-      QJsonObject line = style["line"].toObject();
-      if (line.contains("color")) {
-        const QColor c = QVariant(line["color"].toString()).value<QColor>();
-        axs_lv_style_set_line_color(objStyle, lvgl.fromColor(c));
-      }
-      if (line.contains("width"))
-        axs_lv_style_set_line_width(
-            objStyle, static_cast<lv_opa_t>(line["width"].toInt()));
-      if (line.contains("opa"))
-        axs_lv_style_set_line_opa(objStyle,
-                                  static_cast<lv_opa_t>(line["opa"].toInt()));
-    }
-    m_widgetClass->setStyle(m_obj, type, objStyle);
-    // m_widgetClass->addStyle(m_obj,type,objStyle);
+    //    if (style.contains("line")) {
+    //      QJsonObject line = style["line"].toObject();
+    //      if (line.contains("color")) {
+    //        const QColor c =
+    //        QVariant(line["color"].toString()).value<QColor>();
+    //        axs_lv_style_set_line_color(objStyle, lvgl.fromColor(c));
+    //      }
+    //      if (line.contains("width"))
+    //        axs_lv_style_set_line_width(
+    //            objStyle, static_cast<lv_opa_t>(line["width"].toInt()));
+    //      if (line.contains("opa"))
+    //        axs_lv_style_set_line_opa(objStyle,
+    //                                  static_cast<lv_opa_t>(line["opa"].toInt()));
+    //    }
+    //    m_widgetClass->setStyle(m_obj, type, objStyle);
+    //    // m_widgetClass->addStyle(m_obj,type,objStyle);
+    //  }
   }
 }
 
@@ -674,8 +986,7 @@ lv_style_t *LVGLObject::style(int partsindex, int stateindex) {
 }
 
 QString LVGLObject::styleCodeName(int type) const {
-  return "style" + QString::number(type) + "_" +
-         name().toLower().replace(' ', '_');
+  return name().toLower().replace(' ', '_') + "_s" + QString::number(type);
 }
 
 QList<LVGLObject *> LVGLObject::childs() const { return m_childs; }

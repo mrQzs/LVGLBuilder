@@ -54,6 +54,8 @@ class LVGLObject : public QObject {
   QJsonObject toJson();
   QJsonArray jsonStyles() const;
   QStringList codeStyle(QString styleVar, int type) const;
+  QStringList codeStyle(QString styleVar, lv_obj_t *obj1, lv_obj_t *obj2,
+                        int partindex, int stateindex);
   void parseStyles(const QJsonArray &styles);
 
   LVGLObject *parent() const;
@@ -88,6 +90,7 @@ class LVGLObject : public QObject {
  signals:
   void positionChanged();
 
+ protected:
  private:
   lv_obj_t *m_obj;
   const LVGLWidget *m_widgetClass;

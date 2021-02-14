@@ -70,6 +70,7 @@ class LVGLPropertyLinePoints : public LVGLPropertyPoints {
 };
 
 LVGLLine::LVGLLine() {
+  m_defaultobj = lv_line_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_LINE_PART_MAIN;
   m_properties << new LVGLPropertyLineAutoSize;

@@ -5,6 +5,7 @@
 #include "LVGLObject.h"
 
 LVGLCanvas::LVGLCanvas() {
+  m_defaultobj = lv_canvas_create(lv_scr_act(), NULL);
   initStateStyles();
   m_parts << LV_CANVAS_PART_MAIN;
   m_editableStyles << LVGL::Canvas;  // LV_CANVAS_STYLE_MAIN
