@@ -135,7 +135,7 @@ bool LVGLProject::exportCode(const QString &path) const {
   stream << "/**********************\n";
   stream << " *      INCLUDES\n";
   stream << " **********************/\n\n";
-  stream << "#include \"lvgl.h\"\n\n";
+  stream << "#include \"lvgl/lvgl.h\"\n\n";
   stream << "/**********************\n";
   stream << " *       WIDGETS\n";
   stream << " **********************/\n";
@@ -213,11 +213,11 @@ bool LVGLProject::exportCode(const QString &path) const {
 
   int lvglStateType = 7;
   for (LVGLObject *o : objects) {
-    QString ifdef = o->widgetClass()->className().toUpper().insert(3, "USE_");
-    stream << "#if " << ifdef << "\n";
     for (int index = 0; index < o->widgetClass()->styles().size(); ++index) {
-      stream << "static lv_style_t " << o->styleCodeName(index) << ";\n";
-      stream << "lv_style_init(&" << o->styleCodeName(index) << ");\n";
+      stream << "\t"
+             << "static lv_style_t " << o->styleCodeName(index) << ";\n";
+      stream << "\t"
+             << "lv_style_init(&" << o->styleCodeName(index) << ");\n";
       for (int i = 0; i < lvglStateType; ++i) {
         QStringList styleset =
             o->codeStyle(o->styleCodeName(index), o->obj(),
@@ -225,11 +225,6 @@ bool LVGLProject::exportCode(const QString &path) const {
         for (const QString &s : styleset) stream << "\t" << s << "\n";
       }
     }
-
-    // test
-    stream << "}\n";
-    file.close();
-    return true;
 
     QString parent = "parent";
     if (o->parent()) parent = o->parent()->codeName();
@@ -267,15 +262,14 @@ bool LVGLProject::exportCode(const QString &path) const {
       }
     }
 
+    auto parts = o->widgetClass()->parts();
     for (int i = 0; i < o->widgetClass()->styles().size(); ++i) {
-      if (o->hasCustomStyle(i)) {
-        QString style = o->styleCodeName(i);
-        stream << "\t" << o->widgetClass()->className() << "_set_style("
-               << o->codeName() << ", " << o->widgetClass()->styles().at(i)
-               << ", &" << style << ");\n";
-      }
+      QString style = o->styleCodeName(i);
+      stream << "\t"
+             << "lv_obj_add_style(" << o->codeName() << ", "
+             << QString::number(parts[i]) << ", &" << o->styleCodeName(i)
+             << ");\n";
     }
-    stream << "#endif // " << ifdef << "\n";
     stream << "\n";
   }
 

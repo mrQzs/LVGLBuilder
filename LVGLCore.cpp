@@ -720,7 +720,7 @@ bool LVGLCore::screenColorChanged() const {
   //           lv_style_scr.map[LV_STYLE_BG_COLOR]) &&
   //          ((m_screenStyle.map[LV_STYLE_BG_GRAD_COLOR]) !=
   //           lv_style_scr.map[LV_STYLE_BG_GRAD_COLOR]));
-  return true;
+  return false;
 }
 
 QList<const LVGLWidget *> LVGLCore::widgets() const {
@@ -806,755 +806,839 @@ void LVGLCore::logCb(lv_log_level_t level, const char *file, uint32_t line,
 
 // mix
 bool radius(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_RADIUS | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_RADIUS | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_RADIUS | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_RADIUS | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool clip_corner(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_CLIP_CORNER | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_CLIP_CORNER | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_CLIP_CORNER | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_CLIP_CORNER | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool mix_size(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
               lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SIZE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SIZE | state);
+  auto a = _lv_obj_get_style_int(s1, part,
+                                 LV_STYLE_SIZE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(s2, part,
+                                 LV_STYLE_SIZE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transform_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSFORM_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSFORM_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSFORM_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSFORM_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
-bool trnasform_height(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+bool transform_height(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                       lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSFORM_HEIGHT | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSFORM_HEIGHT | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSFORM_HEIGHT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSFORM_HEIGHT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
-bool trnasform_angle(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+bool transform_angle(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSFORM_ANGLE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSFORM_ANGLE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSFORM_ANGLE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSFORM_ANGLE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transform_zoom(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                     lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSFORM_ZOOM | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSFORM_ZOOM | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSFORM_ZOOM | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSFORM_ZOOM | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool opa_scale(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_OPA_SCALE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_OPA_SCALE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_OPA_SCALE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_OPA_SCALE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // padding
 bool pad_top(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_PAD_TOP | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_PAD_TOP | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_PAD_TOP | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_PAD_TOP | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool pad_bottom(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_PAD_BOTTOM | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_PAD_BOTTOM | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_PAD_BOTTOM | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_PAD_BOTTOM | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool pad_left(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
               lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_PAD_LEFT | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_PAD_LEFT | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_PAD_LEFT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_PAD_LEFT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool pad_right(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_PAD_RIGHT | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_PAD_RIGHT | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_PAD_RIGHT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_PAD_RIGHT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool pad_inner(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_PAD_INNER | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_PAD_INNER | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_PAD_INNER | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_PAD_INNER | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // margin
 bool margin_top(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_MARGIN_TOP | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_MARGIN_TOP | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_MARGIN_TOP | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_MARGIN_TOP | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool margin_bottom(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_MARGIN_BOTTOM | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_MARGIN_BOTTOM | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_MARGIN_BOTTOM | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_MARGIN_BOTTOM | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool margin_left(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_MARGIN_LEFT | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_MARGIN_LEFT | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_MARGIN_LEFT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_MARGIN_LEFT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool margin_right(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_MARGIN_RIGHT | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_MARGIN_RIGHT | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_MARGIN_RIGHT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_MARGIN_RIGHT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // background
 bool bg_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
               lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_BG_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_BG_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_BG_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_BG_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool bg_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_BG_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_BG_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_BG_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_BG_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool bg_grad_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_BG_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_BG_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_BG_GRAD_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_BG_GRAD_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool bg_main_stop(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_OPA_SCALE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_OPA_SCALE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BG_MAIN_STOP | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BG_MAIN_STOP | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool bg_grad_stop(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_BG_GRAD_STOP | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_BG_GRAD_STOP | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BG_GRAD_STOP | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BG_GRAD_STOP | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool bg_grad_dir(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_BG_GRAD_DIR | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_BG_GRAD_DIR | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BG_GRAD_DIR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BG_GRAD_DIR | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool bg_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_BG_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_BG_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BG_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BG_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // border
 bool border_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_BORDER_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_BORDER_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_BORDER_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_BORDER_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool border_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_BG_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_BG_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_BG_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_BG_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool border_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_BORDER_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_BORDER_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BORDER_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BORDER_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
-bool border_Side(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+bool border_side(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_BORDER_SIDE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_BORDER_SIDE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BORDER_SIDE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BORDER_SIDE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool border_post(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_BORDER_POST | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_BORDER_POST | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BORDER_POST | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BORDER_POST | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool border_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_BORDER_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_BORDER_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_BORDER_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_BORDER_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // outline
 bool outline_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_OUTLINE_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_OUTLINE_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_OUTLINE_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_OUTLINE_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool outline_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_OUTLINE_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_OUTLINE_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_OUTLINE_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_OUTLINE_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool outline_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_OUTLINE_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_OUTLINE_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_OUTLINE_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_OUTLINE_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool outline_pad(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_OUTLINE_PAD | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_OUTLINE_PAD | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_OUTLINE_PAD | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_OUTLINE_PAD | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool outline_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                         lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_OUTLINE_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_OUTLINE_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_OUTLINE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_OUTLINE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // shadow
 bool shadow_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_SHADOW_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_SHADOW_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_SHADOW_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_SHADOW_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool shadow_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_SHADOW_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_SHADOW_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_SHADOW_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_SHADOW_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool shadow_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SHADOW_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SHADOW_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SHADOW_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SHADOW_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool shadow_ofs_x(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SHADOW_OFS_X | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SHADOW_OFS_X | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SHADOW_OFS_X | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SHADOW_OFS_X | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool shadow_ofs_y(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SHADOW_OFS_Y | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SHADOW_OFS_Y | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SHADOW_OFS_Y | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SHADOW_OFS_Y | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool shadow_spread(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SHADOW_SPREAD | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SHADOW_SPREAD | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SHADOW_SPREAD | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SHADOW_SPREAD | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool shadow_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SHADOW_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SHADOW_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SHADOW_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SHADOW_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // patter
 bool pattern_image(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_ptr(s1, part, LV_STYLE_PATTERN_IMAGE | state);
-  auto b = _lv_obj_get_style_ptr(s2, part, LV_STYLE_PATTERN_IMAGE | state);
+  auto a = _lv_obj_get_style_ptr(
+      s1, part, LV_STYLE_PATTERN_IMAGE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_ptr(
+      s2, part, LV_STYLE_PATTERN_IMAGE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool pattern_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_PATTERN_OPA | state);
-  auto b = _lv_obj_get_style_opa(s1, part, LV_STYLE_PATTERN_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_PATTERN_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_PATTERN_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool pattern_recolor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_PATTERN_RECOLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_PATTERN_RECOLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_PATTERN_RECOLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_PATTERN_RECOLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool pattern_recolor_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                          lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a =
-      _lv_obj_get_style_opa(s1, part, LV_STYLE_PATTERN_RECOLOR_OPA | state);
-  auto b =
-      _lv_obj_get_style_opa(s2, part, LV_STYLE_PATTERN_RECOLOR_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_PATTERN_RECOLOR_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_PATTERN_RECOLOR_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
-bool pattern_repeadt(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
-                     lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_PATTERN_REPEAT | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_PATTERN_REPEAT | state);
+bool pattern_repeat(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+                    lv_state_t state) {
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_PATTERN_REPEAT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_PATTERN_REPEAT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool pattern_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                         lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_PATTERN_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_PATTERN_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_PATTERN_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_PATTERN_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // value
 bool value_str(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_ptr(s1, part, LV_STYLE_VALUE_STR | state);
-  auto b = _lv_obj_get_style_ptr(s2, part, LV_STYLE_VALUE_STR | state);
+  auto a = _lv_obj_get_style_ptr(
+      s1, part, LV_STYLE_VALUE_STR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_ptr(
+      s2, part, LV_STYLE_VALUE_STR | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_VALUE_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_VALUE_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_VALUE_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_VALUE_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool value_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_VALUE_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_VALUE_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_VALUE_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_VALUE_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_font(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_ptr(s1, part, LV_STYLE_VALUE_FONT | state);
-  auto b = _lv_obj_get_style_ptr(s2, part, LV_STYLE_VALUE_FONT | state);
+  auto a = _lv_obj_get_style_ptr(
+      s1, part, LV_STYLE_VALUE_FONT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_ptr(
+      s2, part, LV_STYLE_VALUE_FONT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_letter_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                         lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_VALUE_LETTER_SPACE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_VALUE_LETTER_SPACE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_VALUE_LETTER_SPACE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_VALUE_LETTER_SPACE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_line_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                       lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_VALUE_LINE_SPACE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_VALUE_LINE_SPACE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_VALUE_LINE_SPACE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_VALUE_LINE_SPACE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_align(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_VALUE_ALIGN | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_VALUE_ALIGN | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_VALUE_ALIGN | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_VALUE_ALIGN | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_ofs_x(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_VALUE_OFS_X | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_VALUE_OFS_X | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_VALUE_OFS_X | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_VALUE_OFS_X | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_ofs_y(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_VALUE_OFS_Y | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_VALUE_OFS_Y | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_VALUE_OFS_Y | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_VALUE_OFS_Y | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool value_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                       lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_VALUE_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_VALUE_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_VALUE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_VALUE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // text
 bool text_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_TEXT_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_TEXT_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_TEXT_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_TEXT_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool text_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
               lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_TEXT_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_TEXT_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_TEXT_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_TEXT_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool text_font(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_ptr(s1, part, LV_STYLE_TEXT_FONT | state);
-  auto b = _lv_obj_get_style_ptr(s2, part, LV_STYLE_TEXT_FONT | state);
+  auto a = _lv_obj_get_style_ptr(
+      s1, part, LV_STYLE_TEXT_FONT | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_ptr(
+      s2, part, LV_STYLE_TEXT_FONT | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool text_letter_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TEXT_LETTER_SPACE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TEXT_LETTER_SPACE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TEXT_LETTER_SPACE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TEXT_LETTER_SPACE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool text_line_space(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TEXT_LINE_SPACE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TEXT_LINE_SPACE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TEXT_LINE_SPACE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TEXT_LINE_SPACE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool text_decor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TEXT_DECOR | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TEXT_DECOR | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TEXT_DECOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TEXT_DECOR | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool text_sel_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                     lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_TEXT_SEL_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_TEXT_SEL_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_TEXT_SEL_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_TEXT_SEL_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool text_sel_bg_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a =
-      _lv_obj_get_style_color(s1, part, LV_STYLE_TEXT_SEL_BG_COLOR | state);
-  auto b =
-      _lv_obj_get_style_color(s2, part, LV_STYLE_TEXT_SEL_BG_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_TEXT_SEL_BG_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_TEXT_SEL_BG_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool text_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TEXT_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TEXT_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TEXT_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TEXT_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // line
 bool line_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_LINE_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_LINE_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_LINE_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_LINE_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool line_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
               lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_LINE_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_LINE_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_LINE_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_LINE_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool line_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_LINE_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_LINE_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_LINE_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_LINE_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool line_dash_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_LINE_DASH_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_LINE_DASH_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_LINE_DASH_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_LINE_DASH_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool line_dash_gap(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_LINE_DASH_GAP | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_LINE_DASH_GAP | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_LINE_DASH_GAP | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_LINE_DASH_GAP | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool line_rounded(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_LINE_ROUNDED | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_LINE_ROUNDED | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_LINE_ROUNDED | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_LINE_ROUNDED | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool line_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_LINE_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_LINE_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_LINE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_LINE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // image
 bool image_recolor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                    lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_IMAGE_RECOLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_IMAGE_RECOLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_IMAGE_RECOLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_IMAGE_RECOLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool image_recolor_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_IMAGE_RECOLOR_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_IMAGE_RECOLOR_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_IMAGE_RECOLOR_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_IMAGE_RECOLOR_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool image_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_opa(s1, part, LV_STYLE_IMAGE_OPA | state);
-  auto b = _lv_obj_get_style_opa(s2, part, LV_STYLE_IMAGE_OPA | state);
+  auto a = _lv_obj_get_style_opa(
+      s1, part, LV_STYLE_IMAGE_OPA | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_opa(
+      s2, part, LV_STYLE_IMAGE_OPA | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool image_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                       lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_IMAGE_BLEND_MODE | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_IMAGE_BLEND_MODE | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_IMAGE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_IMAGE_BLEND_MODE | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // transition
 bool transition_time(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_TIME | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_TIME | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_TIME | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_TIME | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transition_delay(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                       lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_DELAY | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_DELAY | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_DELAY | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_DELAY | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transition_prop_1(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_PROP_1 | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_PROP_1 | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_PROP_1 | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_PROP_1 | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transition_prop_2(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_PROP_2 | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_PROP_2 | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_PROP_2 | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_PROP_2 | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transition_prop_3(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_PROP_3 | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_PROP_3 | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_PROP_3 | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_PROP_3 | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transition_prop_4(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_PROP_4 | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_PROP_4 | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_PROP_4 | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_PROP_4 | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transition_prop_5(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_PROP_5 | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_PROP_5 | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_PROP_5 | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_PROP_5 | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool transition_prop_6(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                        lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_TRANSITION_PROP_6 | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_TRANSITION_PROP_6 | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_TRANSITION_PROP_6 | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_TRANSITION_PROP_6 | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 // scale
 bool scale_grad_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                       lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_SCALE_GRAD_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_SCALE_GRAD_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_SCALE_GRAD_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_SCALE_GRAD_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool scale_end_color(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_color(s1, part, LV_STYLE_SCALE_END_COLOR | state);
-  auto b = _lv_obj_get_style_color(s2, part, LV_STYLE_SCALE_END_COLOR | state);
+  auto a = _lv_obj_get_style_color(
+      s1, part, LV_STYLE_SCALE_END_COLOR | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_color(
+      s2, part, LV_STYLE_SCALE_END_COLOR | (state << LV_STYLE_STATE_POS));
   return (a.full == b.full);
 }
 
 bool scale_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SCALE_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SCALE_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SCALE_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SCALE_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool scale_border_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                         lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SCALE_BORDER_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SCALE_BORDER_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SCALE_BORDER_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SCALE_BORDER_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool scale_end_border_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                             lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a = _lv_obj_get_style_int(s1, part, LV_STYLE_SCALE_BORDER_WIDTH | state);
-  auto b = _lv_obj_get_style_int(s2, part, LV_STYLE_SCALE_BORDER_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SCALE_BORDER_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SCALE_BORDER_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }
 
 bool scale_end_line_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                           lv_state_t state) {
-  state = state << LV_STYLE_STATE_POS;
-  auto a =
-      _lv_obj_get_style_int(s1, part, LV_STYLE_SCALE_END_LINE_WIDTH | state);
-  auto b =
-      _lv_obj_get_style_int(s2, part, LV_STYLE_SCALE_END_LINE_WIDTH | state);
+  auto a = _lv_obj_get_style_int(
+      s1, part, LV_STYLE_SCALE_END_LINE_WIDTH | (state << LV_STYLE_STATE_POS));
+  auto b = _lv_obj_get_style_int(
+      s2, part, LV_STYLE_SCALE_END_LINE_WIDTH | (state << LV_STYLE_STATE_POS));
   return (a == b);
 }

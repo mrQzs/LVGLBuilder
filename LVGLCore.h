@@ -167,9 +167,9 @@ bool clip_corner(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
 bool mix_size(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part, lv_state_t state);
 bool transform_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state);
-bool trnasform_height(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+bool transform_height(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                       lv_state_t state);
-bool trnasform_angle(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+bool transform_angle(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state);
 bool transform_zoom(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                     lv_state_t state);
@@ -213,7 +213,7 @@ bool border_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                 lv_state_t state);
 bool border_width(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                   lv_state_t state);
-bool border_Side(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+bool border_side(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state);
 bool border_post(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                  lv_state_t state);
@@ -254,7 +254,7 @@ bool pattern_recolor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state);
 bool pattern_recolor_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                          lv_state_t state);
-bool pattern_repeadt(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
+bool pattern_repeat(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                      lv_state_t state);
 bool pattern_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                         lv_state_t state);
