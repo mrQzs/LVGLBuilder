@@ -36,13 +36,15 @@ class LVGLPropertyButtonState : public LVGLPropertyEnum {
 class LVGLPropertyButtonLayout : public LVGLPropertyEnum {
  public:
   LVGLPropertyButtonLayout()
-      : LVGLPropertyEnum({"Off", "Center", "Column left align",
-                          "Column middle align", "Column right align",
-                          "Row top align", "Row middle align",
-                          "Row bottom align", "Pretty", "Grid"}),
+      : LVGLPropertyEnum(
+            {"Off", "Center", "Column left align", "Column middle align",
+             "Column right align", "Row top align", "Row middle align",
+             "Row bottom align", "Pretty top align", "Pretty middle align",
+             "Pretty bottom align", "Grid"}),
         m_values({"LV_LAYOUT_OFF", "LV_LAYOUT_CENTER", "LV_LAYOUT_COL_L",
                   "LV_LAYOUT_COL_M", "LV_LAYOUT_COL_R", "LV_LAYOUT_ROW_T",
-                  "LV_LAYOUT_ROW_M", "LV_LAYOUT_ROW_B", "LV_LAYOUT_PRETTY",
+                  "LV_LAYOUT_ROW_M", "LV_LAYOUT_ROW_B", "LV_LAYOUT_PRETTY_T",
+                  "LV_LAYOUT_PRETTY_M", "LV_LAYOUT_PRETTY_B",
                   "LV_LAYOUT_GRID"}) {}
 
   QString name() const { return "Layout"; }
@@ -65,11 +67,12 @@ class LVGLPropertyButtonLayout : public LVGLPropertyEnum {
 };
 
 LVGLButton::LVGLButton() {
+  //  lv_fit_t t;
   m_defaultobj = lv_btn_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_BTN_PART_MAIN;
   m_properties << new LVGLPropertyButtonState;
-  m_properties << new LVGLPropertyBool("Check", "lv_btn_set_checkable",
+  m_properties << new LVGLPropertyBool("Checkable", "lv_btn_set_checkable",
                                        lv_btn_set_checkable,
                                        lv_btn_get_checkable);
   m_properties << new LVGLPropertyButtonLayout;

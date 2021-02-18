@@ -59,6 +59,7 @@ enum StylePart {
   PageEDGEFLASH = Background,
   LinemeterMAIN = Background | Line | Scale,
   MsgboxMAIN = Background | Padding | Text,
+  RollerMAIN = Body | Text,
   SliderBG = Background | Padding,
   SliderINDIC = Background,
   SliderKNOB = Background | Padding,

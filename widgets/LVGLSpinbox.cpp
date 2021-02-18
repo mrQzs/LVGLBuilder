@@ -26,7 +26,7 @@ lv_obj_t *LVGLSpinbox::newObject(lv_obj_t *parent) const {
   return obj;
 }
 
-QSize LVGLSpinbox::minimumSize() const { return QSize(80, 100); }
+QSize LVGLSpinbox::minimumSize() const { return QSize(80, 30); }
 
 QStringList LVGLSpinbox::styles() const {
   return QStringList() << "LV_SPINBOX_PART_BG"

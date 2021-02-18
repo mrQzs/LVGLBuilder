@@ -71,9 +71,9 @@
 
 //    // add new
 //    for (uint16_t i = ext->tab_cnt; i < list.size(); ++i) {
-//      // lv_tabview_add_tab(obj->obj(), qPrintable(list.at(i)));
+//      // lv_tabview_add_tab(obj->obj(), qUtf8Printable(list.at(i)));
 //      lv_obj_t *page_obj =
-//          lv_tabview_add_tab(obj->obj(), qPrintable(list.at(i)));
+//          lv_tabview_add_tab(obj->obj(), qUtf8Printable(list.at(i)));
 //      LVGLObject *page =
 //          new LVGLObject(page_obj, lvgl.widget("lv_page"), obj, false, i);
 //      lvgl.addObject(page);

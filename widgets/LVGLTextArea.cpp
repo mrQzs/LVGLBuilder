@@ -19,7 +19,7 @@ class LVGLPropertyTAText : public LVGLPropertyString {
     return lv_textarea_get_text(obj->obj());
   }
   void set(LVGLObject *obj, QString string) {
-    lv_textarea_set_text(obj->obj(), qPrintable(string));
+    lv_textarea_set_text(obj->obj(), qUtf8Printable(string));
   }
 };
 
@@ -39,7 +39,7 @@ class LVGLPropertyTAPlaceholder : public LVGLPropertyString {
     return lv_textarea_get_placeholder_text(obj->obj());
   }
   void set(LVGLObject *obj, QString string) {
-    lv_textarea_set_placeholder_text(obj->obj(), qPrintable(string));
+    lv_textarea_set_placeholder_text(obj->obj(), qUtf8Printable(string));
   }
 };
 

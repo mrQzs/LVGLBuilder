@@ -110,11 +110,15 @@ void LVGLPropertyCoord::updateWidget(LVGLObject *obj) {
 }
 
 LVGLPropertyInt::LVGLPropertyInt(int min, int max, LVGLProperty *parent)
-    : LVGLPropertyType(parent), m_min(min), m_max(max) {}
+    : LVGLPropertyType(parent), m_min(min), m_max(max), m_widget(nullptr) {}
 
 LVGLPropertyInt::LVGLPropertyInt(int min, int max, QString surfix,
                                  LVGLProperty *parent)
-    : LVGLPropertyType(parent), m_min(min), m_max(max), m_surfix(surfix) {}
+    : LVGLPropertyType(parent),
+      m_min(min),
+      m_max(max),
+      m_surfix(surfix),
+      m_widget(nullptr) {}
 
 QWidget *LVGLPropertyInt::editor(QWidget *parent) {
   m_widget = new QSpinBox(parent);

@@ -28,7 +28,7 @@
 //    char **map = new char *[list.size() + 1];
 //    for (int i = 0; i < list.size(); ++i) {
 //      map[i] = new char[list[i].size() + 1];
-//      memcpy(map[i], qPrintable(list[i]), list[i].size());
+//      memcpy(map[i], qUtf8Printable(list[i]), list[i].size());
 //      map[i][list[i].size()] = '\0';
 //    }
 //    map[list.size()] = new char[1];

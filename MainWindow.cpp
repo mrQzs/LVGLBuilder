@@ -146,6 +146,10 @@ void MainWindow::setCurrentObject(LVGLObject *obj) {
     m_ui->combo_style->addItems(obj->widgetClass()->styles());
     m_styleModel->setStyle(obj->style(0, 0),
                            obj->widgetClass()->editableStyles(0));
+    auto it = m_ui->style_tree->itemDelegate();
+    if (nullptr != it) delete it;
+    m_ui->style_tree->setItemDelegate(
+        new LVGLStyleDelegate(m_styleModel->styleBase()));
   } else {
     m_styleModel->setStyle(nullptr);
   }

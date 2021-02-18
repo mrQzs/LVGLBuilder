@@ -4,6 +4,7 @@
 #include <lvgl/lvgl.h>
 
 #include <QJsonValue>
+#include <QSpinBox>
 #include <QVariant>
 #include <functional>
 
