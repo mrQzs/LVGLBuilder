@@ -66,6 +66,7 @@ enum StylePart {
   SpinboxBG = Background | Text,
   SpinboxCURSOR = Text,
   TableCELL = Background | Line,
+  TableTABBTN = Button | Text,
   WindowHEAD = Background | Text | Padding,
 };
 Q_DECLARE_FLAGS(StyleParts, StylePart)

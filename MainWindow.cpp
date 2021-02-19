@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
       m_maxFileNr(5) {
   m_ui->setupUi(this);
 
-  lvgl.init(320, 480);
+  lvgl.init(480, 854);
 
   m_zoom_slider->setRange(-2, 2);
   connect(m_zoom_slider, &QSlider::valueChanged, m_ui->simulation,
@@ -95,8 +95,9 @@ MainWindow::MainWindow(QWidget *parent)
   updateRecentActionList();
 
   // add style editor dock to property dock and show the property dock
-  tabifyDockWidget(m_ui->PropertyEditor, m_ui->StyleEditor);
+  tabifyDockWidget(m_ui->PropertyEditor, m_ui->ObjecInspector);
   m_ui->PropertyEditor->raise();
+  m_ui->StyleEditor->raise();
 
   // add font editor dock to image dock and show the image dock
   tabifyDockWidget(m_ui->ImageEditor, m_ui->FontEditor);
@@ -146,10 +147,7 @@ void MainWindow::setCurrentObject(LVGLObject *obj) {
     m_ui->combo_style->addItems(obj->widgetClass()->styles());
     m_styleModel->setStyle(obj->style(0, 0),
                            obj->widgetClass()->editableStyles(0));
-    auto it = m_ui->style_tree->itemDelegate();
-    if (nullptr != it) delete it;
-    m_ui->style_tree->setItemDelegate(
-        new LVGLStyleDelegate(m_styleModel->styleBase()));
+    updateItemDelegate();
   } else {
     m_styleModel->setStyle(nullptr);
   }
@@ -284,6 +282,13 @@ void MainWindow::setEnableBuilder(bool enable) {
   m_ui->FontEditor->setEnabled(enable);
 }
 
+void MainWindow::updateItemDelegate() {
+  auto it = m_ui->style_tree->itemDelegate();
+  if (nullptr != it) delete it;
+  m_ui->style_tree->setItemDelegate(
+      new LVGLStyleDelegate(m_styleModel->styleBase()));
+}
+
 void MainWindow::on_action_load_triggered() {
   QString path;
   if (m_project != nullptr) path = m_project->fileName();
@@ -312,8 +317,11 @@ void MainWindow::on_combo_style_currentIndexChanged(int index) {
     auto parts = obj->widgetClass()->parts();
     m_styleModel->setState(m_liststate[m_ui->combo_state->currentIndex()]);
     m_styleModel->setPart(parts[index]);
-    m_styleModel->setStyle(obj->style(index, m_ui->combo_state->currentIndex()),
-                           obj->widgetClass()->editableStyles(0));
+    m_styleModel->setStyle(
+        obj->style(index, m_ui->combo_state->currentIndex()),
+        obj->widgetClass()->editableStyles(m_ui->combo_style->currentIndex()));
+    m_ui->combo_state->setCurrentIndex(0);
+    on_combo_state_currentIndexChanged(0);
   }
 }
 
@@ -484,8 +492,9 @@ void MainWindow::on_combo_state_currentIndexChanged(int index) {
     auto parts = obj->widgetClass()->parts();
     m_styleModel->setPart(parts[m_ui->combo_style->currentIndex()]);
     m_styleModel->setState(m_liststate[index]);
-    auto edit = obj->widgetClass()->editableStyles(0);
-    m_styleModel->setStyle(obj->style(m_ui->combo_style->currentIndex(), index),
-                           obj->widgetClass()->editableStyles(0));
+    m_styleModel->setStyle(
+        obj->style(m_ui->combo_style->currentIndex(), index),
+        obj->widgetClass()->editableStyles(m_ui->combo_style->currentIndex()));
+    updateItemDelegate();
   }
 }

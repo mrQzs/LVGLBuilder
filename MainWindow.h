@@ -67,6 +67,7 @@ class MainWindow : public QMainWindow {
   void adjustForCurrentFile(const QString &fileName);
   void loadProject(const QString &fileName);
   void setEnableBuilder(bool enable);
+  void updateItemDelegate();
 
   Ui::MainWindow *m_ui;
   QSlider *m_zoom_slider;

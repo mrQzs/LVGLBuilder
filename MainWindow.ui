@@ -119,6 +119,12 @@
    <addaction name="action_run"/>
   </widget>
   <widget class="QDockWidget" name="ObjecInspector">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="baseSize">
     <size>
      <width>330</width>
@@ -144,6 +150,12 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="PropertyEditor">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="baseSize">
     <size>
      <width>330</width>
@@ -300,6 +312,12 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="StyleEditor">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="windowTitle">
     <string>Style Editor</string>
    </property>

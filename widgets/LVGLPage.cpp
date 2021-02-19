@@ -11,8 +11,8 @@ class LVGLPropertyPageScrollbars : public LVGLPropertyEnum {
                                        << "On"
                                        << "Drag"
                                        << "Auto"),
-        m_values({"LV_SB_MODE_OFF", "LV_SB_MODE_ON", "LV_SB_MODE_DRAG",
-                  "LV_SB_MODE_AUTO"}) {}
+        m_values({"LV_SCROLLBAR_MODE_OFF", "LV_SCROLLBAR_MODE_ON",
+                  "LV_SCROLLBAR_MODE_DRAG", "LV_SCROLLBAR_MODE_AUTO"}) {}
 
   QString name() const { return "Scrollbars"; }
 

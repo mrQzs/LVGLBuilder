@@ -38,7 +38,7 @@ QModelIndex LVGLObjectModel::parent(const QModelIndex &index) const {
   if (p == nullptr) return QModelIndex();
 
   const int row = p->childs().indexOf(o);
-  if (row < 0) return QModelIndex();
+  if (row < 0 || row >= p->childs().size()) return QModelIndex();
   return createIndex(row, 0, p);
 }
 

@@ -5,6 +5,32 @@
 #include "LVGLObject.h"
 #include "properties/LVGLPropertyVal2.h"
 
+class LVGLPropertyArcRotation : public LVGLPropertyInt {
+ public:
+  LVGLPropertyArcRotation() : LVGLPropertyInt(0, 360, ""), m_rations(0) {}
+
+  QString name() const { return "Rotation"; }
+
+  QStringList function(LVGLObject *obj) const {
+    return QStringList() << QString("lv_arc_set_rotation(%1,%2);")
+                                .arg(obj->codeName())
+                                .arg(m_widget->value());
+  }
+
+ protected:
+  int get(LVGLObject *obj) const {
+    Q_UNUSED(obj)
+    return m_rations;
+  }
+  void set(LVGLObject *obj, int value) {
+    m_rations = value;
+    lv_arc_set_rotation(obj->obj(), static_cast<uint16_t>(value));
+  }
+
+ private:
+  int m_rations;
+};
+
 LVGLArc::LVGLArc() {
   m_defaultobj = lv_arc_create(m_parent, NULL);
   initStateStyles();
@@ -12,6 +38,8 @@ LVGLArc::LVGLArc() {
   m_properties << new LVGLPropertyVal2UInt16(
       0, 360, "Start", lv_arc_get_angle_start, 0, 360, "End",
       lv_arc_get_angle_end, "lv_arc_set_angles", lv_arc_set_angles, "Angles");
+
+  m_properties << new LVGLPropertyArcRotation;
 
   m_editableStyles << LVGL::ArcBG     // LV_ARC_PART_BG
                    << LVGL::ArcINDIC  // LV_ARC_PART_INDIC

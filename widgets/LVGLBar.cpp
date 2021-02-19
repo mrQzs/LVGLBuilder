@@ -21,7 +21,7 @@ class LVGLPropertyBarValue : public LVGLPropertyInt {
  protected:
   int get(LVGLObject *obj) const { return lv_bar_get_value(obj->obj()); }
   void set(LVGLObject *obj, int value) {
-    lv_bar_set_value(obj->obj(), static_cast<int16_t>(value), LV_ANIM_OFF);
+    lv_bar_set_value(obj->obj(), static_cast<int16_t>(value), LV_ANIM_ON);
   }
 };
 
@@ -43,6 +43,52 @@ class LVGLPropertyBarRange : public LVGLPropertyRange {
   }
 };
 
+class LVGLPropertyBarType : public LVGLPropertyEnum {
+ public:
+  LVGLPropertyBarType()
+      : LVGLPropertyEnum(QStringList() << "Normal"
+                                       << "SYMMETRICAL"
+                                       << "CUSTOM"),
+        m_values({"LV_BAR_TYPE_NORMAL", "LV_BAR_TYPE_SYMMETRICAL",
+                  "LV_BAR_TYPE_CUSTOM"}) {}
+
+  QString name() const { return "Type"; }
+
+  QStringList function(LVGLObject *obj) const {
+    if (get(obj) == LV_LABEL_ALIGN_LEFT) return QStringList();
+    return QStringList() << QString("lv_bar_set_type(%1, %2);")
+                                .arg(obj->codeName())
+                                .arg(m_values.at(get(obj)));
+  }
+
+ protected:
+  int get(LVGLObject *obj) const { return lv_bar_get_type(obj->obj()); }
+  void set(LVGLObject *obj, int index) {
+    lv_bar_set_type(obj->obj(), index & 0xff);
+  }
+
+  QStringList m_values;
+};
+
+class LVGLPropertyBarAnimationTime : public LVGLPropertyInt {
+ public:
+  LVGLPropertyBarAnimationTime() : LVGLPropertyInt(0, UINT16_MAX, " ms") {}
+
+  QString name() const { return "Animation time"; }
+
+  QStringList function(LVGLObject *obj) const {
+    return QStringList() << QString("lv_bar_set_anim_time(%1,%2);")
+                                .arg(obj->codeName())
+                                .arg(m_widget->value());
+  }
+
+ protected:
+  int get(LVGLObject *obj) const { return lv_bar_get_anim_time(obj->obj()); }
+  void set(LVGLObject *obj, int value) {
+    lv_bar_set_anim_time(obj->obj(), static_cast<uint16_t>(value));
+  }
+};
+
 LVGLBar::LVGLBar() {
   m_defaultobj = lv_bar_create(m_parent, NULL);
   initStateStyles();
@@ -50,6 +96,10 @@ LVGLBar::LVGLBar() {
   m_parts << LV_BAR_PART_INDIC;
   m_properties << new LVGLPropertyBarValue;
   m_properties << new LVGLPropertyBarRange;
+  m_properties << new LVGLPropertyBarType;
+  m_properties << new LVGLPropertyBarAnimationTime;
+
+  lv_bar_type_t a;
 
   m_editableStyles << LVGL::Body;  // LV_BAR_STYLE_BG
   m_editableStyles << LVGL::Body;  // LV_BAR_STYLE_INDIC
@@ -68,7 +118,7 @@ lv_obj_t *LVGLBar::newObject(lv_obj_t *parent) const {
   _lv_obj_set_style_local_color(
       obj, LV_BAR_PART_BG,
       (LV_STATE_DEFAULT << LV_STYLE_STATE_POS) | LV_STYLE_BG_COLOR,
-      lvgl.fromColor(QColor("#01a2b1")));
+      lvgl.fromColor(QColor("#c6c6c6")));
   return obj;
 }
 
@@ -109,7 +159,7 @@ void LVGLBar::initStateStyles() {
     lv_style_init(pr);
     lv_style_init(di);
     lv_style_set_bg_color(de, LV_STATE_DEFAULT,
-                          lvgl.fromColor(QColor("#01a2b1")));
+                          lvgl.fromColor(QColor("#c6c6c6")));
     QList<lv_style_t *> stateStyles;
     stateStyles << de << ch << fo << ed << ho << pr << di;
     m_partsStyles[i] = stateStyles;
