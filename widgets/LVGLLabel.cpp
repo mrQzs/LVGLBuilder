@@ -57,6 +57,7 @@ class LVGLPropertyLabelLongMode : public LVGLPropertyEnum {
  protected:
   int get(LVGLObject *obj) const { return lv_label_get_long_mode(obj->obj()); }
   void set(LVGLObject *obj, int index) {
+    LV_LABEL_LONG_SROLL_CIRC;
     lv_label_set_long_mode(obj->obj(), index & 0xff);
   }
 
@@ -81,24 +82,6 @@ class LVGLPropertyLabelRecolor : public LVGLPropertyBool {
   }
 };
 
-// class LVGLPropertyLabelBodyDraw : public LVGLPropertyBool {
-// public:
-//  QString name() const { return "Body draw"; }
-
-//  QStringList function(LVGLObject *obj) const {
-//    if (!get(obj)) return QStringList();
-//    return QStringList() << QString("lv_label_set_body_draw(%1, %2);")
-//                                .arg(obj->codeName())
-//                                .arg(QVariant(get(obj)).toString());
-//  }
-
-// protected:
-//  bool get(LVGLObject *obj) const { return lv_label_get_body_draw(obj->obj());
-//  } void set(LVGLObject *obj, bool boolean) {
-//    lv_label_set_body_draw(obj->obj(), boolean);
-//  }
-//};
-
 LVGLLabel::LVGLLabel() {
   m_defaultobj = lv_label_create(m_parent, NULL);
   initStateStyles();
@@ -106,7 +89,6 @@ LVGLLabel::LVGLLabel() {
   m_properties << new LVGLPropertyLabelAlign;
   m_properties << new LVGLPropertyLabelLongMode;
   m_properties << new LVGLPropertyLabelRecolor;
-  //  m_properties << new LVGLPropertyLabelBodyDraw;
   m_properties << new LVGLPropertyString("Text", "lv_label_set_text",
                                          lv_label_set_text, lv_label_get_text);
 

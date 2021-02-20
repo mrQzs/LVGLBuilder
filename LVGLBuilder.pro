@@ -78,6 +78,7 @@ SOURCES += \
     properties/LVGLPropertySeries.cpp \
     properties/LVGLPropertyTextList.cpp \
     properties/LVGLPropertyVal2.cpp \
+    properties/PropertyEE.cpp \
     widgets/LVGLArc.cpp \
     widgets/LVGLBar.cpp \
     widgets/LVGLButton.cpp \
@@ -148,6 +149,7 @@ HEADERS += \
     properties/LVGLPropertySeries.h \
     properties/LVGLPropertyTextList.h \
     properties/LVGLPropertyVal2.h \
+    properties/PropertyEE.h \
     widgets/LVGLArc.h \
     widgets/LVGLBar.h \
     widgets/LVGLButton.h \
@@ -194,7 +196,8 @@ HEADERS += \
 FORMS += \
     LVGLFontDialog.ui \
     LVGLNewDialog.ui \
-    MainWindow.ui
+    MainWindow.ui \
+    properties/PropertyEE.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

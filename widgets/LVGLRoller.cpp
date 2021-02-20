@@ -7,7 +7,7 @@
 
 #include "LVGLObject.h"
 
-class LVGLPropertyRolleroptionsN : public LVGLPropertyString {
+class LVGLPropertyRolleroptionsN : public LVGLPropertyStringPlus {
  public:
   QString name() const { return "Options"; }
 
@@ -24,8 +24,6 @@ class LVGLPropertyRolleroptionsN : public LVGLPropertyString {
     return lv_roller_get_options(obj->obj());
   }
   void set(LVGLObject *obj, QString string) {
-    for (int i = 0; i < string.size(); ++i)
-      if (string[i] == ' ') string[i] = '\n';
     lv_roller_set_options(obj->obj(), qUtf8Printable(string),
                           LV_ROLLER_MODE_NORMAL);
   }
@@ -94,14 +92,20 @@ class LVGLPropertyRollerAnimationTime : public LVGLPropertyInt {
   QStringList function(LVGLObject *obj) const {
     return QStringList() << QString("lv_roller_set_anim_time(%1,%2);")
                                 .arg(obj->codeName())
-                                .arg(m_widget->value());
+                                .arg(m_value);
   }
 
  protected:
-  int get(LVGLObject *obj) const { return lv_roller_get_anim_time(obj->obj()); }
+  int get(LVGLObject *obj) const {
+    m_value = lv_roller_get_anim_time(obj->obj());
+    return m_value;
+  }
   void set(LVGLObject *obj, int value) {
     lv_roller_set_anim_time(obj->obj(), static_cast<uint16_t>(value));
   }
+
+ private:
+  mutable uint16_t m_value;
 };
 
 LVGLRoller::LVGLRoller() {

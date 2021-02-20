@@ -53,6 +53,7 @@ LVGLButtonMatrix::LVGLButtonMatrix() {
   m_defaultobj = lv_btnmatrix_create(m_parent, NULL);
   initStateStyles();
   m_properties << new LVGLPropertyBtnmatrixButtonsText;
+  m_properties << new LVGLPropertyBtnmatrixCrrl;
   m_parts << LV_BTNMATRIX_PART_BG << LV_BTNMATRIX_PART_BTN;
   m_editableStyles << LVGL::Background;    // LV_BTNMATRIX_PART_BG
   m_editableStyles << LVGL::BtnMatrixBTN;  // LV_BTNMATRIX_PART_BTN
