@@ -317,8 +317,3 @@ static lv_res_t lv_btn_signal(lv_obj_t * btn, lv_signal_t sign, void * param)
 }
 
 #endif
-
-void lv_btn_set_toggle(lv_obj_t *btn, bool state)
-{
-    lv_btn_toggle(btn);
-}

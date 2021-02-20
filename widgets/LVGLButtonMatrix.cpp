@@ -1,15 +1,61 @@
 #include "LVGLButtonMatrix.h"
 
+#include <QDebug>
 #include <QIcon>
 
 #include "LVGLObject.h"
 
+class LVGLPropertyBtnmatrixButtonsText : public LVGLPropertyStringPlus {
+ public:
+  LVGLPropertyBtnmatrixButtonsText() : m_btnTotal(6) {}
+  QString name() const { return "Button's Text"; }
+
+  QStringList function(LVGLObject *obj) const {
+    return QStringList()
+           << QString(
+                  "lv_roller_set_options(%1, \"%2\",LV_ROLLER_MODE_NORMAL);")
+                  .arg(obj->codeName())
+                  .arg(get(obj));
+  }
+
+ protected:
+  QString get(LVGLObject *obj) const {
+    const char **map = lv_btnmatrix_get_map_array(obj->obj());
+    QStringList strmap;
+    for (int i = 0; i < m_btnTotal; ++i) strmap << QString(map[i]);
+    QString tmp;
+    for (int i = 0; i < strmap.size(); ++i)
+      if (i < strmap.size() - 1)
+        tmp += strmap[i] + ",";
+      else
+        tmp += strmap[i];
+    return tmp;
+  }
+  void set(LVGLObject *obj, QString string) {
+    QStringList strlist = string.split(',');
+    m_btnTotal = strlist.size();
+    const char **p = new const char *[strlist.size() + 1];
+    for (int i = 0; i < strlist.size(); ++i) {
+      auto text = strlist[i].toUtf8();
+      char *data = new char[text.size() + 1];
+      strcpy(data, text.data());
+      p[i] = data;
+    }
+    p[strlist.size()] = "";
+    lv_btnmatrix_set_map(obj->obj(), p);
+  }
+
+ private:
+  int m_btnTotal;
+};
+
 LVGLButtonMatrix::LVGLButtonMatrix() {
   m_defaultobj = lv_btnmatrix_create(m_parent, NULL);
   initStateStyles();
+  m_properties << new LVGLPropertyBtnmatrixButtonsText;
   m_parts << LV_BTNMATRIX_PART_BG << LV_BTNMATRIX_PART_BTN;
-  m_editableStyles << LVGL::Background;  // LV_BTNMATRIX_PART_BG
-  m_editableStyles << LVGL::Background;  // LV_BTNMATRIX_PART_BTN
+  m_editableStyles << LVGL::Background;    // LV_BTNMATRIX_PART_BG
+  m_editableStyles << LVGL::BtnMatrixBTN;  // LV_BTNMATRIX_PART_BTN
 }
 
 QString LVGLButtonMatrix::name() const { return "Button Matrix"; }

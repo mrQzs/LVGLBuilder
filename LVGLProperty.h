@@ -13,6 +13,7 @@ class LVGLObject;
 class QComboBox;
 class QLineEdit;
 class QSpinBox;
+class QTextEdit;
 
 class LVGLProperty {
  public:
@@ -232,6 +233,34 @@ class LVGLPropertyString : public LVGLPropertyType<QString> {
   void set(LVGLObject *obj, QString string) override;
 
   QLineEdit *m_widget;
+  QString m_title;
+  QString m_functionName;
+  std::function<void(lv_obj_t *, const char *)> m_setter;
+  std::function<const char *(lv_obj_t *)> m_getter;
+};
+
+class LVGLPropertyStringPlus : public LVGLPropertyType<QString> {
+ public:
+  LVGLPropertyStringPlus(QString title = "", QString functionName = "",
+                         LVGLProperty *parent = nullptr);
+  LVGLPropertyStringPlus(QString title, QString functionName,
+                         std::function<void(lv_obj_t *, const char *)> setter,
+                         std::function<const char *(lv_obj_t *)> getter,
+                         LVGLProperty *parent = nullptr);
+
+  QString name() const override;
+
+  QWidget *editor(QWidget *parent) override;
+  void updateEditor(LVGLObject *obj) override;
+  void updateWidget(LVGLObject *obj) override;
+
+  QStringList function(LVGLObject *obj) const override;
+
+ protected:
+  QString get(LVGLObject *obj) const override;
+  void set(LVGLObject *obj, QString string) override;
+
+  QTextEdit *m_widget;
   QString m_title;
   QString m_functionName;
   std::function<void(lv_obj_t *, const char *)> m_setter;

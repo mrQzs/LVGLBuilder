@@ -215,8 +215,6 @@ static inline lv_fit_t lv_btn_get_fit_bottom(const lv_obj_t * btn)
     return lv_cont_get_fit_bottom(btn);
 }
 
-void lv_btn_set_toggle(lv_obj_t *btn,bool state);
-
 /**********************
  *      MACROS
  **********************/

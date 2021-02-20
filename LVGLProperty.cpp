@@ -3,6 +3,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QSpinBox>
+#include <QTextEdit>
 
 #include "LVGLCore.h"
 #include "LVGLObject.h"
@@ -335,6 +336,56 @@ QString LVGLPropertyString::get(LVGLObject *obj) const {
 }
 
 void LVGLPropertyString::set(LVGLObject *obj, QString string) {
+  m_setter(obj->obj(), qUtf8Printable(string));
+}
+
+LVGLPropertyStringPlus::LVGLPropertyStringPlus(QString title,
+                                               QString functionName,
+                                               LVGLProperty *parent)
+    : LVGLPropertyType<QString>(parent),
+      m_widget(nullptr),
+      m_title(title),
+      m_functionName(functionName) {}
+
+LVGLPropertyStringPlus::LVGLPropertyStringPlus(
+    QString title, QString functionName,
+    std::function<void(lv_obj_t *, const char *)> setter,
+    std::function<const char *(lv_obj_t *)> getter, LVGLProperty *parent)
+    : LVGLPropertyType<QString>(parent),
+      m_widget(nullptr),
+      m_title(title),
+      m_functionName(functionName),
+      m_setter(setter),
+      m_getter(getter) {}
+
+QString LVGLPropertyStringPlus::name() const { return m_title; }
+
+QWidget *LVGLPropertyStringPlus::editor(QWidget *parent) {
+  m_widget = new QTextEdit(parent);
+  return m_widget;
+}
+
+void LVGLPropertyStringPlus::updateEditor(LVGLObject *obj) {
+  m_widget->setText(get(obj));
+}
+
+void LVGLPropertyStringPlus::updateWidget(LVGLObject *obj) {
+  set(obj, m_widget->toPlainText());
+}
+
+QStringList LVGLPropertyStringPlus::function(LVGLObject *obj) const {
+  if (m_functionName.isEmpty()) return {};
+  return {QString("%1(%2, \"%3\");")
+              .arg(m_functionName)
+              .arg(obj->codeName())
+              .arg(get(obj))};
+}
+
+QString LVGLPropertyStringPlus::get(LVGLObject *obj) const {
+  return m_getter(obj->obj());
+}
+
+void LVGLPropertyStringPlus::set(LVGLObject *obj, QString string) {
   m_setter(obj->obj(), qUtf8Printable(string));
 }
 
