@@ -64,6 +64,7 @@ SOURCES += \
     LVGLStyle.cpp \
     LVGLStyleModel.cpp \
     LVGLWidgetListView.cpp \
+    properties/LVGLPropertyAnyFunc.cpp \
     properties/LVGLPropertyAssignTextArea.cpp \
     properties/LVGLPropertyColor.cpp \
     properties/LVGLPropertyDate.cpp \
@@ -78,7 +79,6 @@ SOURCES += \
     properties/LVGLPropertySeries.cpp \
     properties/LVGLPropertyTextList.cpp \
     properties/LVGLPropertyVal2.cpp \
-    properties/PropertyEE.cpp \
     widgets/LVGLArc.cpp \
     widgets/LVGLBar.cpp \
     widgets/LVGLButton.cpp \
@@ -135,6 +135,7 @@ HEADERS += \
     LVGLStyle.h \
     LVGLStyleModel.h \
     LVGLWidgetListView.h \
+    properties/LVGLPropertyAnyFunc.h \
     properties/LVGLPropertyAssignTextArea.h \
     properties/LVGLPropertyColor.h \
     properties/LVGLPropertyDate.h \
@@ -149,7 +150,6 @@ HEADERS += \
     properties/LVGLPropertySeries.h \
     properties/LVGLPropertyTextList.h \
     properties/LVGLPropertyVal2.h \
-    properties/PropertyEE.h \
     widgets/LVGLArc.h \
     widgets/LVGLBar.h \
     widgets/LVGLButton.h \
@@ -196,8 +196,7 @@ HEADERS += \
 FORMS += \
     LVGLFontDialog.ui \
     LVGLNewDialog.ui \
-    MainWindow.ui \
-    properties/PropertyEE.ui
+    MainWindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

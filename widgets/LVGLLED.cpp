@@ -26,11 +26,42 @@ class LVGLPropertyLEDBrightness : public LVGLPropertyInt {
   }
 };
 
+class LVGLPropertySwitch : public LVGLPropertyEnum {
+ public:
+  LVGLPropertySwitch()
+      : LVGLPropertyEnum(QStringList() << "On"
+                                       << "Off"),
+        m_index(0) {}
+
+  QString name() const { return "Switch"; }
+
+  QStringList function(LVGLObject *obj) const {
+    if (m_index)
+      return QStringList() << QString("lv_led_off(%1);").arg(obj->codeName());
+    else
+      return QStringList() << QString("lv_led_on(%1);").arg(obj->codeName());
+  }
+
+ protected:
+  int get(LVGLObject *obj) const {
+    Q_UNUSED(obj)
+    return m_index;
+  }
+  void set(LVGLObject *obj, int index) {
+    m_index = index;
+    if (index)
+      lv_led_off(obj->obj());
+    else
+      lv_led_on(obj->obj());
+  }
+  int m_index;
+};
 LVGLLED::LVGLLED() {
   m_defaultobj = lv_led_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_LED_PART_MAIN;
   m_properties << new LVGLPropertyLEDBrightness;
+  m_properties << new LVGLPropertySwitch;
 
   m_editableStyles << LVGL::Background;  // LV_LED_PART_MAIN
 }

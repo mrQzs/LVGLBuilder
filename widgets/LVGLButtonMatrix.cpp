@@ -4,10 +4,14 @@
 #include <QIcon>
 
 #include "LVGLObject.h"
+#include "properties/LVGLPropertyAnyFunc.h"
 
 class LVGLPropertyBtnmatrixButtonsText : public LVGLPropertyStringPlus {
  public:
-  LVGLPropertyBtnmatrixButtonsText() : m_btnTotal(6) {}
+  LVGLPropertyBtnmatrixButtonsText() : m_btnTotal(5) {}
+
+  int getBtnTotal() { return m_btnTotal; }
+
   QString name() const { return "Button's Text"; }
 
   QStringList function(LVGLObject *obj) const {
@@ -49,11 +53,117 @@ class LVGLPropertyBtnmatrixButtonsText : public LVGLPropertyStringPlus {
   int m_btnTotal;
 };
 
+class LVGLPropertyBtnmatrixTextAlign : public LVGLPropertyEnum {
+ public:
+  LVGLPropertyBtnmatrixTextAlign()
+      : LVGLPropertyEnum({"Left", "Right", "Center", "Auto"}),
+        m_values({"LV_LABEL_ALIGN_LEFT", "LV_LABEL_ALIGN_RIGHT",
+                  "LV_LABEL_ALIGN_CENTER", "LV_LABEL_ALIGN_AUTO"}) {}
+
+  QString name() const { return "Text Align"; }
+
+  QStringList function(LVGLObject *obj) const {
+    return QStringList() << QString("lv_btnmatrix_set_align(%1, %2);")
+                                .arg(obj->codeName())
+                                .arg(m_values.at(get(obj)));
+    return QStringList();
+  }
+
+ protected:
+  int get(LVGLObject *obj) const { return lv_btnmatrix_get_align(obj->obj()); }
+  void set(LVGLObject *obj, int index) {
+    lv_btnmatrix_set_align(obj->obj(), index & 0xff);
+  }
+  QStringList m_values;
+};
+
+class LVGLPropertyBtnmatrixFocus : public LVGLPropertyInt {
+ public:
+  LVGLPropertyBtnmatrixFocus(LVGLPropertyBtnmatrixButtonsText *p)
+      : LVGLPropertyInt(-1, UINT16_MAX - 1, ""), m_btnid(-1), m_lpbbt(p) {}
+
+  QString name() const { return "Focus"; }
+
+  QStringList function(LVGLObject *obj) const {
+    if (m_btnid != -1)
+      return QStringList() << QString("lv_btnmatrix_set_focused_btn(%1,%2);")
+                                  .arg(obj->codeName())
+                                  .arg(m_widget->value());
+    else
+      return QStringList()
+             << QString(
+                    "lv_btnmatrix_set_focused_btn(%1,LV_BTNMATRIX_BTN_NONE);")
+                    .arg(obj->codeName());
+  }
+
+ protected:
+  int get(LVGLObject *obj) const {
+    auto max = lv_btnmatrix_get_focused_btn(obj->obj());
+    if (max == LV_BTNMATRIX_BTN_NONE) return -1;
+    return max;
+  }
+  void set(LVGLObject *obj, int value) {
+    m_btnid = value;
+    if (m_btnid == -1)
+      lv_btnmatrix_set_focused_btn(obj->obj(), LV_BTNMATRIX_BTN_NONE);
+    if (value >= m_lpbbt->getBtnTotal()) {
+      auto var = m_lpbbt->getBtnTotal() - 1;
+      lv_btnmatrix_set_focused_btn(obj->obj(), static_cast<uint16_t>(var));
+    } else
+      lv_btnmatrix_set_focused_btn(obj->obj(), static_cast<uint16_t>(value));
+  }
+
+ private:
+  int m_btnid;
+  LVGLPropertyBtnmatrixButtonsText *m_lpbbt;
+};
+
+class LVGLPropertyBtnmatrixButtonCtrl : public LVGLPropertyAnyFunc {
+ public:
+  LVGLPropertyBtnmatrixButtonCtrl(AnyFuncColType arr[], int size,
+                                  LVGLPropertyBtnmatrixButtonsText *p)
+      : LVGLPropertyAnyFunc(arr, size),
+        m_lpbbt(p),
+        m_list(QStringList() << "Empty list"),
+        m_frun(true) {}
+  QString name() const { return "Button's Ctrl"; }
+
+ protected:
+  QStringList get(LVGLObject *obj) const {
+    if (m_frun) {
+      m_frun = false;
+      QStringList l1, l2;
+      int total = m_lpbbt->getBtnTotal();
+      for (int i = 0; i < total; ++i) l1 << QString::number(i);
+      l2 << "LV_BTNMATRIX_CTRL_HIDDEN"
+         << "LV_BTNMATRIX_CTRL_NO_REPEAT"
+         << "LV_BTNMATRIX_CTRL_DISABLED"
+         << "LV_BTNMATRIX_CTRL_CHECKABLE"
+         << "LV_BTNMATRIX_CTRL_CHECK_STATE"
+         << "LV_BTNMATRIX_CTRL_CLICK_TRIG";
+      updateData(0, l1);
+      updateData(1, l2);
+    }
+
+    if (m_list[0] != "Empty list") return m_list;
+    return QStringList();
+  }
+  void set(LVGLObject *obj, QStringList list) { m_list = list; }
+  LVGLPropertyBtnmatrixButtonsText *m_lpbbt;
+
+  QStringList m_list;
+  mutable bool m_frun;
+};
+
 LVGLButtonMatrix::LVGLButtonMatrix() {
   m_defaultobj = lv_btnmatrix_create(m_parent, NULL);
   initStateStyles();
-  m_properties << new LVGLPropertyBtnmatrixButtonsText;
-  m_properties << new LVGLPropertyBtnmatrixCrrl;
+  auto p = new LVGLPropertyBtnmatrixButtonsText;
+  m_properties << p;
+  m_properties << new LVGLPropertyBtnmatrixFocus(p);
+  m_properties << new LVGLPropertyBtnmatrixTextAlign;
+  static AnyFuncColType arr[3]{e_QComboBox, e_QComboBox};
+  m_properties << new LVGLPropertyBtnmatrixButtonCtrl(arr, 2, p);
   m_parts << LV_BTNMATRIX_PART_BG << LV_BTNMATRIX_PART_BTN;
   m_editableStyles << LVGL::Background;    // LV_BTNMATRIX_PART_BG
   m_editableStyles << LVGL::BtnMatrixBTN;  // LV_BTNMATRIX_PART_BTN

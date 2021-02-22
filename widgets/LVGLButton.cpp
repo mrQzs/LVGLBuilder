@@ -66,6 +66,36 @@ class LVGLPropertyButtonLayout : public LVGLPropertyEnum {
   QStringList m_values;
 };
 
+class LVGLPropertyButtonFit : public LVGLPropertyEnum {
+ public:
+  LVGLPropertyButtonFit()
+      : LVGLPropertyEnum({"None", "Tight", "Parent", "Max"}),
+        m_values(
+            {"LV_FIT_NONE", "LV_FIT_TIGHT", "LV_FIT_PARENT", "LV_FIT_MAX"}),
+        m_index(0) {}
+
+  QString name() const { return "Fit"; }
+
+  QStringList function(LVGLObject *obj) const {
+    return QStringList() << QString("lv_btn_set_fit(%1, %2);")
+                                .arg(obj->codeName())
+                                .arg(m_values.at(m_index));
+    return QStringList();
+  }
+
+ protected:
+  int get(LVGLObject *obj) const {
+    Q_UNUSED(obj)
+    return m_index;
+  }
+  void set(LVGLObject *obj, int index) {
+    m_index = index;
+    lv_btn_set_fit(obj->obj(), m_index & 0xff);
+  }
+  QStringList m_values;
+  int m_index;
+};
+
 LVGLButton::LVGLButton() {
   //  lv_fit_t t;
   m_defaultobj = lv_btn_create(m_parent, NULL);
@@ -76,6 +106,7 @@ LVGLButton::LVGLButton() {
                                        lv_btn_set_checkable,
                                        lv_btn_get_checkable);
   m_properties << new LVGLPropertyButtonLayout;
+  m_properties << new LVGLPropertyButtonFit;
 
   m_editableStyles << LVGL::Button;  // LV_BTN_PART_MAIN
 }
