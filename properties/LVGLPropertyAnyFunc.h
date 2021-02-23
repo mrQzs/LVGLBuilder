@@ -3,10 +3,7 @@
 
 #include "LVGLProperty.h"
 
-enum AnyFuncColType {
-  e_QComboBox = 0,
-  e_QSpinBox,
-};
+enum AnyFuncColType { e_QComboBox = 0, e_QSpinBox, e_QLineEdit, e_QTextEdit };
 
 class LVGLPropertyAnyFunc : public LVGLProperty {
  public:

@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QIcon>
+#include <QUuid>
 
 #include "LVGLObject.h"
 #include "properties/LVGLPropertyAnyFunc.h"
@@ -15,18 +16,28 @@ class LVGLPropertyBtnmatrixButtonsText : public LVGLPropertyStringPlus {
   QString name() const { return "Button's Text"; }
 
   QStringList function(LVGLObject *obj) const {
-    return QStringList()
-           << QString(
-                  "lv_roller_set_options(%1, \"%2\",LV_ROLLER_MODE_NORMAL);")
-                  .arg(obj->codeName())
-                  .arg(get(obj));
+    const char **map = lv_btnmatrix_get_map_array(obj->obj());
+    QStringList strmap;
+    for (int i = 0; i <= m_btnTotal; ++i) strmap << QString(map[i]);
+    QString arrname = "arr" + QString(QUuid::createUuid().toString()).mid(1, 7);
+    QString str = "static const char* " + arrname + "[] = {";
+    for (auto s : strmap) {
+      if (s != "\n")
+        str += "\"" + s + "\",";
+      else
+        str += "\"\\n\",";
+    }
+    str += "\"\"};";
+    QString str2 = QString("lv_btnmatrix_set_map(%1, ").arg(obj->codeName());
+    str2 += arrname + QString(");");
+    return QStringList() << str << str2;
   }
 
  protected:
   QString get(LVGLObject *obj) const {
     const char **map = lv_btnmatrix_get_map_array(obj->obj());
     QStringList strmap;
-    for (int i = 0; i < m_btnTotal; ++i) strmap << QString(map[i]);
+    for (int i = 0; i <= m_btnTotal; ++i) strmap << QString(map[i]);
     QString tmp;
     for (int i = 0; i < strmap.size(); ++i)
       if (i < strmap.size() - 1)
@@ -37,7 +48,7 @@ class LVGLPropertyBtnmatrixButtonsText : public LVGLPropertyStringPlus {
   }
   void set(LVGLObject *obj, QString string) {
     QStringList strlist = string.split(',');
-    m_btnTotal = strlist.size();
+    m_btnTotal = strlist.size() - 1;
     const char **p = new const char *[strlist.size() + 1];
     for (int i = 0; i < strlist.size(); ++i) {
       auto text = strlist[i].toUtf8();
@@ -63,9 +74,10 @@ class LVGLPropertyBtnmatrixTextAlign : public LVGLPropertyEnum {
   QString name() const { return "Text Align"; }
 
   QStringList function(LVGLObject *obj) const {
-    return QStringList() << QString("lv_btnmatrix_set_align(%1, %2);")
-                                .arg(obj->codeName())
-                                .arg(m_values.at(get(obj)));
+    if (get(obj) != 0)
+      return QStringList() << QString("lv_btnmatrix_set_align(%1, %2);")
+                                  .arg(obj->codeName())
+                                  .arg(m_values.at(get(obj)));
     return QStringList();
   }
 
@@ -85,15 +97,12 @@ class LVGLPropertyBtnmatrixFocus : public LVGLPropertyInt {
   QString name() const { return "Focus"; }
 
   QStringList function(LVGLObject *obj) const {
-    if (m_btnid != -1)
+    if (m_btnid != -1 && m_btnid < 0xffff)
       return QStringList() << QString("lv_btnmatrix_set_focused_btn(%1,%2);")
                                   .arg(obj->codeName())
-                                  .arg(m_widget->value());
+                                  .arg(m_btnid);
     else
-      return QStringList()
-             << QString(
-                    "lv_btnmatrix_set_focused_btn(%1,LV_BTNMATRIX_BTN_NONE);")
-                    .arg(obj->codeName());
+      return QStringList();
   }
 
  protected:
@@ -128,6 +137,20 @@ class LVGLPropertyBtnmatrixButtonCtrl : public LVGLPropertyAnyFunc {
         m_frun(true) {}
   QString name() const { return "Button's Ctrl"; }
 
+  QStringList function(LVGLObject *obj) const {
+    QStringList list;
+    if (m_coderesulet.isEmpty()) return list;
+    for (int i = 0; i < m_lpbbt->getBtnTotal(); ++i) {
+      if (m_coderesulet.contains(i) && m_coderesulet[i] != "None") {
+        list << QString("lv_btnmatrix_set_btn_ctrl(%1, %2, %3);")
+                    .arg(obj->codeName())
+                    .arg(i)
+                    .arg(m_coderesulet[i]);
+      }
+    }
+    return list;
+  }
+
  protected:
   QStringList get(LVGLObject *obj) const {
     if (m_frun) {
@@ -151,8 +174,7 @@ class LVGLPropertyBtnmatrixButtonCtrl : public LVGLPropertyAnyFunc {
   }
   void set(LVGLObject *obj, QStringList list) {
     m_list = list;
-    auto size = m_list.size();
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < m_list.size(); ++i) {
       QStringList strlist = list[i].split(' ');
       int id = strlist[0].toInt();
       auto str = strlist[1];
@@ -187,6 +209,64 @@ class LVGLPropertyBtnmatrixButtonCtrl : public LVGLPropertyAnyFunc {
   QMap<int, QString> m_coderesulet;
 };
 
+class LVGLPropertyBtnmatrixButtonWidth : public LVGLPropertyAnyFunc {
+ public:
+  LVGLPropertyBtnmatrixButtonWidth(const AnyFuncColType arr[], int size,
+                                   LVGLPropertyBtnmatrixButtonsText *p)
+      : LVGLPropertyAnyFunc(arr, size),
+        m_lpbbt(p),
+        m_list(QStringList() << "Empty list"),
+        m_frun(true) {}
+
+  QString name() const { return "Button's Width"; }
+
+  QStringList function(LVGLObject *obj) const {
+    QStringList list;
+    if (m_coderesulet.isEmpty()) return list;
+    for (int i = 0; i < m_lpbbt->getBtnTotal(); ++i) {
+      if (m_coderesulet.contains(i) && m_coderesulet[i] != "1") {
+        list << QString("lv_btnmatrix_set_btn_width(%1, %2, %3);")
+                    .arg(obj->codeName())
+                    .arg(i)
+                    .arg(m_coderesulet[i]);
+      }
+    }
+    return list;
+  }
+
+ protected:
+  QStringList get(LVGLObject *obj) const {
+    if (m_frun) {
+      m_frun = false;
+      QStringList l1;
+      int total = m_lpbbt->getBtnTotal();
+      for (int i = 0; i < total; ++i) l1 << QString::number(i);
+      updateData(0, l1);
+      updateData(1, 1, false);
+      updateData(1, 7, true);
+    }
+
+    if (m_list[0] != "Empty list") return m_list;
+    return QStringList();
+  }
+  void set(LVGLObject *obj, QStringList list) {
+    m_list = list;
+    for (int i = 0; i < m_list.size(); ++i) {
+      QStringList strlist = m_list[i].split(' ');
+      int id = strlist[0].toInt();
+      int width = strlist[1].toInt();
+      m_coderesulet[id] = strlist[1];
+      lv_btnmatrix_set_btn_width(obj->obj(), id, width);
+    }
+  }
+
+ private:
+  LVGLPropertyBtnmatrixButtonsText *m_lpbbt;
+  QStringList m_list;
+  mutable bool m_frun;
+  QMap<int, QString> m_coderesulet;
+};
+
 LVGLButtonMatrix::LVGLButtonMatrix() {
   m_defaultobj = lv_btnmatrix_create(m_parent, NULL);
   initStateStyles();
@@ -196,6 +276,9 @@ LVGLButtonMatrix::LVGLButtonMatrix() {
   m_properties << new LVGLPropertyBtnmatrixTextAlign;
   static const AnyFuncColType arr[2]{e_QComboBox, e_QComboBox};
   m_properties << new LVGLPropertyBtnmatrixButtonCtrl(arr, 2, p);
+  static const AnyFuncColType arr2[2]{e_QComboBox, e_QSpinBox};
+  m_properties << new LVGLPropertyBtnmatrixButtonWidth(arr2, 2, p);
+
   m_parts << LV_BTNMATRIX_PART_BG << LV_BTNMATRIX_PART_BTN;
   m_editableStyles << LVGL::Background;    // LV_BTNMATRIX_PART_BG
   m_editableStyles << LVGL::BtnMatrixBTN;  // LV_BTNMATRIX_PART_BTN
@@ -203,7 +286,7 @@ LVGLButtonMatrix::LVGLButtonMatrix() {
 
 QString LVGLButtonMatrix::name() const { return "Button Matrix"; }
 
-QString LVGLButtonMatrix::className() const { return "lv_btnm"; }
+QString LVGLButtonMatrix::className() const { return "lv_btnmatrix"; }
 
 LVGLWidget::Type LVGLButtonMatrix::type() const { return ButtonMatrix; }
 
