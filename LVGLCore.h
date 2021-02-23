@@ -33,6 +33,8 @@ class LVGLCore : public QObject {
   int height() const;
   QSize size() const;
 
+  lv_disp_t *getdispt() { return m_dispt; }
+
   LVGLImageData *addImage(QImage image, QString name);
   LVGLImageData *addImage(QString fileName, QString name = QString());
   void addImage(LVGLImageData *image);
@@ -92,6 +94,8 @@ class LVGLCore : public QObject {
   bool screenColorChanged() const;
 
   QList<const LVGLWidget *> widgets() const;
+  QList<const LVGLWidget *> widgetsDisplayW() const;
+  QList<const LVGLWidget *> widgetsInputW() const;
   const LVGLWidget *widget(const QString &name) const;
 
   static const char *DEFAULT_DAYS[7];
@@ -104,6 +108,8 @@ class LVGLCore : public QObject {
 
  private:
   void addWidget(LVGLWidget *w);
+  void addWidgetDisplayW(LVGLWidget *w);
+  void addWidgetInputW(LVGLWidget *w);
   void flushHandler(lv_disp_drv_t *disp, const lv_area_t *area,
                     lv_color_t *color_p);
   bool inputHandler(lv_indev_drv_t *indev_driver, lv_indev_data_t *data);
@@ -118,6 +124,8 @@ class LVGLCore : public QObject {
   QElapsedTimer m_time;
   QHash<QString, LVGLImageData *> m_images;
   QHash<QString, const LVGLWidget *> m_widgets;
+  QHash<QString, const LVGLWidget *> m_widgetsDisplayW;
+  QHash<QString, const LVGLWidget *> m_widgetsInputW;
   LVGLImageData *m_default;
   QList<LVGLObject *> m_objects;
   QList<LVGLFontData *> m_fonts;
@@ -129,6 +137,7 @@ class LVGLCore : public QObject {
   std::vector<lv_color_t> m_buf2;
   lv_disp_buf_t m_dispBuf;
   lv_disp_drv_t m_dispDrv;
+  lv_disp_t *m_dispt;
 
   lv_indev_data_t m_inputData;
 
@@ -255,7 +264,7 @@ bool pattern_recolor(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
 bool pattern_recolor_opa(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                          lv_state_t state);
 bool pattern_repeat(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
-                     lv_state_t state);
+                    lv_state_t state);
 bool pattern_blend_mode(lv_obj_t *s1, lv_obj_t *s2, lv_obj_part_t part,
                         lv_state_t state);
 // value

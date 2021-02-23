@@ -98,7 +98,7 @@ QPoint LVGLObject::absolutePosition() const {
   int y = lv_obj_get_y(m_obj);
   lv_obj_t *parent = lv_obj_get_parent(m_obj);
   while (parent) {
-    if (parent == lv_scr_act()) break;
+    if (parent == lvgl.getdispt()->act_scr) break;
     x += lv_obj_get_x(parent);
     y += lv_obj_get_y(parent);
     parent = lv_obj_get_parent(parent);
@@ -1576,7 +1576,7 @@ LVGLObject *LVGLObject::parse(QJsonObject object, LVGLObject *parent) {
     if (parent)
       newObj = new LVGLObject(widgetClass, name, parent);
     else
-      newObj = new LVGLObject(widgetClass, name, lv_scr_act());
+      newObj = new LVGLObject(widgetClass, name, lvgl.getdispt()->act_scr);
     // generate name if nessessary
     if (newObj->name().isEmpty() || doesNameExists(name, newObj))
       newObj->generateName();

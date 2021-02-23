@@ -245,7 +245,7 @@ void LVGLSimulator::dropEvent(QDropEvent *event) {
       parentPos = parent->absolutePosition();
       newObj->setGeometry(QRect(pos - parentPos, widgetClass->minimumSize()));
     } else {
-      newObj = new LVGLObject(widgetClass, "", lv_scr_act());
+      newObj = new LVGLObject(widgetClass, "", lvgl.getdispt()->act_scr);
       QSize size(std::min(widgetClass->minimumSize().width(), lvgl.width()),
                  std::min(widgetClass->minimumSize().height(), lvgl.height()));
       if (pos.x() + size.width() >= lvgl.width())

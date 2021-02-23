@@ -64,6 +64,8 @@ SOURCES += \
     LVGLStyle.cpp \
     LVGLStyleModel.cpp \
     LVGLWidgetListView.cpp \
+    ListDelegate.cpp \
+    ListViewItem.cpp \
     properties/LVGLPropertyAnyFunc.cpp \
     properties/LVGLPropertyAssignTextArea.cpp \
     properties/LVGLPropertyColor.cpp \
@@ -135,6 +137,8 @@ HEADERS += \
     LVGLStyle.h \
     LVGLStyleModel.h \
     LVGLWidgetListView.h \
+    ListDelegate.h \
+    ListViewItem.h \
     properties/LVGLPropertyAnyFunc.h \
     properties/LVGLPropertyAssignTextArea.h \
     properties/LVGLPropertyColor.h \
@@ -196,6 +200,7 @@ HEADERS += \
 FORMS += \
     LVGLFontDialog.ui \
     LVGLNewDialog.ui \
+    ListViewItem.ui \
     MainWindow.ui
 
 # Default rules for deployment.

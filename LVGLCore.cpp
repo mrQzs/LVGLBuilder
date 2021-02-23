@@ -59,7 +59,7 @@ void LVGLCore::init(int width, int height) {
   m_dispDrv.user_data = this;
   m_dispDrv.flush_cb = flushCb;
   m_dispDrv.buffer = &m_dispBuf;
-  lv_disp_drv_register(&m_dispDrv);
+  m_dispt = lv_disp_drv_register(&m_dispDrv);
 
   // to be sure that there is no button press at the start
   m_inputData.state = LV_INDEV_STATE_REL;
@@ -485,12 +485,12 @@ void LVGLCore::sendMouseEvent(int x, int y, bool pressed) {
 }
 
 QPoint LVGLCore::get_absolute_position(const lv_obj_t *obj) const {
-  if (obj == lv_scr_act()) return QPoint(0, 0);
+  if (obj == lvgl.getdispt()->act_scr) return QPoint(0, 0);
   int x = lv_obj_get_x(obj);
   int y = lv_obj_get_y(obj);
   lv_obj_t *parent = lv_obj_get_parent(obj);
   while (parent) {
-    if (parent == lv_scr_act()) break;
+    if (parent == lvgl.getdispt()->act_scr) break;
     x += lv_obj_get_x(parent);
     y += lv_obj_get_y(parent);
     parent = lv_obj_get_parent(parent);
@@ -706,7 +706,7 @@ void LVGLCore::setScreenColor(QColor color) {
   lv_style_set_bg_color(&m_screenStyle, LV_STATE_DEFAULT, fromColor(color));
   lv_style_set_bg_grad_color(&m_screenStyle, LV_STATE_DEFAULT,
                              fromColor(color));
-  lv_obj_add_style(lv_scr_act(), 0, &m_screenStyle);
+  lv_obj_add_style(lvgl.getdispt()->act_scr, 0, &m_screenStyle);
 }
 
 QColor LVGLCore::screenColor() const {
@@ -727,6 +727,14 @@ QList<const LVGLWidget *> LVGLCore::widgets() const {
   return m_widgets.values();
 }
 
+QList<const LVGLWidget *> LVGLCore::widgetsDisplayW() const {
+  return m_widgetsDisplayW.values();
+}
+
+QList<const LVGLWidget *> LVGLCore::widgetsInputW() const {
+  return m_widgetsInputW.values();
+}
+
 const LVGLWidget *LVGLCore::widget(const QString &name) const {
   if (m_widgets.contains(name)) return m_widgets[name];
   return nullptr;
@@ -744,11 +752,11 @@ void LVGLCore::addWidget(LVGLWidget *w) {
         {std::max(size.width(), width()), std::max(size.height(), height())});
 
   setScreenColor(Qt::transparent);
-  lv_obj_t *o = w->newObject(lv_scr_act());
+  lv_obj_t *o = w->newObject(lvgl.getdispt()->act_scr);
   lv_obj_set_pos(o, 0, 0);
   lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
 
-  lv_scr_load(lv_scr_act());
+  lv_scr_load(lvgl.getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 
@@ -757,11 +765,65 @@ void LVGLCore::addWidget(LVGLWidget *w) {
   w->preview().save(w->name() + ".png");
   lv_obj_del(o);
 
-  lv_scr_load(lv_scr_act());
+  lv_scr_load(lvgl.getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 
   m_widgets.insert(w->className(), w);
+}
+
+void LVGLCore::addWidgetDisplayW(LVGLWidget *w) {
+  auto size = w->minimumSize();
+  if (size.width() > width() || size.height() > height())
+    changeResolution(
+        {std::max(size.width(), width()), std::max(size.height(), height())});
+
+  setScreenColor(Qt::transparent);
+  lv_obj_t *o = w->newObject(lvgl.getdispt()->act_scr);
+  lv_obj_set_pos(o, 0, 0);
+  lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
+
+  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
+  lv_task_handler();
+
+  w->setPreview(
+      /*grab(QRect(QPoint(0, 0), size))*/ framebuffer().copy({{0, 0}, size}));
+  w->preview().save(w->name() + ".png");
+  lv_obj_del(o);
+
+  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
+  lv_task_handler();
+
+  m_widgetsDisplayW.insert(w->className(), w);
+}
+
+void LVGLCore::addWidgetInputW(LVGLWidget *w) {
+  auto size = w->minimumSize();
+  if (size.width() > width() || size.height() > height())
+    changeResolution(
+        {std::max(size.width(), width()), std::max(size.height(), height())});
+
+  setScreenColor(Qt::transparent);
+  lv_obj_t *o = w->newObject(lvgl.getdispt()->act_scr);
+  lv_obj_set_pos(o, 0, 0);
+  lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
+
+  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
+  lv_task_handler();
+
+  w->setPreview(
+      /*grab(QRect(QPoint(0, 0), size))*/ framebuffer().copy({{0, 0}, size}));
+  w->preview().save(w->name() + ".png");
+  lv_obj_del(o);
+
+  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
+  lv_task_handler();
+
+  m_widgetsInputW.insert(w->className(), w);
 }
 
 void LVGLCore::flushHandler(lv_disp_drv_t *disp, const lv_area_t *area,
