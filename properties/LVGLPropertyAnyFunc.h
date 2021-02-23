@@ -10,8 +10,9 @@ enum AnyFuncColType {
 
 class LVGLPropertyAnyFunc : public LVGLProperty {
  public:
-  LVGLPropertyAnyFunc(AnyFuncColType coltype[], int arrsize,
-                      bool canInsert = true, LVGLProperty *parent = nullptr);
+  LVGLPropertyAnyFunc(const AnyFuncColType coltype[], int arrsize,
+                      bool oneline = false, bool canInsert = true,
+                      LVGLProperty *parent = nullptr);
   bool hasEditor() const;
   QWidget *editor(QWidget *parent);
   void updateEditor(LVGLObject *obj);
@@ -26,8 +27,9 @@ class LVGLPropertyAnyFunc : public LVGLProperty {
 
  protected:
   class LVGLPropertyAnyFuncDialog *m_widget;
+  bool m_oneline;
   bool m_canInsert;
-  AnyFuncColType *m_coltype;
+  const AnyFuncColType *m_coltype;
   int m_arrssize;
 
   virtual QStringList get(LVGLObject *obj) const = 0;
@@ -36,6 +38,10 @@ class LVGLPropertyAnyFunc : public LVGLProperty {
  private:
   mutable QList<int> m_collist;
   mutable QList<QStringList> m_strlist;
+  mutable QList<int> m_maxlist;
+  mutable QList<int> m_maxvaluelist;
+  mutable QList<int> m_minlist;
+  mutable QList<int> m_minvaluelist;
 };
 
 #endif  // LVGLPROPERTYANYFUNC_H

@@ -120,7 +120,7 @@ class LVGLPropertyBtnmatrixFocus : public LVGLPropertyInt {
 
 class LVGLPropertyBtnmatrixButtonCtrl : public LVGLPropertyAnyFunc {
  public:
-  LVGLPropertyBtnmatrixButtonCtrl(AnyFuncColType arr[], int size,
+  LVGLPropertyBtnmatrixButtonCtrl(const AnyFuncColType arr[], int size,
                                   LVGLPropertyBtnmatrixButtonsText *p)
       : LVGLPropertyAnyFunc(arr, size),
         m_lpbbt(p),
@@ -140,7 +140,8 @@ class LVGLPropertyBtnmatrixButtonCtrl : public LVGLPropertyAnyFunc {
          << "LV_BTNMATRIX_CTRL_DISABLED"
          << "LV_BTNMATRIX_CTRL_CHECKABLE"
          << "LV_BTNMATRIX_CTRL_CHECK_STATE"
-         << "LV_BTNMATRIX_CTRL_CLICK_TRIG";
+         << "LV_BTNMATRIX_CTRL_CLICK_TRIG"
+         << "None";
       updateData(0, l1);
       updateData(1, l2);
     }
@@ -148,11 +149,42 @@ class LVGLPropertyBtnmatrixButtonCtrl : public LVGLPropertyAnyFunc {
     if (m_list[0] != "Empty list") return m_list;
     return QStringList();
   }
-  void set(LVGLObject *obj, QStringList list) { m_list = list; }
+  void set(LVGLObject *obj, QStringList list) {
+    m_list = list;
+    auto size = m_list.size();
+    for (int i = 0; i < size; ++i) {
+      QStringList strlist = list[i].split(' ');
+      int id = strlist[0].toInt();
+      auto str = strlist[1];
+      lv_btnmatrix_ctrl_t ctrl = LV_BTNMATRIX_CTRL_HIDDEN;
+      m_coderesulet[id] = str;
+      if ("LV_BTNMATRIX_CTRL_HIDDEN" == str)
+        ctrl = LV_BTNMATRIX_CTRL_HIDDEN;
+      else if ("LV_BTNMATRIX_CTRL_NO_REPEAT" == str)
+        ctrl = LV_BTNMATRIX_CTRL_NO_REPEAT;
+      else if ("LV_BTNMATRIX_CTRL_DISABLED" == str)
+        ctrl = LV_BTNMATRIX_CTRL_DISABLED;
+      else if ("LV_BTNMATRIX_CTRL_CHECKABLE" == str)
+        ctrl = LV_BTNMATRIX_CTRL_CHECKABLE;
+      else if ("LV_BTNMATRIX_CTRL_CHECK_STATE" == str)
+        ctrl = LV_BTNMATRIX_CTRL_CHECK_STATE;
+      else if ("LV_BTNMATRIX_CTRL_CLICK_TRIG" == str)
+        ctrl = LV_BTNMATRIX_CTRL_CLICK_TRIG;
+      else if ("None" == str) {
+        if (m_saveresult.contains(id))
+          lv_btnmatrix_clear_btn_ctrl(obj->obj(), id, m_saveresult[id]);
+        continue;
+      }
+      m_saveresult[id] = ctrl;
+      lv_btnmatrix_set_btn_ctrl(obj->obj(), id, ctrl);
+    }
+  }
   LVGLPropertyBtnmatrixButtonsText *m_lpbbt;
 
   QStringList m_list;
   mutable bool m_frun;
+  QMap<int, lv_btnmatrix_ctrl_t> m_saveresult;
+  QMap<int, QString> m_coderesulet;
 };
 
 LVGLButtonMatrix::LVGLButtonMatrix() {
@@ -162,7 +194,7 @@ LVGLButtonMatrix::LVGLButtonMatrix() {
   m_properties << p;
   m_properties << new LVGLPropertyBtnmatrixFocus(p);
   m_properties << new LVGLPropertyBtnmatrixTextAlign;
-  static AnyFuncColType arr[3]{e_QComboBox, e_QComboBox};
+  static const AnyFuncColType arr[2]{e_QComboBox, e_QComboBox};
   m_properties << new LVGLPropertyBtnmatrixButtonCtrl(arr, 2, p);
   m_parts << LV_BTNMATRIX_PART_BG << LV_BTNMATRIX_PART_BTN;
   m_editableStyles << LVGL::Background;    // LV_BTNMATRIX_PART_BG
