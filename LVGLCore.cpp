@@ -113,39 +113,41 @@ void LVGLCore::init(int width, int height) {
   }
   Q_ASSERT(m_defaultFont != nullptr);
 
-  addWidget(new LVGLArc);
-  addWidget(new LVGLBar);
   addWidget(new LVGLButton);
   addWidget(new LVGLButtonMatrix);
-  addWidget(new LVGLCalendar);
-  addWidget(new LVGLCanvas);
-  addWidget(new LVGLChart);
-  addWidget(new LVGLCheckBox);
-  addWidget(new LVGLColorPicker);
-  addWidget(new LVGLContainer);
-  addWidget(new LVGLDropDownList);
-  addWidget(new LVGLGauge);
-  addWidget(new LVGLImage);
   addWidget(new LVGLImageButton);
-  addWidget(new LVGLKeyboard);
-  addWidget(new LVGLLabel);
-  addWidget(new LVGLLED);
-  addWidget(new LVGLLine);
-  addWidget(new LVGLList);
-  addWidget(new LVGLLineMeter);
-  addWidget(new LVGLMessageBox);
-  addWidget(new LVGLObjectMask);
-  addWidget(new LVGLPage);
-  addWidget(new LVGLRoller);
-  addWidget(new LVGLSlider);
-  addWidget(new LVGLSpinbox);
-  addWidget(new LVGLSpinner);
-  addWidget(new LVGLSwitch);
-  addWidget(new LVGLTable);
-  addWidget(new LVGLTabview);
-  addWidget(new LVGLTileView);
-  addWidget(new LVGLTextArea);
-  addWidget(new LVGLWindow);
+
+  addWidgetDisplayW(new LVGLArc);
+  addWidgetDisplayW(new LVGLBar);
+  addWidgetDisplayW(new LVGLImage);
+  addWidgetDisplayW(new LVGLLabel);
+  addWidgetDisplayW(new LVGLLED);
+  addWidgetDisplayW(new LVGLMessageBox);
+  addWidgetDisplayW(new LVGLObjectMask);
+  addWidgetDisplayW(new LVGLPage);
+  addWidgetDisplayW(new LVGLTable);
+  addWidgetDisplayW(new LVGLTabview);
+  addWidgetDisplayW(new LVGLTileView);
+  addWidgetDisplayW(new LVGLTextArea);
+  addWidgetDisplayW(new LVGLWindow);
+
+  addWidgetInputW(new LVGLCalendar);
+  addWidgetInputW(new LVGLCanvas);
+  addWidgetInputW(new LVGLChart);
+  addWidgetInputW(new LVGLCheckBox);
+  addWidgetInputW(new LVGLColorPicker);
+  addWidgetInputW(new LVGLContainer);
+  addWidgetInputW(new LVGLDropDownList);
+  addWidgetInputW(new LVGLGauge);
+  addWidgetInputW(new LVGLKeyboard);
+  addWidgetInputW(new LVGLLine);
+  addWidgetInputW(new LVGLList);
+  addWidgetInputW(new LVGLLineMeter);
+  addWidgetInputW(new LVGLRoller);
+  addWidgetInputW(new LVGLSlider);
+  addWidgetInputW(new LVGLSpinbox);
+  addWidgetInputW(new LVGLSpinner);
+  addWidgetInputW(new LVGLSwitch);
 
   setScreenColor(Qt::white);
   changeResolution({width, height});
@@ -737,6 +739,8 @@ QList<const LVGLWidget *> LVGLCore::widgetsInputW() const {
 
 const LVGLWidget *LVGLCore::widget(const QString &name) const {
   if (m_widgets.contains(name)) return m_widgets[name];
+  if (m_widgetsDisplayW.contains(name)) return m_widgetsDisplayW[name];
+  if (m_widgetsInputW.contains(name)) return m_widgetsInputW[name];
   return nullptr;
 }
 

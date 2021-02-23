@@ -64,6 +64,8 @@ SOURCES += \
     LVGLStyle.cpp \
     LVGLStyleModel.cpp \
     LVGLWidgetListView.cpp \
+    LVGLWidgetModelDisplay.cpp \
+    LVGLWidgetModelInput.cpp \
     ListDelegate.cpp \
     ListViewItem.cpp \
     properties/LVGLPropertyAnyFunc.cpp \
@@ -137,6 +139,8 @@ HEADERS += \
     LVGLStyle.h \
     LVGLStyleModel.h \
     LVGLWidgetListView.h \
+    LVGLWidgetModelDisplay.h \
+    LVGLWidgetModelInput.h \
     ListDelegate.h \
     ListViewItem.h \
     properties/LVGLPropertyAnyFunc.h \

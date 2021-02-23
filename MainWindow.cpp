@@ -16,7 +16,12 @@
 #include "LVGLProject.h"
 #include "LVGLPropertyModel.h"
 #include "LVGLStyleModel.h"
+#include "LVGLWidgetListView.h"
 #include "LVGLWidgetModel.h"
+#include "LVGLWidgetModelDisplay.h"
+#include "LVGLWidgetModelInput.h"
+#include "ListDelegate.h"
+#include "ListViewItem.h"
 #include "ui_MainWindow.h"
 #include "widgets/LVGLWidgets.h"
 
@@ -72,7 +77,39 @@ MainWindow::MainWindow(QWidget *parent)
   proxyModel->setSourceModel(widgetModel);
   proxyModel->sort(0);
 
-  m_ui->list_widgets->setModel(proxyModel);
+  LVGLWidgetModelDisplay *widgetModelDPW = new LVGLWidgetModelDisplay;
+  QSortFilterProxyModel *proxyModelDPW = new QSortFilterProxyModel(this);
+  proxyModelDPW->setFilterCaseSensitivity(Qt::CaseInsensitive);
+  connect(m_ui->edit_filter, &QLineEdit::textChanged, proxyModelDPW,
+          &QSortFilterProxyModel::setFilterWildcard);
+
+  proxyModelDPW->setSourceModel(widgetModelDPW);
+  proxyModelDPW->sort(0);
+
+  LVGLWidgetModelInput *widgetModelIPW = new LVGLWidgetModelInput;
+  QSortFilterProxyModel *proxyModelIPW = new QSortFilterProxyModel(this);
+  proxyModelIPW->setFilterCaseSensitivity(Qt::CaseInsensitive);
+  connect(m_ui->edit_filter, &QLineEdit::textChanged, proxyModelIPW,
+          &QSortFilterProxyModel::setFilterWildcard);
+
+  proxyModelIPW->setSourceModel(widgetModelIPW);
+  proxyModelIPW->sort(0);
+
+  ListDelegate *ld1 = new ListDelegate(m_ui->list_widgets->getlistview());
+  ListDelegate *ld2 = new ListDelegate(m_ui->list_widgets_2->getlistview());
+  ListDelegate *ld3 = new ListDelegate(m_ui->list_widgets_3->getlistview());
+
+  m_ui->list_widgets->getlistview()->setItemDelegate(ld1);
+  m_ui->list_widgets_2->getlistview()->setItemDelegate(ld2);
+  m_ui->list_widgets_3->getlistview()->setItemDelegate(ld3);
+
+  m_ui->list_widgets->getlistview()->setModel(proxyModel);
+  m_ui->list_widgets_2->getlistview()->setModel(proxyModelDPW);
+  m_ui->list_widgets_3->getlistview()->setModel(proxyModelIPW);
+
+  m_ui->list_widgets->settoolbtnText(tr("Button"));
+  m_ui->list_widgets_2->settoolbtnText(tr("DisplayWidgets"));
+  m_ui->list_widgets_3->settoolbtnText(tr("InputWidgts"));
 
   m_styleModel = new LVGLStyleModel;
   connect(m_styleModel, &LVGLStyleModel::styleChanged, this,

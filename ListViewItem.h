@@ -20,6 +20,8 @@ class ListViewItem : public QWidget {
 
   LVGLWidgetListView *getlistview();
 
+  void settoolbtnText(const QString &str);
+
  public slots:
   void slot_toolbtnclicked();
 
