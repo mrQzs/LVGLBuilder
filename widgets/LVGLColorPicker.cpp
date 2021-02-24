@@ -97,7 +97,6 @@ class LVGLPropertyCPickerColor : public LVGLPropertyColor {
 };
 
 LVGLColorPicker::LVGLColorPicker() {
-  m_defaultobj = lv_cpicker_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_CPICKER_PART_MAIN << LV_CPICKER_PART_KNOB;
   m_properties << new LVGLPropertyCPickerType;

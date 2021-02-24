@@ -177,7 +177,6 @@ class LVGLPropertyChartYDiv : public LVGLPropertyInt {
 //};
 
 LVGLChart::LVGLChart() {
-  m_defaultobj = lv_chart_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_CHART_PART_BG << LV_CHART_PART_SERIES_BG << LV_CHART_PART_SERIES
           << LV_CHART_PART_CURSOR;

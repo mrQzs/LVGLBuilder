@@ -21,6 +21,8 @@ ListViewItem::ListViewItem(QWidget *parent)
       "Box_background_nor.png);}"
       "QToolButton:hover{border-radius:5px;border-image:url(:/icons/"
       "Widget Box_background_cli.png);}");
+  ui->list_widgets->setStyleSheet("QListView{background:#f2f2f2;}");
+  ui->list_widgets->setSpacing(2);
 }
 
 ListViewItem::~ListViewItem() { delete ui; }

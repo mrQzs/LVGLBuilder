@@ -20,6 +20,7 @@ class LVGLKeyPressEventFilter;
 class LVGLCore;
 class TabWidget;
 class ListDelegate;
+class LVGLWidget;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,8 +34,12 @@ class MainWindow : public QMainWindow {
  public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
-
   LVGLSimulator *simulator() const;
+
+  QHash<QString, const LVGLWidget *> &getW() { return m_widgets; }
+  QHash<QString, const LVGLWidget *> &getWDP() { return m_widgetsDisplayW; }
+  QHash<QString, const LVGLWidget *> &getWIP() { return m_widgetsInputW; }
+  QMap<int, lv_obj_t *> &getCodeMap() { return m_codemap; }
 
  private slots:
   void updateProperty();
@@ -67,6 +72,13 @@ class MainWindow : public QMainWindow {
   void showEvent(QShowEvent *event);
 
  private:
+  QPixmap getPix(int type);
+  void initNewWidgets();
+  void initcodemap();
+  void addWidget(LVGLWidget *w);
+  void addWidgetDisplayW(LVGLWidget *w);
+  void addWidgetInputW(LVGLWidget *w);
+
   void initlvglConnect();
   void revlvglConnect();
   void addImage(LVGLImageData *img, QString name);
@@ -105,8 +117,13 @@ class MainWindow : public QMainWindow {
   ListDelegate *m_ld3;
 
   int m_curTabWIndex;
+  bool m_frun;
 
   QList<TabWidget *> m_listTabW;
   QMap<LVGLCore *, QSize> m_coreRes;
+  QMap<int, lv_obj_t *> m_codemap;
+  QHash<QString, const LVGLWidget *> m_widgets;
+  QHash<QString, const LVGLWidget *> m_widgetsDisplayW;
+  QHash<QString, const LVGLWidget *> m_widgetsInputW;
 };
 #endif  // MAINWINDOW_H

@@ -10,6 +10,7 @@
 #include "LVGLDialog.h"
 #include "LVGLFontData.h"
 #include "LVGLFontDialog.h"
+#include "LVGLHelper.h"
 #include "LVGLItem.h"
 #include "LVGLNewDialog.h"
 #include "LVGLObjectModel.h"
@@ -24,6 +25,7 @@
 #include "ListDelegate.h"
 #include "ListViewItem.h"
 #include "TabWidget.h"
+#include "lvgl/lvgl.h"
 #include "ui_MainWindow.h"
 #include "widgets/LVGLWidgets.h"
 
@@ -42,8 +44,15 @@ MainWindow::MainWindow(QWidget *parent)
       m_widgetModelDPW(nullptr),
       m_widgetModelIPW(nullptr),
       m_filter(nullptr),
-      m_curTabWIndex(-1) {
+      m_curTabWIndex(-1),
+      m_frun(true) {
   m_ui->setupUi(this);
+  m_ui->style_tree->setStyleSheet(
+      "QTreeView::item{border:1px solid "
+      "#f2f2f2;}");
+  m_ui->property_tree->setStyleSheet(
+      "QTreeView::item{border:1px solid "
+      "#f2f2f2;}");
   m_propertyModel = new LVGLPropertyModel();
   m_ld1 = new ListDelegate(m_ui->list_widgets->getlistview());
   m_ld2 = new ListDelegate(m_ui->list_widgets_2->getlistview());
@@ -94,6 +103,10 @@ MainWindow::MainWindow(QWidget *parent)
               << LV_STATE_DISABLED;
   connect(m_ui->tabWidget, &QTabWidget::currentChanged, this,
           &MainWindow::tabChanged);
+
+  // initcodemap();
+  // initNewWidgets();
+  LVGLHelper::getInstance().setMainW(this);
 }
 
 MainWindow::~MainWindow() { delete m_ui; }
@@ -154,6 +167,16 @@ void MainWindow::openNewProject() {
     lvgl = tabw->getCore();
     const auto res = dialog.selectedResolution();
     lvgl->init(res.width(), res.height());
+    if (m_frun) {
+      m_frun = false;
+      initNewWidgets();
+      initcodemap();
+    }
+
+    lvgl->initw(m_widgets);
+    lvgl->initwDP(m_widgetsDisplayW);
+    lvgl->initwIP(m_widgetsInputW);
+
     m_coreRes[lvgl] = res;
     m_listTabW.push_back(tabw);
     m_ui->tabWidget->addTab(tabw, tabw->getName());
@@ -469,6 +492,203 @@ void MainWindow::showEvent(QShowEvent *event) {
     QTimer::singleShot(50, this, SLOT(openNewProject()));
 }
 
+QPixmap MainWindow::getPix(int type) {
+  QPixmap p;
+  switch (type) {
+    case 0:
+      p.load(":/icons/Arc.png");
+      break;
+    case 1:
+      p.load(":/icons/Bar.png");
+      break;
+    case 2:
+      p.load(":/icons/Button.png");
+      break;
+    case 3:
+      p.load(":/icons/Button Matrix.png");
+      break;
+    case 4:
+      p.load(":/icons/Calendar.png");
+      break;
+    case 5:
+      p.load(":/icons/Canvas.png");
+      break;
+    case 6:
+      p.load(":/icons/Check box.png");
+      break;
+    case 7:
+      p.load(":/icons/Chart.png");
+      break;
+    case 8:
+      p.load(":/icons/Container.png");
+      break;
+    case 9:
+      p.load(":/icons/Color picker.png");
+      break;
+    case 10:
+      p.load(":/icons/Dropdown.png");
+      break;
+    case 11:
+      p.load(":/icons/Gauge.png");
+      break;
+    case 12:
+      p.load(":/icons/Image.png");
+      break;
+    case 13:
+      p.load(":/icons/Image button.png");
+      break;
+    case 16:
+      p.load(":/icons/Keyboard.png");
+      break;
+    case 17:
+      p.load(":/icons/Label.png");
+      break;
+    case 18:
+      p.load(":/icons/LED.png");
+      break;
+    case 19:
+      p.load(":/icons/Line.png");
+      break;
+    case 20:
+      p.load(":/icons/List.png");
+      break;
+    case 21:
+      p.load(":/icons/Line meter.png");
+      break;
+    case 22:
+      p.load(":/icons/Message box.png");
+      break;
+    case 23:
+      p.load(":/icons/ObjectMask.png");
+      break;
+    case 24:
+      p.load(":/icons/Page.png");
+      break;
+    case 25:
+      p.load(":/icons/Roller.png");
+      break;
+    case 26:
+      p.load(":/icons/Slider.png");
+      break;
+    case 27:
+      p.load(":/icons/Spinbox.png");
+      break;
+    case 28:
+      p.load(":/icons/Spinner.png");
+      break;
+    case 29:
+      p.load(":/icons/Switch.png");
+      break;
+    case 30:
+      p.load(":/icons/Table.png");
+      break;
+    case 31:
+      p.load(":/icons/Tabview.png");
+      break;
+    case 32:
+      p.load(":/icons/Text area.png");
+      break;
+    case 33:
+      p.load(":/icons/TileView.png");
+      break;
+    case 34:
+      p.load(":/icons/Window.png");
+      break;
+  }
+
+  return p;
+}
+
+void MainWindow::addWidget(LVGLWidget *w) {
+  w->setPreview(getPix(w->type()));
+  m_widgets.insert(w->className(), w);
+}
+
+void MainWindow::addWidgetDisplayW(LVGLWidget *w) {
+  w->setPreview(getPix(w->type()));
+  m_widgetsDisplayW.insert(w->className(), w);
+}
+
+void MainWindow::addWidgetInputW(LVGLWidget *w) {
+  w->setPreview(getPix(w->type()));
+  m_widgetsInputW.insert(w->className(), w);
+}
+
+void MainWindow::initcodemap() {
+  auto pt = lv_obj_create(NULL, NULL);
+  m_codemap[0] = lv_arc_create(pt, NULL);
+  m_codemap[1] = lv_bar_create(pt, NULL);
+  m_codemap[2] = lv_btn_create(pt, NULL);
+  m_codemap[3] = lv_btnmatrix_create(pt, NULL);
+  m_codemap[4] = lv_calendar_create(pt, NULL);
+  m_codemap[5] = lv_canvas_create(pt, NULL);
+  m_codemap[6] = lv_checkbox_create(pt, NULL);
+  m_codemap[7] = lv_chart_create(pt, NULL);
+  m_codemap[8] = lv_cont_create(pt, NULL);
+  m_codemap[9] = lv_cpicker_create(pt, NULL);
+  m_codemap[10] = lv_dropdown_create(pt, NULL);
+  m_codemap[11] = lv_gauge_create(pt, NULL);
+  m_codemap[12] = lv_img_create(pt, NULL);
+  m_codemap[13] = lv_imgbtn_create(pt, NULL);
+  m_codemap[16] = lv_keyboard_create(pt, NULL);
+  m_codemap[17] = lv_label_create(pt, NULL);
+  m_codemap[18] = lv_led_create(pt, NULL);
+  m_codemap[19] = lv_line_create(pt, NULL);
+  m_codemap[20] = lv_list_create(pt, NULL);
+  m_codemap[21] = lv_linemeter_create(pt, NULL);
+  m_codemap[22] = lv_msgbox_create(pt, NULL);
+  m_codemap[23] = lv_objmask_create(pt, NULL);
+  m_codemap[24] = lv_page_create(pt, NULL);
+  m_codemap[25] = lv_roller_create(pt, NULL);
+  m_codemap[26] = lv_slider_create(pt, NULL);
+  m_codemap[27] = lv_spinbox_create(pt, NULL);
+  m_codemap[28] = lv_spinner_create(pt, NULL);
+  m_codemap[29] = lv_switch_create(pt, NULL);
+  m_codemap[30] = lv_table_create(pt, NULL);
+  m_codemap[31] = lv_tabview_create(pt, NULL);
+  m_codemap[32] = lv_textarea_create(pt, NULL);
+  m_codemap[33] = lv_tileview_create(pt, NULL);
+  m_codemap[34] = lv_win_create(pt, NULL);
+}
+
+void MainWindow::initNewWidgets() {
+  addWidget(new LVGLButton);
+  addWidget(new LVGLButtonMatrix);
+  addWidget(new LVGLImageButton);
+
+  addWidgetDisplayW(new LVGLArc);
+  addWidgetDisplayW(new LVGLBar);
+  addWidgetDisplayW(new LVGLImage);
+  addWidgetDisplayW(new LVGLLabel);
+  addWidgetDisplayW(new LVGLLED);
+  addWidgetDisplayW(new LVGLMessageBox);
+  addWidgetDisplayW(new LVGLObjectMask);
+  addWidgetDisplayW(new LVGLPage);
+  addWidgetDisplayW(new LVGLTable);
+  addWidgetDisplayW(new LVGLTabview);
+  addWidgetDisplayW(new LVGLTileView);
+  addWidgetDisplayW(new LVGLTextArea);
+  addWidgetDisplayW(new LVGLWindow);
+
+  addWidgetInputW(new LVGLCalendar);
+  addWidgetInputW(new LVGLCanvas);
+  addWidgetInputW(new LVGLChart);
+  addWidgetInputW(new LVGLCheckBox);
+  addWidgetInputW(new LVGLColorPicker);
+  addWidgetInputW(new LVGLContainer);
+  addWidgetInputW(new LVGLDropDownList);
+  addWidgetInputW(new LVGLGauge);
+  addWidgetInputW(new LVGLKeyboard);
+  addWidgetInputW(new LVGLLine);
+  addWidgetInputW(new LVGLList);
+  addWidgetInputW(new LVGLLineMeter);
+  addWidgetInputW(new LVGLRoller);
+  addWidgetInputW(new LVGLSlider);
+  addWidgetInputW(new LVGLSpinbox);
+  addWidgetInputW(new LVGLSpinner);
+  addWidgetInputW(new LVGLSwitch);
+}
+
 void MainWindow::initlvglConnect() {
   if (m_objectModel) delete m_objectModel;
   if (m_proxyModel) delete m_proxyModel;
@@ -478,13 +698,13 @@ void MainWindow::initlvglConnect() {
   if (m_widgetModelDPW) delete m_widgetModelDPW;
   if (m_widgetModelIPW) delete m_widgetModelIPW;
 
-  m_objectModel = new LVGLObjectModel;
-  m_widgetModel = new LVGLWidgetModel;
-  m_widgetModelDPW = new LVGLWidgetModelDisplay;
-  m_widgetModelIPW = new LVGLWidgetModelInput;
-  m_proxyModel = new QSortFilterProxyModel;
-  m_proxyModelDPW = new QSortFilterProxyModel;
-  m_proxyModelIPW = new QSortFilterProxyModel;
+  m_objectModel = new LVGLObjectModel(this);
+  m_widgetModel = new LVGLWidgetModel(this);
+  m_widgetModelDPW = new LVGLWidgetModelDisplay(this);
+  m_widgetModelIPW = new LVGLWidgetModelInput(this);
+  m_proxyModel = new QSortFilterProxyModel(this);
+  m_proxyModelDPW = new QSortFilterProxyModel(this);
+  m_proxyModelIPW = new QSortFilterProxyModel(this);
 
   m_ui->object_tree->setModel(m_objectModel);
   m_curSimulation->setObjectModel(m_objectModel);

@@ -5,7 +5,6 @@
 #include "LVGLObject.h"
 
 LVGLSpinbox::LVGLSpinbox() {
-  m_defaultobj = lv_spinbox_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_SPINBOX_PART_BG << LV_SPINBOX_PART_CURSOR;
 

@@ -5,7 +5,6 @@
 #include "LVGLObject.h"
 
 LVGLSpinner::LVGLSpinner() {
-  m_defaultobj = lv_spinner_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_SPINNER_PART_BG << LV_SPINNER_PART_INDIC;
   m_editableStyles << LVGL::ArcBG      // LV_SPINNER_PART_BG

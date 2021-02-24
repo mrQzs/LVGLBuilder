@@ -24,6 +24,14 @@ class LVGLCore : public QObject {
 
   void init(int width, int height);
 
+  void initw(const QHash<QString, const LVGLWidget *> &w) { m_widgets = w; }
+  void initwDP(const QHash<QString, const LVGLWidget *> &w) {
+    m_widgetsDisplayW = w;
+  }
+  void initwIP(const QHash<QString, const LVGLWidget *> &w) {
+    m_widgetsInputW = w;
+  }
+
   bool changeResolution(QSize size);
 
   QPixmap framebuffer() const;
@@ -107,9 +115,7 @@ class LVGLCore : public QObject {
   void tick();
 
  private:
-  void addWidget(LVGLWidget *w);
-  void addWidgetDisplayW(LVGLWidget *w);
-  void addWidgetInputW(LVGLWidget *w);
+  QPixmap getPix(int type);
   void flushHandler(lv_disp_drv_t *disp, const lv_area_t *area,
                     lv_color_t *color_p);
   bool inputHandler(lv_indev_drv_t *indev_driver, lv_indev_data_t *data);

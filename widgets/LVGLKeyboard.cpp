@@ -49,7 +49,6 @@ class LVGLPropertyLBCursorManager : public LVGLPropertyBool {
 };
 
 LVGLKeyboard::LVGLKeyboard() {
-  m_defaultobj = lv_keyboard_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_KEYBOARD_PART_BG << LV_KEYBOARD_PART_BTN;
   m_properties << new LVGLPropertyKBMode;

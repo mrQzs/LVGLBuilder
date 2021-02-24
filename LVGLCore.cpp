@@ -8,7 +8,9 @@
 #include FT_FREETYPE_H
 
 #include "LVGLFontData.h"
+#include "LVGLHelper.h"
 #include "LVGLObject.h"
+#include "MainWindow.h"
 #include "widgets/LVGLWidgets.h"
 
 LVGLCore *lvgl(nullptr);
@@ -114,42 +116,6 @@ void LVGLCore::init(int width, int height) {
     }
   }
   Q_ASSERT(m_defaultFont != nullptr);
-
-  addWidget(new LVGLButton);
-  addWidget(new LVGLButtonMatrix);
-  addWidget(new LVGLImageButton);
-
-  addWidgetDisplayW(new LVGLArc);
-  addWidgetDisplayW(new LVGLBar);
-  addWidgetDisplayW(new LVGLImage);
-  addWidgetDisplayW(new LVGLLabel);
-  addWidgetDisplayW(new LVGLLED);
-  addWidgetDisplayW(new LVGLMessageBox);
-  addWidgetDisplayW(new LVGLObjectMask);
-  addWidgetDisplayW(new LVGLPage);
-  addWidgetDisplayW(new LVGLTable);
-  addWidgetDisplayW(new LVGLTabview);
-  addWidgetDisplayW(new LVGLTileView);
-  addWidgetDisplayW(new LVGLTextArea);
-  addWidgetDisplayW(new LVGLWindow);
-
-  addWidgetInputW(new LVGLCalendar);
-  addWidgetInputW(new LVGLCanvas);
-  addWidgetInputW(new LVGLChart);
-  addWidgetInputW(new LVGLCheckBox);
-  addWidgetInputW(new LVGLColorPicker);
-  addWidgetInputW(new LVGLContainer);
-  addWidgetInputW(new LVGLDropDownList);
-  addWidgetInputW(new LVGLGauge);
-  addWidgetInputW(new LVGLKeyboard);
-  addWidgetInputW(new LVGLLine);
-  addWidgetInputW(new LVGLList);
-  addWidgetInputW(new LVGLLineMeter);
-  addWidgetInputW(new LVGLRoller);
-  addWidgetInputW(new LVGLSlider);
-  addWidgetInputW(new LVGLSpinbox);
-  addWidgetInputW(new LVGLSpinner);
-  addWidgetInputW(new LVGLSwitch);
 
   setScreenColor(Qt::white);
   changeResolution({width, height});
@@ -744,87 +710,6 @@ const LVGLWidget *LVGLCore::widget(const QString &name) const {
 void LVGLCore::tick() {
   lv_task_handler();
   lv_tick_inc(20);
-}
-
-void LVGLCore::addWidget(LVGLWidget *w) {
-  auto size = w->minimumSize();
-  if (size.width() > width() || size.height() > height())
-    changeResolution(
-        {std::max(size.width(), width()), std::max(size.height(), height())});
-
-  setScreenColor(Qt::transparent);
-  lv_obj_t *o = w->newObject(getdispt()->act_scr);
-  lv_obj_set_pos(o, 0, 0);
-  lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
-
-  lv_scr_load(getdispt()->act_scr);
-  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
-  lv_task_handler();
-
-  w->setPreview(
-      /*grab(QRect(QPoint(0, 0), size))*/ framebuffer().copy({{0, 0}, size}));
-  w->preview().save(w->name() + ".png");
-  lv_obj_del(o);
-
-  lv_scr_load(getdispt()->act_scr);
-  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
-  lv_task_handler();
-
-  m_widgets.insert(w->className(), w);
-}
-
-void LVGLCore::addWidgetDisplayW(LVGLWidget *w) {
-  auto size = w->minimumSize();
-  if (size.width() > width() || size.height() > height())
-    changeResolution(
-        {std::max(size.width(), width()), std::max(size.height(), height())});
-
-  setScreenColor(Qt::transparent);
-  lv_obj_t *o = w->newObject(getdispt()->act_scr);
-  lv_obj_set_pos(o, 0, 0);
-  lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
-
-  lv_scr_load(getdispt()->act_scr);
-  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
-  lv_task_handler();
-
-  w->setPreview(
-      /*grab(QRect(QPoint(0, 0), size))*/ framebuffer().copy({{0, 0}, size}));
-  w->preview().save(w->name() + ".png");
-  lv_obj_del(o);
-
-  lv_scr_load(getdispt()->act_scr);
-  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
-  lv_task_handler();
-
-  m_widgetsDisplayW.insert(w->className(), w);
-}
-
-void LVGLCore::addWidgetInputW(LVGLWidget *w) {
-  auto size = w->minimumSize();
-  if (size.width() > width() || size.height() > height())
-    changeResolution(
-        {std::max(size.width(), width()), std::max(size.height(), height())});
-
-  setScreenColor(Qt::transparent);
-  lv_obj_t *o = w->newObject(getdispt()->act_scr);
-  lv_obj_set_pos(o, 0, 0);
-  lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
-
-  lv_scr_load(getdispt()->act_scr);
-  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
-  lv_task_handler();
-
-  w->setPreview(
-      /*grab(QRect(QPoint(0, 0), size))*/ framebuffer().copy({{0, 0}, size}));
-  w->preview().save(w->name() + ".png");
-  lv_obj_del(o);
-
-  lv_scr_load(getdispt()->act_scr);
-  lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
-  lv_task_handler();
-
-  m_widgetsInputW.insert(w->className(), w);
 }
 
 void LVGLCore::flushHandler(lv_disp_drv_t *disp, const lv_area_t *area,

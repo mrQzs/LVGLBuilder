@@ -124,7 +124,6 @@ class LVGLPropertyImgSource : public LVGLPropertyImage {
 };
 
 LVGLImage::LVGLImage() {
-  m_defaultobj = lv_img_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_IMG_PART_MAIN;
   m_properties << new LVGLPropertyImgOffset;

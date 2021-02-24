@@ -79,7 +79,6 @@ class LVGLWidget {
 
   LVGLProperty *geometryProp() const;
   lv_style_t *getstyle(int partindex, int stateindex) const;
-  lv_obj_t *getdefaultobj() const { return m_defaultobj; }
 
  protected:
   LVGLProperty *m_geometryProp;
@@ -88,8 +87,6 @@ class LVGLWidget {
   QPixmap m_preview;
   QList<lv_obj_part_t> m_parts;
   QMap<int, QList<lv_style_t *>> m_partsStyles;
-  lv_obj_t *m_parent;
-  lv_obj_t *m_defaultobj;
 };
 Q_DECLARE_METATYPE(LVGLWidget *)
 Q_DECLARE_METATYPE(const LVGLWidget *)

@@ -164,7 +164,6 @@ class LVGLPropertyDropdownMaxHeight : public LVGLPropertyInt {
 //};
 
 LVGLDropDownList::LVGLDropDownList() {
-  m_defaultobj = lv_dropdown_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_DROPDOWN_PART_MAIN << LV_DROPDOWN_PART_LIST
           << LV_DROPDOWN_PART_SCROLLBAR << LV_DROPDOWN_PART_SELECTED;

@@ -74,7 +74,6 @@ class LVGLPropertyImgBtnState : public LVGLPropertyEnum {
 };
 
 LVGLImageButton::LVGLImageButton() {
-  m_defaultobj = lv_imgbtn_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_IMGBTN_PART_MAIN;
   m_properties << new LVGLPropertyImgBtnState;

@@ -10,7 +10,9 @@
 
 #include "LVGLCore.h"
 #include "LVGLFontData.h"
+#include "LVGLHelper.h"
 #include "LVGLObject.h"
+#include "MainWindow.h"
 
 #define IS_PAGE_OF_TABVIEW(o)                                    \
   ((o->widgetType() == LVGLWidget::Page) && (o->index() >= 0) && \
@@ -218,10 +220,11 @@ bool LVGLProject::exportCode(const QString &path) const {
              << "static lv_style_t " << o->styleCodeName(index) << ";\n";
       stream << "\t"
              << "lv_style_init(&" << o->styleCodeName(index) << ");\n";
+      auto codemap = LVGLHelper::getInstance().getMainW()->getCodeMap();
       for (int i = 0; i < lvglStateType; ++i) {
         QStringList styleset =
             o->codeStyle(o->styleCodeName(index), o->obj(),
-                         o->widgetClass()->getdefaultobj(), index, i);
+                         codemap[o->widgetClass()->type()], index, i);
         for (const QString &s : styleset) stream << "\t" << s << "\n";
       }
     }

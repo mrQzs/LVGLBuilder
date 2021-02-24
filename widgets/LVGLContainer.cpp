@@ -36,7 +36,6 @@ class LVGLPropertyContainerLayout : public LVGLPropertyEnum {
 };
 
 LVGLContainer::LVGLContainer() {
-  m_defaultobj = lv_cont_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_CONT_PART_MAIN;
   m_properties << new LVGLPropertyContainerLayout;

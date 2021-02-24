@@ -32,7 +32,6 @@ class LVGLPropertyArcRotation : public LVGLPropertyInt {
 };
 
 LVGLArc::LVGLArc() {
-  m_defaultobj = lv_arc_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_ARC_PART_BG << LV_ARC_PART_INDIC << LV_ARC_PART_KNOB;
   m_properties << new LVGLPropertyVal2UInt16(

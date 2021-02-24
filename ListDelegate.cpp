@@ -16,6 +16,7 @@ void ListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
   int x = option.rect.x();
   int y = option.rect.y();
   QRect seletrec = option.rect;
+  painter->setPen(QColor("#ffffff"));
   painter->setBrush(QColor("#ffffff"));
   painter->drawRect(seletrec);
 
@@ -26,19 +27,20 @@ void ListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     painter->setBrush(Qt::NoBrush);
   }
 
-  QPoint left(x + 3, y + 3);
-  QPoint right(x + 65, y + 18);
+  QPoint left(x + 8, y + 5);
+  QPoint right(x + 42, y + 16);
   QRect rec(left, right);
-  QPoint left2(x + 75, y);
-  QPoint right2(x + 252, y + 17);
+  QPoint left2(x + 62, y + 3);
+  QPoint right2(x + 285, y + 17);
   QRect rec2(left2, right2);
-  QFont font("黑体", 12);
+  QFont font("黑体", 10);
   painter->setFont(font);
   painter->setPen(Qt::black);
   painter->setRenderHint(QPainter::SmoothPixmapTransform);
 
   if (name == tr("Arc")) {
     QPixmap pixmap = QPixmap(":/icons/Arc.png");
+    pixmap.scaled(QSize(62, 15), Qt::KeepAspectRatio);
     painter->drawPixmap(rec, pixmap);
     painter->drawText(rec2, tr("Arc"));
   } else if (name == tr("Bar")) {
@@ -47,6 +49,7 @@ void ListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     painter->drawText(rec2, tr("Bar"));
   } else if (name == tr("Button")) {
     QPixmap pixmap = QPixmap(":/icons/Button.png");
+    pixmap.scaled(QSize(62, 15), Qt::KeepAspectRatio);
     painter->drawPixmap(rec, pixmap);
     painter->drawText(rec2, tr("Button"));
   } else if (name == tr("Button Matrix")) {

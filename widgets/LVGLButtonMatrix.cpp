@@ -268,7 +268,6 @@ class LVGLPropertyBtnmatrixButtonWidth : public LVGLPropertyAnyFunc {
 };
 
 LVGLButtonMatrix::LVGLButtonMatrix() {
-  m_defaultobj = lv_btnmatrix_create(m_parent, NULL);
   initStateStyles();
   auto p = new LVGLPropertyBtnmatrixButtonsText;
   m_properties << p;

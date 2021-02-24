@@ -38,7 +38,6 @@
 //};
 
 LVGLMessageBox::LVGLMessageBox() {
-  m_defaultobj = lv_msgbox_create(m_parent, NULL);
   initStateStyles();
   m_parts << LV_MSGBOX_PART_BG << LV_MSGBOX_PART_BTN_BG << LV_MSGBOX_PART_BTN;
 
@@ -59,7 +58,7 @@ LVGLMessageBox::LVGLMessageBox() {
 
 QString LVGLMessageBox::name() const { return "Message box"; }
 
-QString LVGLMessageBox::className() const { return "lv_mbox"; }
+QString LVGLMessageBox::className() const { return "lv_msgbox"; }
 
 LVGLWidget::Type LVGLMessageBox::type() const { return MessageBox; }
 

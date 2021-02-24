@@ -12,6 +12,7 @@
 #include "LVGLDialog.h"
 #include "LVGLFontData.h"
 #include "LVGLFontDialog.h"
+#include "LVGLHelper.h"
 #include "LVGLNewDialog.h"
 #include "LVGLObjectModel.h"
 #include "LVGLProject.h"
@@ -19,6 +20,7 @@
 #include "LVGLSimulator.h"
 #include "LVGLStyleModel.h"
 #include "LVGLWidgetModel.h"
+#include "MainWindow.h"
 
 TabWidget::TabWidget(const QString &name, QWidget *parent)
     : QWidget(parent),

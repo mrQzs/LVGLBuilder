@@ -109,7 +109,6 @@ class LVGLPropertyRollerAnimationTime : public LVGLPropertyInt {
 };
 
 LVGLRoller::LVGLRoller() {
-  m_defaultobj = lv_roller_create(m_parent, NULL);
   initStateStyles();
   m_properties << new LVGLPropertyRolleroptionsN << new LVGLPropertyRollerAlign;
   m_properties << new LVGLPropertyRollerVisibleRows;

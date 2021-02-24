@@ -39,8 +39,7 @@ class LVGLPropertyLocked : public LVGLPropertyBool {
   }
 };
 
-LVGLWidget::LVGLWidget()
-    : m_parent(lv_obj_create(NULL, NULL)), m_defaultobj(nullptr) {
+LVGLWidget::LVGLWidget() {
   m_geometryProp = new LVGLPropertyGeometry;
   m_properties << new LVGLPropertyName;
   m_properties << new LVGLPropertyAccessible;
@@ -51,8 +50,6 @@ LVGLWidget::LVGLWidget()
 LVGLWidget::~LVGLWidget() {
   qDeleteAll(m_properties);
   for (auto x : m_partsStyles) qDeleteAll(x);
-  if (m_defaultobj) lv_obj_del(m_defaultobj);
-  if (m_parent) lv_obj_del(m_parent);
 }
 
 QPixmap LVGLWidget::preview() const { return m_preview; }
