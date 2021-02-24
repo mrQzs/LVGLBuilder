@@ -33,9 +33,9 @@ LVGLScene::LVGLScene(QObject *parent)
     : QGraphicsScene(parent), m_selected(nullptr), m_hoverObject(nullptr) {}
 
 void LVGLScene::drawBackground(QPainter *painter, const QRectF &rect) {
-  lvgl.poll();
+  m_lvgl->poll();
   painter->save();
-  painter->drawPixmap(sceneRect(), lvgl.framebuffer(), rect);
+  painter->drawPixmap(sceneRect(), m_lvgl->framebuffer(), rect);
   if (m_selected != nullptr) {
     painter->setPen(Qt::red);
     painter->setBrush(Qt::NoBrush);
@@ -47,7 +47,7 @@ void LVGLScene::drawBackground(QPainter *painter, const QRectF &rect) {
     if (m_hoverObject->widgetType() == LVGLWidget::TabView) {
       lv_obj_t *obj = m_hoverObject->obj();
       lv_obj_t *tab = lv_tabview_get_tab(obj, lv_tabview_get_tab_act(obj));
-      painter->drawRect(lvgl.get_object_rect(tab));
+      painter->drawRect(m_lvgl->get_object_rect(tab));
     } else {
       painter->drawRect(m_hoverObject->geometry());
     }
@@ -68,21 +68,23 @@ LVGLObject *LVGLScene::selected() const { return m_selected; }
 
 void LVGLScene::setSelected(LVGLObject *selected) { m_selected = selected; }
 
-LVGLSimulator::LVGLSimulator(QWidget *parent)
+LVGLSimulator::LVGLSimulator(LVGLCore *lvgl, QWidget *parent)
     : QGraphicsView(parent),
       m_scene(new LVGLScene),
       m_selectedObject(nullptr),
       m_mouseEnabled(false),
       m_item(new LVGLItem),
-      m_objectModel(nullptr) {
+      m_objectModel(nullptr),
+      m_lvgl(lvgl) {
   // setMinimumSize(LV_HOR_RES_MAX, LV_VER_RES_MAX);
   // setMaximumSize(LV_HOR_RES_MAX, LV_VER_RES_MAX);
+  m_scene->setlvgl(m_lvgl);
 
   connect(m_item, &LVGLItem::geometryChanged, this, &LVGLSimulator::update);
 
   setAcceptDrops(true);
 
-  m_scene->setSceneRect(0, 0, lvgl.width(), lvgl.height());
+  m_scene->setSceneRect(0, 0, m_lvgl->width(), m_lvgl->height());
   setScene(m_scene);
   m_scene->addItem(m_item);
 
@@ -122,9 +124,9 @@ void LVGLSimulator::setZoomLevel(int level) {
 
 void LVGLSimulator::clear() {
   setSelectedObject(nullptr);
-  lvgl.removeAllObjects();
-  lvgl.removeAllImages();
-  lvgl.removeCustomFonts();
+  m_lvgl->removeAllObjects();
+  m_lvgl->removeAllImages();
+  m_lvgl->removeCustomFonts();
 }
 
 void LVGLSimulator::setMouseEnable(bool enable) { m_mouseEnabled = enable; }
@@ -136,7 +138,7 @@ void LVGLSimulator::changeResolution(QSize size) {
 void LVGLSimulator::mousePressEvent(QMouseEvent *event) {
   const QPoint pos = mapToScene(event->pos()).toPoint();
   if (m_mouseEnabled) {
-    lvgl.sendMouseEvent(pos.x(), pos.y(), event->buttons() & Qt::LeftButton);
+    m_lvgl->sendMouseEvent(pos.x(), pos.y(), event->buttons() & Qt::LeftButton);
   } else {
     if (event->button() == Qt::RightButton) {
       auto obj = selectObject(objectsUnderCoords(pos, true), false);
@@ -159,7 +161,7 @@ void LVGLSimulator::mousePressEvent(QMouseEvent *event) {
           if (obj == m_selectedObject) setSelectedObject(nullptr);
         } else if (sel == remove) {
           if (obj == m_selectedObject) setSelectedObject(nullptr);
-          lvgl.removeObject(obj);
+          m_lvgl->removeObject(obj);
         } else if (sel == mfore) {
           lv_obj_move_foreground(obj->obj());
         } else if (sel == mback) {
@@ -173,9 +175,9 @@ void LVGLSimulator::mousePressEvent(QMouseEvent *event) {
 
       if (sel == scolor) {
         QColorDialog dialog(this);
-        dialog.setCurrentColor(lvgl.screenColor());
+        dialog.setCurrentColor(m_lvgl->screenColor());
         if (dialog.exec() == QDialog::Accepted)
-          lvgl.setScreenColor(dialog.selectedColor());
+          m_lvgl->setScreenColor(dialog.selectedColor());
       }
     } else if (event->button() == Qt::LeftButton) {
       if (!m_item->isManipolating())
@@ -200,7 +202,7 @@ void LVGLSimulator::mouseDoubleClickEvent(QMouseEvent *event) {
 void LVGLSimulator::mouseReleaseEvent(QMouseEvent *event) {
   if (m_mouseEnabled) {
     const QPoint pos = mapToScene(event->pos()).toPoint();
-    lvgl.sendMouseEvent(pos.x(), pos.y(), false);
+    m_lvgl->sendMouseEvent(pos.x(), pos.y(), false);
   }
   QGraphicsView::mouseReleaseEvent(event);
 }
@@ -208,7 +210,7 @@ void LVGLSimulator::mouseReleaseEvent(QMouseEvent *event) {
 void LVGLSimulator::mouseMoveEvent(QMouseEvent *event) {
   if (m_mouseEnabled) {
     const QPoint pos = mapToScene(event->pos()).toPoint();
-    lvgl.sendMouseEvent(pos.x(), pos.y(), event->buttons() & Qt::LeftButton);
+    m_lvgl->sendMouseEvent(pos.x(), pos.y(), event->buttons() & Qt::LeftButton);
   }
   QGraphicsView::mouseMoveEvent(event);
 }
@@ -245,13 +247,15 @@ void LVGLSimulator::dropEvent(QDropEvent *event) {
       parentPos = parent->absolutePosition();
       newObj->setGeometry(QRect(pos - parentPos, widgetClass->minimumSize()));
     } else {
-      newObj = new LVGLObject(widgetClass, "", lvgl.getdispt()->act_scr);
-      QSize size(std::min(widgetClass->minimumSize().width(), lvgl.width()),
-                 std::min(widgetClass->minimumSize().height(), lvgl.height()));
-      if (pos.x() + size.width() >= lvgl.width())
-        pos.setX(lvgl.width() - size.width());
-      if (pos.y() + size.height() >= lvgl.height())
-        pos.setY(lvgl.height() - size.height());
+      qDebug() << "######" << (int)m_lvgl;
+      newObj = new LVGLObject(widgetClass, "", m_lvgl->getdispt()->act_scr);
+      QSize size(
+          std::min(widgetClass->minimumSize().width(), m_lvgl->width()),
+          std::min(widgetClass->minimumSize().height(), m_lvgl->height()));
+      if (pos.x() + size.width() >= m_lvgl->width())
+        pos.setX(m_lvgl->width() - size.width());
+      if (pos.y() + size.height() >= m_lvgl->height())
+        pos.setY(m_lvgl->height() - size.height());
       newObj->setGeometry(QRect(pos, size));
     }
 
@@ -299,8 +303,8 @@ LVGLObject *LVGLSimulator::selectObject(QList<LVGLObject *> objs,
 QList<LVGLObject *> LVGLSimulator::objectsUnderCoords(
     QPoint pos, bool includeLocked) const {
   QList<LVGLObject *> ret;
-  QRect screen = QRect(QPoint(0, 0), lvgl.size()).adjusted(-50, -50, 50, 50);
-  for (LVGLObject *o : lvgl.allObjects()) {
+  QRect screen = QRect(QPoint(0, 0), m_lvgl->size()).adjusted(-50, -50, 50, 50);
+  for (LVGLObject *o : m_lvgl->allObjects()) {
     if (!includeLocked && o->isLocked()) continue;
     QRect geo = o->geometry();
     if (screen.contains(geo) && geo.contains(pos)) ret << o;
@@ -319,9 +323,9 @@ void LVGLSimulator::moveObject(LVGLObject *obj, int dx, int dy) {
     if ((dx != 0) && (dy != 0)) {
       obj->setPosition(obj->position() + QPoint(dx, dy));
     } else if (dx != 0) {
-      obj->setX(qBound(0, obj->x() + dx, lvgl.width() - obj->width() - 1));
+      obj->setX(qBound(0, obj->x() + dx, m_lvgl->width() - obj->width() - 1));
     } else if (dy != 0) {
-      obj->setY(qBound(0, obj->y() + dy, lvgl.height() - obj->height() - 1));
+      obj->setY(qBound(0, obj->y() + dy, m_lvgl->height() - obj->height() - 1));
     }
   }
 }
@@ -333,7 +337,7 @@ void LVGLSimulator::addObject(LVGLObject *obj) {
   if (m_objectModel) m_objectModel->beginInsertObject(obj);
 
   // add object to interal list
-  lvgl.addObject(obj);
+  m_lvgl->addObject(obj);
 
   if (m_objectModel) m_objectModel->endInsertObject();
 
@@ -348,7 +352,7 @@ void LVGLSimulator::removeObject(LVGLObject *obj) {
 
   if (m_objectModel) m_objectModel->beginRemoveObject(obj);
 
-  lvgl.removeObject(obj);
+  m_lvgl->removeObject(obj);
 
   if (m_objectModel) m_objectModel->endRemoveObject();
 }

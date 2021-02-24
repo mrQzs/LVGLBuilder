@@ -20,7 +20,7 @@ class LVGLPropertyImgBtnSrc : public LVGLPropertyImage {
   QString name() const override { return "Source " + m_values.at(m_state); }
 
   QStringList function(LVGLObject *obj) const override {
-    LVGLImageData *img = lvgl.imageByDesc(get(obj));
+    LVGLImageData *img = lvgl->imageByDesc(get(obj));
     if (img == nullptr) return QStringList();
     return QStringList() << QString("lv_imgbtn_set_src(%1, %2, &%3);")
                                 .arg(obj->codeName())

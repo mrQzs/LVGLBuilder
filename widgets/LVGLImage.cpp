@@ -107,7 +107,7 @@ class LVGLPropertyImgSource : public LVGLPropertyImage {
   inline QString name() const override { return "Source"; }
 
   QStringList function(LVGLObject *obj) const override {
-    LVGLImageData *img = lvgl.imageByDesc(get(obj));
+    LVGLImageData *img = lvgl->imageByDesc(get(obj));
     if (img == nullptr) return QStringList();
     return QStringList() << QString("lv_img_set_src(%1, &%2);")
                                 .arg(obj->codeName())
@@ -146,7 +146,7 @@ QSize LVGLImage::minimumSize() const { return QSize(50, 50); }
 
 lv_obj_t *LVGLImage::newObject(lv_obj_t *parent) const {
   lv_obj_t *obj = lv_img_create(parent, nullptr);
-  lv_img_set_src(obj, lvgl.defaultImage());
+  lv_img_set_src(obj, lvgl->defaultImage());
   return obj;
 }
 

@@ -76,8 +76,8 @@ class LVGLPropertyTabs : public LVGLPropertyTextList {
       lv_obj_t *page_obj =
           lv_tabview_add_tab(obj->obj(), qUtf8Printable(list.at(i)));
       LVGLObject *page =
-          new LVGLObject(page_obj, lvgl.widget("lv_page"), obj, false, i);
-      lvgl.addObject(page);
+          new LVGLObject(page_obj, lvgl->widget("lv_page"), obj, false, i);
+      lvgl->addObject(page);
     }
   }
 };

@@ -11,7 +11,7 @@
 #include "LVGLObject.h"
 #include "widgets/LVGLWidgets.h"
 
-LVGLCore lvgl(nullptr);
+LVGLCore *lvgl(nullptr);
 
 const char *LVGLCore::DEFAULT_DAYS[7] = {"Su", "Mo", "Tu", "We",
                                          "Th", "Fr", "Sa"};
@@ -30,9 +30,11 @@ const char *LVGLCore::LVGL_STATE_STR[7] = {
 
 lv_style_t lv_style_scr;
 
-LVGLCore::LVGLCore(QObject *parent) : QObject(parent), m_defaultFont(nullptr) {
+LVGLCore::LVGLCore(QObject *parent)
+    : QObject(parent), m_defaultFont(nullptr), m_dispt(nullptr) {
   FT_Init_FreeType(&m_ft);
   lv_style_init(&lv_style_scr);
+  lv_style_init(&m_screenStyle);
 }
 
 LVGLCore::~LVGLCore() {
@@ -72,7 +74,7 @@ void LVGLCore::init(int width, int height) {
   lv_indev_drv_register(&indev_drv);
 
   QImage pix(":/images/littlevgl_logo.png");
-  m_default = lvgl.addImage(pix, "default");
+  m_default = lvgl->addImage(pix, "default");
 
   lv_style_copy(&m_screenStyle, &lv_style_scr);
 #if LV_FONT_CHINESE_16
@@ -165,15 +167,15 @@ bool LVGLCore::changeResolution(QSize size) {
 
   m_dispDrv.hor_res = static_cast<lv_coord_t>(size.width());
   m_dispDrv.ver_res = static_cast<lv_coord_t>(size.height());
-  lv_disp_drv_update(lv_disp_get_default(), &m_dispDrv);
+  lv_disp_drv_update(m_dispt, &m_dispDrv);
 
   return false;
 }
 
 QPixmap LVGLCore::framebuffer() const {
-  auto disp = lv_disp_get_default();
-  auto width = lv_disp_get_hor_res(disp);
-  auto height = lv_disp_get_ver_res(disp);
+  auto width = lv_disp_get_hor_res(m_dispt);
+  auto height = lv_disp_get_ver_res(m_dispt);
+  ;
 
   QImage img(width, height, QImage::Format_ARGB32);
   memcpy(img.bits(), m_dispFrameBuf.data(),
@@ -182,7 +184,7 @@ QPixmap LVGLCore::framebuffer() const {
 }
 
 QPixmap LVGLCore::grab(const QRect &region) const {
-  const auto stride = lv_disp_get_hor_res(lv_disp_get_default());
+  const auto stride = lv_disp_get_hor_res(m_dispt);
 
   QImage img(region.width(), region.height(), QImage::Format_ARGB32);
   for (auto y = 0; y < region.height(); ++y)
@@ -198,17 +200,12 @@ QPixmap LVGLCore::grab(const QRect &region) const {
   return pix;
 }
 
-int LVGLCore::width() const {
-  return lv_disp_get_hor_res(lv_disp_get_default());
-}
+int LVGLCore::width() const { return lv_disp_get_hor_res(m_dispt); }
 
-int LVGLCore::height() const {
-  return lv_disp_get_ver_res(lv_disp_get_default());
-}
+int LVGLCore::height() const { return lv_disp_get_ver_res(m_dispt); }
 
 QSize LVGLCore::size() const {
-  auto disp = lv_disp_get_default();
-  return QSize(lv_disp_get_hor_res(disp), lv_disp_get_ver_res(disp));
+  return QSize(lv_disp_get_hor_res(m_dispt), lv_disp_get_ver_res(m_dispt));
 }
 
 LVGLImageData *LVGLCore::addImage(QImage image, QString name) {
@@ -487,12 +484,12 @@ void LVGLCore::sendMouseEvent(int x, int y, bool pressed) {
 }
 
 QPoint LVGLCore::get_absolute_position(const lv_obj_t *obj) const {
-  if (obj == lvgl.getdispt()->act_scr) return QPoint(0, 0);
+  if (obj == getdispt()->act_scr) return QPoint(0, 0);
   int x = lv_obj_get_x(obj);
   int y = lv_obj_get_y(obj);
   lv_obj_t *parent = lv_obj_get_parent(obj);
   while (parent) {
-    if (parent == lvgl.getdispt()->act_scr) break;
+    if (parent == getdispt()->act_scr) break;
     x += lv_obj_get_x(parent);
     y += lv_obj_get_y(parent);
     parent = lv_obj_get_parent(parent);
@@ -708,7 +705,7 @@ void LVGLCore::setScreenColor(QColor color) {
   lv_style_set_bg_color(&m_screenStyle, LV_STATE_DEFAULT, fromColor(color));
   lv_style_set_bg_grad_color(&m_screenStyle, LV_STATE_DEFAULT,
                              fromColor(color));
-  lv_obj_add_style(lvgl.getdispt()->act_scr, 0, &m_screenStyle);
+  lv_obj_add_style(getdispt()->act_scr, 0, &m_screenStyle);
 }
 
 QColor LVGLCore::screenColor() const {
@@ -756,11 +753,11 @@ void LVGLCore::addWidget(LVGLWidget *w) {
         {std::max(size.width(), width()), std::max(size.height(), height())});
 
   setScreenColor(Qt::transparent);
-  lv_obj_t *o = w->newObject(lvgl.getdispt()->act_scr);
+  lv_obj_t *o = w->newObject(getdispt()->act_scr);
   lv_obj_set_pos(o, 0, 0);
   lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
 
-  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_scr_load(getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 
@@ -769,7 +766,7 @@ void LVGLCore::addWidget(LVGLWidget *w) {
   w->preview().save(w->name() + ".png");
   lv_obj_del(o);
 
-  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_scr_load(getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 
@@ -783,11 +780,11 @@ void LVGLCore::addWidgetDisplayW(LVGLWidget *w) {
         {std::max(size.width(), width()), std::max(size.height(), height())});
 
   setScreenColor(Qt::transparent);
-  lv_obj_t *o = w->newObject(lvgl.getdispt()->act_scr);
+  lv_obj_t *o = w->newObject(getdispt()->act_scr);
   lv_obj_set_pos(o, 0, 0);
   lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
 
-  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_scr_load(getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 
@@ -796,7 +793,7 @@ void LVGLCore::addWidgetDisplayW(LVGLWidget *w) {
   w->preview().save(w->name() + ".png");
   lv_obj_del(o);
 
-  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_scr_load(getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 
@@ -810,11 +807,11 @@ void LVGLCore::addWidgetInputW(LVGLWidget *w) {
         {std::max(size.width(), width()), std::max(size.height(), height())});
 
   setScreenColor(Qt::transparent);
-  lv_obj_t *o = w->newObject(lvgl.getdispt()->act_scr);
+  lv_obj_t *o = w->newObject(getdispt()->act_scr);
   lv_obj_set_pos(o, 0, 0);
   lv_obj_set_size(o, w->minimumSize().width(), w->minimumSize().height());
 
-  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_scr_load(getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 
@@ -823,7 +820,7 @@ void LVGLCore::addWidgetInputW(LVGLWidget *w) {
   w->preview().save(w->name() + ".png");
   lv_obj_del(o);
 
-  lv_scr_load(lvgl.getdispt()->act_scr);
+  lv_scr_load(getdispt()->act_scr);
   lv_tick_inc(LV_DISP_DEF_REFR_PERIOD);
   lv_task_handler();
 

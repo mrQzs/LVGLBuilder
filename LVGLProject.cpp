@@ -48,7 +48,7 @@ LVGLProject *LVGLProject::load(const QString &fileName) {
   for (int i = 0; i < imageArr.size(); ++i) {
     LVGLImageData *img = new LVGLImageData(imageArr[i].toObject());
     if (img->isValid()) {
-      lvgl.addImage(img);
+      lvgl->addImage(img);
     } else {
       QMessageBox::critical(
           nullptr, "Error",
@@ -60,11 +60,11 @@ LVGLProject *LVGLProject::load(const QString &fileName) {
   QJsonArray fontArr = doc["fonts"].toArray();
   for (int i = 0; i < fontArr.size(); ++i) {
     QJsonObject object = fontArr[i].toObject();
-    lvgl.addFont(LVGLFontData::parse(object));
+    lvgl->addFont(LVGLFontData::parse(object));
   }
 
   if (lvglObj.contains("screen color"))
-    lvgl.setScreenColor(lvglObj["screen color"].toVariant().value<QColor>());
+    lvgl->setScreenColor(lvglObj["screen color"].toVariant().value<QColor>());
   QJsonArray widgetArr = lvglObj["widgets"].toArray();
   for (int i = 0; i < widgetArr.size(); ++i) {
     QJsonObject object = widgetArr[i].toObject();
@@ -81,7 +81,7 @@ bool LVGLProject::save(const QString &fileName) {
   if (!file.open(QIODevice::WriteOnly)) return false;
 
   QJsonArray widgetArr;
-  for (LVGLObject *o : lvgl.allObjects()) {
+  for (LVGLObject *o : lvgl->allObjects()) {
     if (o->parent() == nullptr) {
       if (o->doesNameExists()) o->generateName();
       widgetArr.append(o->toJson());
@@ -89,19 +89,19 @@ bool LVGLProject::save(const QString &fileName) {
   }
 
   QJsonArray imageArr;
-  for (LVGLImageData *i : lvgl.images()) {
+  for (LVGLImageData *i : lvgl->images()) {
     if (!i->fileName().isEmpty()) imageArr.append(i->toJson());
   }
 
   QJsonArray fontArr;
-  for (const LVGLFontData *f : lvgl.customFonts()) fontArr.append(f->toJson());
+  for (const LVGLFontData *f : lvgl->customFonts()) fontArr.append(f->toJson());
 
   QJsonObject resolution(
       {{"width", m_resolution.width()}, {"height", m_resolution.height()}});
   QJsonObject screen(
       {{"widgets", widgetArr}, {"name", m_name}, {"resolution", resolution}});
-  if (lvgl.screenColorChanged())
-    screen.insert("screen color", QVariant(lvgl.screenColor()).toString());
+  if (lvgl->screenColorChanged())
+    screen.insert("screen color", QVariant(lvgl->screenColor()).toString());
   QJsonObject lvgl(
       {{"lvgl", screen}, {"images", imageArr}, {"fonts", fontArr}});
   QJsonDocument doc(lvgl);
@@ -127,7 +127,7 @@ bool LVGLProject::exportCode(const QString &path) const {
   if (!file.open(QIODevice::WriteOnly)) return false;
   stream.setDevice(&file);
 
-  auto objects = lvgl.allObjects();
+  auto objects = lvgl->allObjects();
 
   stream << "#ifndef " << defName << "_H\n#define " << defName << "_H\n\n";
   stream << "#ifdef __cplusplus\nextern \"C\" {\n#endif\n\n";
@@ -170,7 +170,7 @@ bool LVGLProject::exportCode(const QString &path) const {
   stream << "/**********************\n";
   stream << " *  STATIC VARIABLES\n";
   stream << " **********************/\n";
-  if (lvgl.screenColorChanged()) {
+  if (lvgl->screenColorChanged()) {
     stream << "static lv_style_t style_screen;\n";
   }
 
@@ -183,14 +183,14 @@ bool LVGLProject::exportCode(const QString &path) const {
   //  }
   //  stream << "\n";
 
-  auto images = lvgl.images();
+  auto images = lvgl->images();
   for (LVGLImageData *img : images) {
     img->saveAsCode(dir.path() + "/" + img->codeName() + ".c");
     stream << "LV_IMG_DECLARE(" << img->codeName() << ");\n";
   }
   stream << "\n";
 
-  auto fonts = lvgl.customFonts();
+  auto fonts = lvgl->customFonts();
   for (const LVGLFontData *f : fonts) {
     f->saveAsCode(dir.path() + "/" + f->codeName() + ".c");
     stream << "LV_FONT_DECLARE(" << f->codeName() << ");\n";
@@ -200,8 +200,8 @@ bool LVGLProject::exportCode(const QString &path) const {
   // application
   stream << "void " << codeName << "_create(lv_obj_t *parent)\n";
   stream << "{\n";
-  if (lvgl.screenColorChanged()) {
-    QString color = QVariant(lvgl.screenColor()).toString().replace("#", "0x");
+  if (lvgl->screenColorChanged()) {
+    QString color = QVariant(lvgl->screenColor()).toString().replace("#", "0x");
     stream << "\tlv_style_copy(&style_screen, &lv_style_scr);\n";
     stream << "\tstyle_screen.body.main_color = lv_color_hex(" << color
            << ");\n";

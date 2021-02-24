@@ -68,6 +68,7 @@ SOURCES += \
     LVGLWidgetModelInput.cpp \
     ListDelegate.cpp \
     ListViewItem.cpp \
+    TabWidget.cpp \
     properties/LVGLPropertyAnyFunc.cpp \
     properties/LVGLPropertyAssignTextArea.cpp \
     properties/LVGLPropertyColor.cpp \
@@ -143,6 +144,7 @@ HEADERS += \
     LVGLWidgetModelInput.h \
     ListDelegate.h \
     ListViewItem.h \
+    TabWidget.h \
     properties/LVGLPropertyAnyFunc.h \
     properties/LVGLPropertyAssignTextArea.h \
     properties/LVGLPropertyColor.h \

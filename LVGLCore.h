@@ -33,7 +33,7 @@ class LVGLCore : public QObject {
   int height() const;
   QSize size() const;
 
-  lv_disp_t *getdispt() { return m_dispt; }
+  lv_disp_t *getdispt() const { return m_dispt; }
 
   LVGLImageData *addImage(QImage image, QString name);
   LVGLImageData *addImage(QString fileName, QString name = QString());
@@ -145,7 +145,7 @@ class LVGLCore : public QObject {
   friend class LVGLFontData;
 };
 
-extern LVGLCore lvgl;
+extern LVGLCore *lvgl;
 extern lv_style_t lv_style_scr;
 
 // cast helpers for internal models

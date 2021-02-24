@@ -12,6 +12,14 @@ class LVGLObject;
 class LVGLProject;
 class LVGLImageData;
 class LVGLFontData;
+class QSortFilterProxyModel;
+class LVGLWidgetModel;
+class LVGLWidgetModelDisplay;
+class LVGLWidgetModelInput;
+class LVGLKeyPressEventFilter;
+class LVGLCore;
+class TabWidget;
+class ListDelegate;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -53,10 +61,14 @@ class MainWindow : public QMainWindow {
 
   void on_combo_state_currentIndexChanged(int index);
 
+  void tabChanged(int index);
+
  protected:
   void showEvent(QShowEvent *event);
 
  private:
+  void initlvglConnect();
+  void revlvglConnect();
   void addImage(LVGLImageData *img, QString name);
   void updateImages();
 
@@ -80,5 +92,21 @@ class MainWindow : public QMainWindow {
   QList<QAction *> m_recentFileActionList;
   const int m_maxFileNr;
   QList<lv_state_t> m_liststate;
+  LVGLSimulator *m_curSimulation;
+  QSortFilterProxyModel *m_proxyModel;
+  QSortFilterProxyModel *m_proxyModelDPW;
+  QSortFilterProxyModel *m_proxyModelIPW;
+  LVGLWidgetModel *m_widgetModel;
+  LVGLWidgetModelDisplay *m_widgetModelDPW;
+  LVGLWidgetModelInput *m_widgetModelIPW;
+  LVGLKeyPressEventFilter *m_filter;
+  ListDelegate *m_ld1;
+  ListDelegate *m_ld2;
+  ListDelegate *m_ld3;
+
+  int m_curTabWIndex;
+
+  QList<TabWidget *> m_listTabW;
+  QMap<LVGLCore *, QSize> m_coreRes;
 };
 #endif  // MAINWINDOW_H

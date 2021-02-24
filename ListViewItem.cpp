@@ -51,6 +51,18 @@ void ListViewItem::slot_toolbtnclicked() {
         "Box_background_cli.png);}"
         "QToolButton:hover{border:1px;border-image:url(:/icons/"
         "Widget Box_background_nor.png);}");
+
+    int btnheight = ui->toolButton->height();
+    int row = ui->list_widgets->model()->rowCount();
+    int rowheight = 0;
+    if (row == 3)
+      rowheight = row * 29;
+    else if (row == 13)
+      rowheight = row * 24.5;
+    else
+      rowheight = row * 23.5;
+
+    this->setFixedHeight(btnheight + rowheight);
   } else {
     ui->toolButton->setIcon(QIcon(":/icons/Widget Box_arrow_0.png"));
     ui->list_widgets->hide();
@@ -68,6 +80,8 @@ void ListViewItem::slot_toolbtnclicked() {
         "QToolButton:hover{border:1px;border-radius:5px;border-image:url(:/"
         "icons/"
         "Widget Box_background_cli.png);}");
+    int btnheight = ui->toolButton->height();
+    this->setFixedHeight(btnheight);
   }
 
   ui->toolButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);

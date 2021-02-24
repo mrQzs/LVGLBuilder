@@ -32,7 +32,7 @@ void ListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
   QPoint left2(x + 75, y);
   QPoint right2(x + 252, y + 17);
   QRect rec2(left2, right2);
-  QFont font("ºÚÌå", 12);
+  QFont font("é»‘ä½“", 12);
   painter->setFont(font);
   painter->setPen(Qt::black);
   painter->setRenderHint(QPainter::SmoothPixmapTransform);

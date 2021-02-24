@@ -34,7 +34,7 @@ LVGLFontData *LVGLFontData::parse(const QString &fileName, uint8_t size,
                                   uint8_t bpp, uint32_t unicodeFirst,
                                   uint32_t unicodeLast) {
   FT_Face face;
-  int error = FT_New_Face(lvgl.m_ft, qUtf8Printable(fileName), 0, &face);
+  int error = FT_New_Face(lvgl->m_ft, qUtf8Printable(fileName), 0, &face);
   if (error == FT_Err_Unknown_File_Format) {
     qCritical() << "LVGLFontData: Unkown file format";
     return nullptr;
@@ -206,7 +206,7 @@ bool LVGLFontData::saveAsCode(const QString &fileName) const {
   const uint32_t unicodeSec = unicodeFirst + fdsc->cmaps[0].range_length - 1;
 
   QTextStream stream(&file);
-  stream << "#include \"lvgl.h\"\n\n";
+  stream << "#include \"lvgl->h\"\n\n";
 
   const QString defName = m_codeName.toUpper();
   const QString output_name = m_codeName;

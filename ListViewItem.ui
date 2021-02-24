@@ -10,6 +10,12 @@
     <height>244</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>ListViewItem</string>
   </property>
@@ -41,7 +47,7 @@
       <string/>
      </property>
      <property name="icon">
-      <iconset>
+      <iconset resource="resources/res.qrc">
        <normaloff>:/icons/Widget Box_arrow_0.png</normaloff>:/icons/Widget Box_arrow_0.png</iconset>
      </property>
     </widget>
@@ -58,6 +64,8 @@
    <header>LVGLWidgetListView.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources/res.qrc"/>
+ </resources>
  <connections/>
 </ui>

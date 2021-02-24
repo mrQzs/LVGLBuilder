@@ -98,7 +98,7 @@ QPoint LVGLObject::absolutePosition() const {
   int y = lv_obj_get_y(m_obj);
   lv_obj_t *parent = lv_obj_get_parent(m_obj);
   while (parent) {
-    if (parent == lvgl.getdispt()->act_scr) break;
+    if (parent == lvgl->getdispt()->act_scr) break;
     x += lv_obj_get_x(parent);
     y += lv_obj_get_y(parent);
     parent = lv_obj_get_parent(parent);
@@ -196,7 +196,7 @@ QJsonArray LVGLObject::jsonStyles() const {
     QJsonObject style;
     style.insert("type", m_widgetClass->styles().at(it.key()));
 
-    QString baseStyle = lvgl.baseStyleName(defaultStyle);
+    QString baseStyle = lvgl->baseStyleName(defaultStyle);
     if (!baseStyle.isEmpty()) style.insert("base", baseStyle);
 
     //    if (editableParts & LVGL::Background) {
@@ -204,13 +204,13 @@ QJsonArray LVGLObject::jsonStyles() const {
     //      if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle,
     //      &objStyle)))
     //        body.insert("main_color",
-    //                    QVariant(lvgl.toColor(axs_lv_style_get_bg_color(&objStyle)))
+    //                    QVariant(lvgl->toColor(axs_lv_style_get_bg_color(&objStyle)))
     //                        .toString());
     //      if (!defaultStyle ||
     //          (axs_style_equal_bg_grad_color(defaultStyle, &objStyle)))
     //        body.insert(
     //            "grad_color",
-    //            QVariant(lvgl.toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
+    //            QVariant(lvgl->toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
     //                .toString());
     //      if (!defaultStyle || (axs_style_equal_radius(defaultStyle,
     //      &objStyle)))
@@ -226,7 +226,7 @@ QJsonArray LVGLObject::jsonStyles() const {
     //            (axs_style_equal_border_color(defaultStyle, &objStyle)))
     //          border.insert(
     //              "color",
-    //              QVariant(lvgl.toColor(axs_lv_style_get_border_color(&objStyle)))
+    //              QVariant(lvgl->toColor(axs_lv_style_get_border_color(&objStyle)))
     //                  .toString());
     //        if (!defaultStyle ||
     //            (axs_style_equal_border_width(defaultStyle, &objStyle)))
@@ -247,7 +247,7 @@ QJsonArray LVGLObject::jsonStyles() const {
     //            (axs_style_equal_shadow_color(defaultStyle, &objStyle)))
     //          shadow.insert(
     //              "color",
-    //              QVariant(lvgl.toColor(axs_lv_style_get_shadow_color(&objStyle)))
+    //              QVariant(lvgl->toColor(axs_lv_style_get_shadow_color(&objStyle)))
     //                  .toString());
     //        if (!defaultStyle ||
     //            (axs_style_equal_shadow_width(defaultStyle, &objStyle)))
@@ -285,18 +285,18 @@ QJsonArray LVGLObject::jsonStyles() const {
     //          (axs_style_equal_text_color(defaultStyle, &objStyle)))
     //        text.insert(
     //            "color",
-    //            QVariant(lvgl.toColor(axs_lv_style_get_text_color(&objStyle)))
+    //            QVariant(lvgl->toColor(axs_lv_style_get_text_color(&objStyle)))
     //                .toString());
     //      if (!defaultStyle ||
     //          (axs_style_equal_text_sel_color(defaultStyle, &objStyle)))
     //        text.insert(
     //            "sel_color",
-    //            QVariant(lvgl.toColor(axs_lv_style_get_text_sel_color(&objStyle)))
+    //            QVariant(lvgl->toColor(axs_lv_style_get_text_sel_color(&objStyle)))
     //                .toString());
     //      if (!defaultStyle ||
     //          (axs_style_equal_text_font(defaultStyle, &objStyle))) {
     //        text.insert("font",
-    //                    lvgl.fontName(axs_lv_style_get_text_font(&objStyle)));
+    //                    lvgl->fontName(axs_lv_style_get_text_font(&objStyle)));
     //      }
     //      if (!defaultStyle ||
     //          (axs_style_equal_text_letter_space(defaultStyle, &objStyle)))
@@ -318,7 +318,7 @@ QJsonArray LVGLObject::jsonStyles() const {
     //          (axs_style_equal_image_recolor(defaultStyle, &objStyle)))
     //        image.insert(
     //            "recolor",
-    //            QVariant(lvgl.toColor(axs_lv_style_get_image_recolor(&objStyle)))
+    //            QVariant(lvgl->toColor(axs_lv_style_get_image_recolor(&objStyle)))
     //                .toString());
     //      if (!defaultStyle || (axs_style_equal_image_opa(defaultStyle,
     //      &objStyle)))
@@ -332,7 +332,7 @@ QJsonArray LVGLObject::jsonStyles() const {
     //          (axs_style_equal_line_color(defaultStyle, &objStyle)))
     //        line.insert(
     //            "color",
-    //            QVariant(lvgl.toColor(axs_lv_style_get_line_color(&objStyle)))
+    //            QVariant(lvgl->toColor(axs_lv_style_get_line_color(&objStyle)))
     //                .toString());
     //      if (!defaultStyle ||
     //          (axs_style_equal_line_width(defaultStyle, &objStyle)))
@@ -364,7 +364,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //    if (!defaultStyle || (axs_style_equal_bg_color(defaultStyle,
   //    &objStyle))) {
   //      QString color =
-  //          QVariant(lvgl.toColor(axs_lv_style_get_bg_color(&objStyle)))
+  //          QVariant(lvgl->toColor(axs_lv_style_get_bg_color(&objStyle)))
   //              .toString()
   //              .replace("#", "0x");
   //      ret << styleVar + ".body.main_color = lv_color_hex(" + color + ");";
@@ -372,7 +372,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //    if (!defaultStyle ||
   //        (axs_style_equal_bg_grad_color(defaultStyle, &objStyle))) {
   //      QString color =
-  //          QVariant(lvgl.toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
+  //          QVariant(lvgl->toColor(axs_lv_style_get_bg_grad_color(&objStyle)))
   //              .toString()
   //              .replace("#", "0x");
   //      ret << styleVar + ".body.grad_color = lv_color_hex(" + color + ");";
@@ -388,7 +388,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //      if (!defaultStyle ||
   //          (axs_style_equal_border_color(defaultStyle, &objStyle))) {
   //        QString color =
-  //            QVariant(lvgl.toColor(axs_lv_style_get_border_color(&objStyle)))
+  //            QVariant(lvgl->toColor(axs_lv_style_get_border_color(&objStyle)))
   //                .toString()
   //                .replace("#", "0x");
   //        ret << styleVar + ".body.border.color = lv_color_hex(" + color +
@@ -418,7 +418,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //      if (!defaultStyle ||
   //          (axs_style_equal_shadow_color(defaultStyle, &objStyle))) {
   //        QString color =
-  //            QVariant(lvgl.toColor(axs_lv_style_get_shadow_color(&objStyle)))
+  //            QVariant(lvgl->toColor(axs_lv_style_get_shadow_color(&objStyle)))
   //                .toString()
   //                .replace("#", "0x");
   //        ret << styleVar + ".body.shadow.color = lv_color_hex(" + color +
@@ -466,7 +466,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //    if (!defaultStyle ||
   //        (axs_style_equal_text_color(defaultStyle, &objStyle))) {
   //      QString color =
-  //          QVariant(lvgl.toColor(axs_lv_style_get_text_color(&objStyle)))
+  //          QVariant(lvgl->toColor(axs_lv_style_get_text_color(&objStyle)))
   //              .toString()
   //              .replace("#", "0x");
   //      ret << styleVar + ".text.color = lv_color_hex(" + color + ");";
@@ -474,7 +474,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //    if (!defaultStyle ||
   //        (axs_style_equal_text_sel_color(defaultStyle, &objStyle))) {
   //      QString color =
-  //          QVariant(lvgl.toColor(axs_lv_style_get_text_sel_color(&objStyle)))
+  //          QVariant(lvgl->toColor(axs_lv_style_get_text_sel_color(&objStyle)))
   //              .toString()
   //              .replace("#", "0x");
   //      ret << styleVar + ".text.sel_color = lv_color_hex(" + color + ");";
@@ -482,7 +482,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //    if (!defaultStyle || (axs_style_equal_text_font(defaultStyle,
   //    &objStyle))) {
   //      ret << styleVar + ".text.font = &" +
-  //                 lvgl.fontCodeName(axs_lv_style_get_text_font(&objStyle)) +
+  //                 lvgl->fontCodeName(axs_lv_style_get_text_font(&objStyle)) +
   //                 ";";
   //    }
   //    if (!defaultStyle ||
@@ -508,7 +508,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //    if (!defaultStyle ||
   //        (axs_style_equal_image_recolor(defaultStyle, &objStyle))) {
   //      QString color =
-  //          QVariant(lvgl.toColor(axs_lv_style_get_image_recolor(&objStyle)))
+  //          QVariant(lvgl->toColor(axs_lv_style_get_image_recolor(&objStyle)))
   //              .toString()
   //              .replace("#", "0x");
   //      ret << styleVar + ".image.recolor = lv_color_hex(" + color + ");";
@@ -524,7 +524,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, int type) const {
   //    if (!defaultStyle ||
   //        (axs_style_equal_line_color(defaultStyle, &objStyle))) {
   //      QString color =
-  //          QVariant(lvgl.toColor(axs_lv_style_get_line_color(&objStyle)))
+  //          QVariant(lvgl->toColor(axs_lv_style_get_line_color(&objStyle)))
   //              .toString()
   //              .replace("#", "0x");
   //      ret << styleVar + ".line.color = lv_color_hex(" + color + ");";
@@ -685,7 +685,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
   if (editableParts & LVGL::Background) {
     // background
     if (!bg_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = QVariant(lvgl.toColor(_lv_obj_get_style_color(
+      auto c = QVariant(lvgl->toColor(_lv_obj_get_style_color(
                             s1, part,
                             LV_STYLE_BG_COLOR | (state << LV_STYLE_STATE_POS))))
                    .toString()
@@ -704,7 +704,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     }
     if (!bg_grad_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_BG_GRAD_COLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -747,7 +747,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     // border
     if (!border_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_BORDER_COLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -798,7 +798,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     // outline
     if (!outline_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_OUTLINE_COLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -843,7 +843,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     // shadow
     if (!shadow_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_SHADOW_COLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -909,7 +909,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
               ");");
     }
     if (!pattern_recolor(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = QVariant(lvgl.toColor(_lv_obj_get_style_color(
+      auto c = QVariant(lvgl->toColor(_lv_obj_get_style_color(
                             s1, part,
                             LV_STYLE_PATTERN_RECOLOR |
                                 (state << LV_STYLE_STATE_POS))))
@@ -960,7 +960,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     }
     if (!value_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_VALUE_COLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -978,7 +978,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
               ");");
     }
     if (!value_font(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = lvgl.fontCodeName((lv_font_t *)_lv_obj_get_style_ptr(
+      auto c = lvgl->fontCodeName((lv_font_t *)_lv_obj_get_style_ptr(
           s1, part, LV_STYLE_VALUE_FONT | (state << LV_STYLE_STATE_POS)));
       ret << ("lv_style_set_value_font(&" + styleVar + "," +
               LVGLCore::LVGL_STATE_STR[stateindex] + ",&" + c + ");");
@@ -1032,7 +1032,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     // text
     if (!text_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_TEXT_COLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -1050,7 +1050,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
               ");");
     }
     if (!text_font(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = lvgl.fontCodeName((lv_font_t *)_lv_obj_get_style_ptr(
+      auto c = lvgl->fontCodeName((lv_font_t *)_lv_obj_get_style_ptr(
           s1, part, LV_STYLE_TEXT_FONT | (state << LV_STYLE_STATE_POS)));
       ret << ("lv_style_set_text_font(&" + styleVar + "," +
               LVGLCore::LVGL_STATE_STR[stateindex] + ",&" + c + ");");
@@ -1078,7 +1078,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
               ");");
     }
     if (!text_sel_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = QVariant(lvgl.toColor(_lv_obj_get_style_color(
+      auto c = QVariant(lvgl->toColor(_lv_obj_get_style_color(
                             s1, part,
                             LV_STYLE_TEXT_SEL_COLOR |
                                 (state << LV_STYLE_STATE_POS))))
@@ -1091,7 +1091,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     }
     if (!text_sel_bg_color(obj1, obj2, part,
                            LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = QVariant(lvgl.toColor(_lv_obj_get_style_color(
+      auto c = QVariant(lvgl->toColor(_lv_obj_get_style_color(
                             s1, part,
                             LV_STYLE_TEXT_SEL_BG_COLOR |
                                 (state << LV_STYLE_STATE_POS))))
@@ -1114,7 +1114,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     // line
     if (!line_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_LINE_COLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -1171,7 +1171,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
     // image
     if (!image_recolor(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
       auto c =
-          QVariant(lvgl.toColor(_lv_obj_get_style_color(
+          QVariant(lvgl->toColor(_lv_obj_get_style_color(
                        s1, part,
                        LV_STYLE_IMAGE_RECOLOR | (state << LV_STYLE_STATE_POS))))
               .toString()
@@ -1272,7 +1272,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
   if (editableParts & LVGL::Scale) {
     // scale
     if (!scale_grad_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = QVariant(lvgl.toColor(_lv_obj_get_style_color(
+      auto c = QVariant(lvgl->toColor(_lv_obj_get_style_color(
                             s1, part,
                             LV_STYLE_SCALE_GRAD_COLOR |
                                 (state << LV_STYLE_STATE_POS))))
@@ -1284,7 +1284,7 @@ QStringList LVGLObject::codeStyle(QString styleVar, lv_obj_t *obj1,
               "));");
     }
     if (!scale_end_color(obj1, obj2, part, LVGLCore::LVGL_STATE[stateindex])) {
-      auto c = QVariant(lvgl.toColor(_lv_obj_get_style_color(
+      auto c = QVariant(lvgl->toColor(_lv_obj_get_style_color(
                             s1, part,
                             LV_STYLE_SCALE_END_COLOR |
                                 (state << LV_STYLE_STATE_POS))))
@@ -1336,12 +1336,12 @@ void LVGLObject::parseStyles(const QJsonArray &styles) {
     //      if (body.contains("main_color")) {
     //        const QColor c =
     //            QVariant(body["main_color"].toString()).value<QColor>();
-    //        axs_lv_style_set_bg_color(objStyle, lvgl.fromColor(c));
+    //        axs_lv_style_set_bg_color(objStyle, lvgl->fromColor(c));
     //      }
     //      if (body.contains("grad_color")) {
     //        const QColor c =
     //            QVariant(body["grad_color"].toString()).value<QColor>();
-    //        axs_lv_style_set_bg_grad_color(objStyle, lvgl.fromColor(c));
+    //        axs_lv_style_set_bg_grad_color(objStyle, lvgl->fromColor(c));
     //      }
     //      if (body.contains("radius"))
     //        axs_lv_style_set_radius(
@@ -1355,7 +1355,7 @@ void LVGLObject::parseStyles(const QJsonArray &styles) {
     //        if (border.contains("color")) {
     //          const QColor c =
     //          QVariant(border["color"].toString()).value<QColor>();
-    //          axs_lv_style_set_border_color(objStyle, lvgl.fromColor(c));
+    //          axs_lv_style_set_border_color(objStyle, lvgl->fromColor(c));
     //        }
     //        if (border.contains("width"))
     //          axs_lv_style_set_border_width(
@@ -1375,7 +1375,7 @@ void LVGLObject::parseStyles(const QJsonArray &styles) {
     //        if (shadow.contains("color")) {
     //          const QColor c =
     //          QVariant(shadow["color"].toString()).value<QColor>();
-    //          axs_lv_style_set_shadow_color(objStyle, lvgl.fromColor(c));
+    //          axs_lv_style_set_shadow_color(objStyle, lvgl->fromColor(c));
     //        }
     //        if (shadow.contains("width"))
     //          axs_lv_style_set_shadow_width(
@@ -1409,16 +1409,16 @@ void LVGLObject::parseStyles(const QJsonArray &styles) {
     //      if (text.contains("color")) {
     //        const QColor c =
     //        QVariant(text["color"].toString()).value<QColor>();
-    //        axs_lv_style_set_text_color(objStyle, lvgl.fromColor(c));
+    //        axs_lv_style_set_text_color(objStyle, lvgl->fromColor(c));
     //      }
     //      if (text.contains("sel_color")) {
     //        const QColor c =
     //        QVariant(text["sel_color"].toString()).value<QColor>();
-    //        axs_lv_style_set_text_sel_color(objStyle, lvgl.fromColor(c));
+    //        axs_lv_style_set_text_sel_color(objStyle, lvgl->fromColor(c));
     //      }
     //      if (text.contains("font")) {
     //        const QString fontName = text["font"].toString();
-    //        const lv_font_t *f = lvgl.font(fontName);
+    //        const lv_font_t *f = lvgl->font(fontName);
     //        axs_lv_style_set_text_font(objStyle, f);
     //      }
     //      if (text.contains("line_space"))
@@ -1439,7 +1439,7 @@ void LVGLObject::parseStyles(const QJsonArray &styles) {
     //      if (image.contains("recolor")) {
     //        const QColor c =
     //        QVariant(image["recolor"].toString()).value<QColor>();
-    //        axs_lv_style_set_image_recolor(objStyle, lvgl.fromColor(c));
+    //        axs_lv_style_set_image_recolor(objStyle, lvgl->fromColor(c));
     //      }
     //      if (image.contains("opa"))
     //        axs_lv_style_set_image_opa(objStyle,
@@ -1451,7 +1451,7 @@ void LVGLObject::parseStyles(const QJsonArray &styles) {
     //      if (line.contains("color")) {
     //        const QColor c =
     //        QVariant(line["color"].toString()).value<QColor>();
-    //        axs_lv_style_set_line_color(objStyle, lvgl.fromColor(c));
+    //        axs_lv_style_set_line_color(objStyle, lvgl->fromColor(c));
     //      }
     //      if (line.contains("width"))
     //        axs_lv_style_set_line_width(
@@ -1517,7 +1517,7 @@ bool LVGLObject::isAccessible() const { return m_accessible; }
 void LVGLObject::setAccessible(bool accessible) { m_accessible = accessible; }
 
 bool LVGLObject::doesNameExists() const {
-  for (LVGLObject *o : lvgl.allObjects()) {
+  for (LVGLObject *o : lvgl->allObjects()) {
     if (o == this) continue;
     if (o->name() == m_name) return true;
   }
@@ -1525,7 +1525,7 @@ bool LVGLObject::doesNameExists() const {
 }
 
 bool LVGLObject::doesNameExists(const QString &name, LVGLObject *except) {
-  for (LVGLObject *o : lvgl.allObjects()) {
+  for (LVGLObject *o : lvgl->allObjects()) {
     if (except && (except == o)) continue;
     if (o->name() == name) return true;
   }
@@ -1537,7 +1537,7 @@ void LVGLObject::generateName() {
   QList<int> numbers;
   const QString prefix = m_widgetClass->name().toLower().replace(' ', '_');
 
-  for (LVGLObject *o : lvgl.allObjects()) {
+  for (LVGLObject *o : lvgl->allObjects()) {
     if (o->widgetType() == m_widgetClass->type() &&
         o->name().startsWith(prefix)) {
       const int index = o->name().lastIndexOf('_');
@@ -1569,18 +1569,18 @@ void LVGLObject::generateName() {
 
 LVGLObject *LVGLObject::parse(QJsonObject object, LVGLObject *parent) {
   QString className = object["class"].toString();
-  const LVGLWidget *widgetClass = lvgl.widget(className);
+  const LVGLWidget *widgetClass = lvgl->widget(className);
   if (widgetClass) {
     LVGLObject *newObj;
     QString name = object["name"].toString();
     if (parent)
       newObj = new LVGLObject(widgetClass, name, parent);
     else
-      newObj = new LVGLObject(widgetClass, name, lvgl.getdispt()->act_scr);
+      newObj = new LVGLObject(widgetClass, name, lvgl->getdispt()->act_scr);
     // generate name if nessessary
     if (newObj->name().isEmpty() || doesNameExists(name, newObj))
       newObj->generateName();
-    lvgl.addObject(newObj);
+    lvgl->addObject(newObj);
 
     for (LVGLProperty *p : widgetClass->properties()) {
       QString pname = p->name().toLower();
@@ -1602,7 +1602,7 @@ LVGLObject *LVGLObject::parse(QJsonObject object, LVGLObject *parent) {
           LVGLObject *page = newObj->findChildByIndex(child["index"].toInt());
           page->setName(child["name"].toString());
           // parse page props
-          for (LVGLProperty *p : lvgl.widget("lv_page")->specialProperties()) {
+          for (LVGLProperty *p : lvgl->widget("lv_page")->specialProperties()) {
             const QString pname = p->name().toLower();
             if (child.contains(pname)) {
               QVariant v = child[pname].toVariant();
