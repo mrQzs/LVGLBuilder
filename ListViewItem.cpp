@@ -58,11 +58,11 @@ void ListViewItem::slot_toolbtnclicked() {
     int row = ui->list_widgets->model()->rowCount();
     int rowheight = 0;
     if (row == 3)
-      rowheight = row * 29;
+      rowheight = row * 32;
     else if (row == 13)
-      rowheight = row * 24.5;
+      rowheight = row * 27.6;
     else
-      rowheight = row * 23.5;
+      rowheight = row * 27.4;
 
     this->setFixedHeight(btnheight + rowheight);
   } else {
