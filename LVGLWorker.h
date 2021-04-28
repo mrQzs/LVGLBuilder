@@ -4,17 +4,15 @@
 #include <QThread>
 #include <QTimer>
 
-class LVGLWorker : public QThread
-{
-	Q_OBJECT
-public:
-	LVGLWorker(QObject *parent = nullptr);
+class LVGLWorker : public QThread {
+  Q_OBJECT
+ public:
+  LVGLWorker(QObject *parent = nullptr);
 
-	void run();
+  void run();
 
-private slots:
-	void tick();
-
+ private slots:
+  void tick();
 };
 
-#endif // LVGLWORKER_H
+#endif  // LVGLWORKER_H

@@ -3,19 +3,17 @@
 
 #include <QListView>
 
-class LVGLWidgetListView : public QListView
-{
-	Q_OBJECT
-public:
-	explicit LVGLWidgetListView(QWidget *parent = nullptr);
+class LVGLWidgetListView : public QListView {
+  Q_OBJECT
+ public:
+  explicit LVGLWidgetListView(QWidget *parent = nullptr);
 
-signals:
+ signals:
 
-public slots:
+ public slots:
 
-protected:
-	virtual void startDrag(Qt::DropActions supportedActions);
-
+ protected:
+  virtual void startDrag(Qt::DropActions supportedActions);
 };
 
-#endif // LVGLWIDGETLISTVIEW_H
+#endif  // LVGLWIDGETLISTVIEW_H

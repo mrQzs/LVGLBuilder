@@ -1,16 +1,7 @@
 #include "LVGLWorker.h"
 
-LVGLWorker::LVGLWorker(QObject *parent) : QThread(parent)
-{
+LVGLWorker::LVGLWorker(QObject *parent) : QThread(parent) {}
 
-}
+void LVGLWorker::run() {}
 
-void LVGLWorker::run()
-{
-
-}
-
-void LVGLWorker::tick()
-{
-
-}
+void LVGLWorker::tick() {}

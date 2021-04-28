@@ -3,15 +3,14 @@
 
 #include <QDialog>
 
-class LVGLDialog : public QDialog
-{
-	Q_OBJECT
-public:
-	explicit LVGLDialog(QWidget *parent = nullptr);
+class LVGLDialog : public QDialog {
+  Q_OBJECT
+ public:
+  explicit LVGLDialog(QWidget *parent = nullptr);
 
-signals:
+ signals:
 
-public slots:
+ public slots:
 };
 
-#endif // LVGLDIALOG_H
+#endif  // LVGLDIALOG_H
