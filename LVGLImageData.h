@@ -1,62 +1,61 @@
 #ifndef LVGLIMAGEDATA_H
 #define LVGLIMAGEDATA_H
 
-#include <QImage>
-#include <QIcon>
 #include <lvgl/lvgl.h>
 
-class LVGLImageData
-{
-public:
-	LVGLImageData();
-	LVGLImageData(QImage image, QString fileName, QString name);
-	LVGLImageData(QString fileName, QString name);
-	LVGLImageData(QJsonObject object);
-	~LVGLImageData();
+#include <QIcon>
+#include <QImage>
 
-	enum ColorFormat {
-		LV_COLOR_1Bit,
-		LV_COLOR_8Bit,
-		LV_COLOR_16Bit,
-		LV_COLOR_24Bit,
-		LV_COLOR_32Bit
-	};
+class LVGLImageData {
+ public:
+  LVGLImageData();
+  LVGLImageData(QImage image, QString fileName, QString name);
+  LVGLImageData(QString fileName, QString name);
+  LVGLImageData(QJsonObject object);
+  ~LVGLImageData();
 
-	bool isValid();
+  enum ColorFormat {
+    LV_COLOR_1Bit,
+    LV_COLOR_8Bit,
+    LV_COLOR_16Bit,
+    LV_COLOR_24Bit,
+    LV_COLOR_32Bit
+  };
 
-	lv_img_dsc_t *img_des();
+  bool isValid();
 
-	QString name() const;
+  lv_img_dsc_t *img_des();
 
-	QJsonValue toJson() const;
+  QString name() const;
 
-	QString fileName() const;
+  QJsonValue toJson() const;
 
-	QIcon icon() const;
+  QString fileName() const;
 
-	int width() const;
-	int height() const;
+  QIcon icon() const;
 
-	QString codeName() const;
-	bool saveAsCode(const QString &fileName) const;
-	bool saveAsBin(const QString &fileName) const;
+  int width() const;
+  int height() const;
 
-	ColorFormat colorFormat() const;
-	void setColorFormat(const ColorFormat &colorFormat);
+  QString codeName() const;
+  bool saveAsCode(const QString &fileName) const;
+  bool saveAsBin(const QString &fileName) const;
 
-	static QStringList colorFormats();
+  ColorFormat colorFormat() const;
+  void setColorFormat(const ColorFormat &colorFormat);
 
-private:
-	uint32_t m_size;
-	uint8_t *m_data;
-	lv_img_dsc_t m_img_dsc;
-	QString m_name;
-	QString m_fileName;
-	QIcon m_icon;
-	ColorFormat m_colorFormat;
+  static QStringList colorFormats();
 
-	static constexpr int ICON_SIZE = 128;
+ private:
+  uint32_t m_size;
+  uint8_t *m_data;
+  lv_img_dsc_t m_img_dsc;
+  QString m_name;
+  QString m_fileName;
+  QIcon m_icon;
+  ColorFormat m_colorFormat;
 
+  static constexpr int ICON_SIZE = 128;
 };
 
-#endif // LVGLIMAGEDATA_H
+#endif  // LVGLIMAGEDATA_H

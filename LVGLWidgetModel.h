@@ -5,23 +5,22 @@
 
 class LVGLWidget;
 
-class LVGLWidgetModel : public QAbstractListModel
-{
-	Q_OBJECT
+class LVGLWidgetModel : public QAbstractListModel {
+  Q_OBJECT
 
-public:
-	explicit LVGLWidgetModel(QObject *parent = nullptr);
+ public:
+  explicit LVGLWidgetModel(QObject *parent = nullptr);
 
-	// Basic functionality:
-	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+  // Basic functionality:
+  int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+  QVariant data(const QModelIndex &index,
+                int role = Qt::DisplayRole) const override;
 
-	Qt::ItemFlags flags(const QModelIndex &index) const override;
+  Qt::ItemFlags flags(const QModelIndex &index) const override;
 
-	virtual QStringList mimeTypes() const override;
-	virtual QMimeData *mimeData(const QModelIndexList &indexes) const override;
-
+  virtual QStringList mimeTypes() const override;
+  virtual QMimeData *mimeData(const QModelIndexList &indexes) const override;
 };
 
-#endif // LVGLWIDGETMODEL_H
+#endif  // LVGLWIDGETMODEL_H
